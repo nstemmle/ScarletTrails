@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="buttonGetLocation" type="id"/>
+    <item name="textViewLatLng" type="id"/>
+    <item name="buttonShowMarker" type="id"/>
+</resources>

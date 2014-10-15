@@ -2,7 +2,20 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+        <item name="android:actionBarStyle">@style/ActionBarTheme</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowTitleSize">0dp</item>
     </style>
+
+    <!-- For changing the action bar styl,e change xml within this style. -->
+    <style name="ActionBarTheme" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">#9C0606</item>
+    </style>
+
+    <!-- Splash screen style -->
+    <style name="SplashTheme" parent="@android:style/Theme.Holo.NoActionBar">
+    </style>
+
+    <!-- Any new styles go under here and are normally referenced from the layout xml but sometime from code -->
 
 </resources>
