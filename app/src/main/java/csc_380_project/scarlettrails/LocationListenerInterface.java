@@ -8,7 +8,7 @@ import android.os.Bundle;
 /**
  * Created by Nathan on 10/15/2014.
  */
-public class InterfaceLocationListener implements LocationListener {
+public class LocationListenerInterface implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
@@ -27,6 +27,5 @@ public class InterfaceLocationListener implements LocationListener {
 
     @Override
     public void onProviderDisabled(String provider) {
-
     }
 }

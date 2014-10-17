@@ -1,49 +1,48 @@
 package csc_380_project.scarlettrails;
 
-import android.app.Fragment;
 import android.content.Context;
-import android.content.res.Resources;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends FragmentActivity implements GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener {
 
+    //These two need to be created before LocationInterface can be instantiated
     private GoogleMap mMap;
-    private Location mCurrentLocation;
-    private LatLng mLatLng;
+    private Geocoder mGeocoder;
     private LocationClient mLocationClient;
     private LocationManager mLocationManager;
-    private LocationInterface mLocInt;
+    private LocationWrapper mLocInt;
+
+    private Location mCurrentLocation;
+    private LatLng mLatLng;
+
     private static final LatLng OSWEGO_COUNTY = new LatLng(43.482533, -76.1783739);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_map);
-        //Initialize the LocationInterface with the necessary objects on creation
         mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-        mLocInt.setGoogleMap(mMap);
-        mLocationManager = (LocationManager) getBaseContext().getSystemService(Context.LOCATION_SERVICE);
-        mLocInt.setLocationManager(mLocationManager);
+        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        //Call the LocationInterface method to set up the map
-        mLocInt.setUpMapWithDefaults();
+        mLocInt = LocationWrapper.getInstance();
+        mLocInt.checkMapExists(mMap);
+        //http://stackoverflow.com/questions/22704451/open-google-maps-through-intent-for-specific-location-in-android
 
     }
 
@@ -55,7 +54,7 @@ public class MainActivity extends FragmentActivity implements GooglePlayServices
         //android:onClick="desiredMethodNameHere"
         //This method was created by the line
         //android:onClick="onButtonGetLocationPress"
-        mLocInt.addMarker(mLocInt.getCurrentLocation(), "My Location");
+        mLocInt.addMarker(mMap, mLocInt.getCurrentLocation(), "My Location");
     }
 
     public void onButtonShowMarkerPress(View view) {
@@ -65,7 +64,7 @@ public class MainActivity extends FragmentActivity implements GooglePlayServices
         //Specify the following tag
         //android:onClick="desiredMethodNameHere"
         //This method was created by the line
-        //android:onClick="onButtonGetLocationPress"
+        //android:onClick="onButtonShowMarkerPress"
     }
 
     @Override
@@ -144,6 +143,20 @@ public class MainActivity extends FragmentActivity implements GooglePlayServices
          //   */
           //  showErrorDialog(connectionResult.getErrorCode());
         //}
+    }
+
+    private class GetAddressTask extends AsyncTask<Location, Void, String> {
+        Context mContext;
+
+        public GetAddressTask(Context context) {
+
+        }
+
+
+        @Override
+        protected String doInBackground(Location... params) {
+            return null;
+        }
     }
 
 
