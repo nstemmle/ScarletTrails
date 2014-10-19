@@ -1,5 +1,7 @@
 package csc_380_project.scarlettrails;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.location.Geocoder;
 import android.location.Location;
@@ -10,6 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -19,7 +22,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
-public class MainActivity extends FragmentActivity implements GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener {
+import java.util.ArrayList;
+
+public class MainActivity extends FragmentActivity implements ActionBar.OnNavigationListener, GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener {
 
     //These two need to be created before LocationInterface can be instantiated
     private GoogleMap mMap;
@@ -27,44 +32,40 @@ public class MainActivity extends FragmentActivity implements GooglePlayServices
     private LocationClient mLocationClient;
     private LocationManager mLocationManager;
     private LocationWrapper mLocInt;
-
-    private Location mCurrentLocation;
-    private LatLng mLatLng;
-
-    private static final LatLng OSWEGO_COUNTY = new LatLng(43.482533, -76.1783739);
+    private NavAdapter mAdapter;
+    private ArrayList<SpinnerNavItem> navSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        getActionBar().hide();
+
+        setContentView(R.layout.splash_screen);
+
+        getActionBar().show();
         setContentView(R.layout.activity_main_map);
-        mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        initializeNavigationBar();
 
         mLocInt = LocationWrapper.getInstance();
+        initializeMap();
         mLocInt.checkMapExists(mMap);
         //http://stackoverflow.com/questions/22704451/open-google-maps-through-intent-for-specific-location-in-android
 
     }
 
-    public void onButtonGetLocationPress(View view) {
-        //Called when the button identifed by the id "buttonGetLocation" is pressed
-        //To add new elements, add the identifier in the ids.xml file
-        //Add the element type in your layout.xml file with the relevant attributes
-        //Specify the following tag
-        //android:onClick="desiredMethodNameHere"
-        //This method was created by the line
-        //android:onClick="onButtonGetLocationPress"
-        mLocInt.addMarker(mMap, mLocInt.getCurrentLocation(), "My Location");
-    }
+    private void initializeNavigationBar() {
+        getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        navSpinner = new ArrayList<SpinnerNavItem>();
+        //This is how you enter new navigation items. Please use the format provided on next line.
+        navSpinner.add(new SpinnerNavItem("Trails"));
+        navSpinner.add(new SpinnerNavItem("Profile"));
+        mAdapter = new NavAdapter(getApplicationContext(), navSpinner);
+        //This line here - second parameter should be changed/investigated
+        getActionBar().setListNavigationCallbacks(mAdapter, this);
 
-    public void onButtonShowMarkerPress(View view) {
-        //Called when the button identifed by the id "buttonShowMarker" is pressed
-        //To add new elements, add the identifier in the ids.xml file
-        //Add the element type in your layout.xml file with the relevant attributes
-        //Specify the following tag
-        //android:onClick="desiredMethodNameHere"
-        //This method was created by the line
-        //android:onClick="onButtonShowMarkerPress"
+        getActionBar().setDisplayShowTitleEnabled(false);
     }
 
     @Override
@@ -83,6 +84,7 @@ public class MainActivity extends FragmentActivity implements GooglePlayServices
     @Override
     protected void onResume() {
         super.onResume();
+        initializeMap();
     }
 
     @Override
@@ -104,8 +106,22 @@ public class MainActivity extends FragmentActivity implements GooglePlayServices
         return super.onOptionsItemSelected(item);
     }
 
+    private void initializeMap() {
+        if (mMap == null) {
+            mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+        }
+
+        //Check to see if successful
+        mLocInt.checkMapExists(mMap);
+
+        //This line currently sets map to center on Oswego County
+        //Later replace with something that returns map to state it was previously in
+        mLocInt.setUpMapWithDefaults(mMap);
+    }
+
     @Override
     public void onConnected(Bundle bundle) {
+        mLocInt.beginListeningForLocationUpdates(mLocationClient);
         Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
     }
 
@@ -145,7 +161,13 @@ public class MainActivity extends FragmentActivity implements GooglePlayServices
         //}
     }
 
-    private class GetAddressTask extends AsyncTask<Location, Void, String> {
+    @Override
+    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+        // Switch to be implemented here depending on which item is selected
+        return false;
+    }
+
+    /*private class GetAddressTask extends AsyncTask<Location, Void, String> {
         Context mContext;
 
         public GetAddressTask(Context context) {
@@ -157,7 +179,7 @@ public class MainActivity extends FragmentActivity implements GooglePlayServices
         protected String doInBackground(Location... params) {
             return null;
         }
-    }
+    }*/
 
 
 }

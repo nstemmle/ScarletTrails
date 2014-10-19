@@ -5,10 +5,18 @@
     <string name="app_name">ScarletTrails</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_main">Scarlet Trails</string>
+    <string name="title_activity_home">Home</string>
     <string name="test">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="action_search">Search</string>
     <string name="buttonGetLocationText">Get Location</string>
     <string name="buttonShowMarker">Show Marker</string>
-
+    <string name="trailImgViewContentDesc">Trail Image</string>
+    <string name="trailTxtViewDifficulty">Difficulty:</string>
+    <string name="trailTxtViewDistance">Distance:</string>
+    <string name="trailTxtViewDuration">Duration:</string>
+    <string name="trailTxtViewElevation">Elevation:</string>
+    <string name="trailTxtViewGear">Gear:</string>
+    <string name="trailTxtViewCondition">Condition:</string>
+    <string name="trailTxtViewPetFriendly">Pet Friendly:</string>
 </resources>

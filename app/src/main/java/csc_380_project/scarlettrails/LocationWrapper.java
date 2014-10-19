@@ -1,10 +1,13 @@
 package csc_380_project.scarlettrails;
 
+import android.content.Context;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 
+import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -25,20 +28,20 @@ public class LocationWrapper {
 
     //CONSTANTS
     //Oswego County LatLng pair
-    private static final LatLng OSWEGO_COUNTY = new LatLng(43.482533, -76.1783739);
+    public static final LatLng OSWEGO_COUNTY = new LatLng(43.482533, -76.1783739);
 
     //Zoom constants - can pass these in to any method which requires a zoom to get the corresponding zoom level
     // 1.0f corresponds to displaying the entire world in the map frame
     // 21.0f corresponds to displaying an incredibly zoomed in location
-    private static final float STATE_ZOOM = 6.0f;
-    private static final float COUNTY_ZOOM = 8.0f;
-    private static final float CITY_ZOOM = 12.0f; //Might need to be adjusted
-    private static final float STREET_ZOOM = 14.0f;
-    private static final float OBJECT_ZOOM = 17.0f; //Might need to be adjusted
+    public static final float STATE_ZOOM = 6.0f;
+    public static final float COUNTY_ZOOM = 8.0f;
+    public static final float CITY_ZOOM = 12.0f; //Might need to be adjusted
+    public static final float STREET_ZOOM = 14.0f;
+    public static final float OBJECT_ZOOM = 17.0f; //Might need to be adjusted
 
+
+    private static Criteria criteriaBest = new Criteria();
     private static LocationWrapper instance;
-
-    private LocationManager mLocationManager;
 
     private LocationWrapper() {}
 
@@ -57,16 +60,19 @@ public class LocationWrapper {
         return true;
     }
 
-    public void beginListeningForLocationUpdates() {
-
+    public void beginListeningForLocationUpdates(LocationClient mLocationClient) {
+        //mLocationClient.requestLocationUpdates();
     }
 
-    public void checkLocationSettingsEnabled () {
-
+    public void checkLocationSettingsEnabled (Context context) {
+        LocationManager mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        //criteriaBest.
+        //mLocationManager.getBestProvider()
     }
 
-    public Location getCurrentLocation() {
-        checkLocationSettingsEnabled();
+    public Location getCurrentLocation(Context context) {
+        checkLocationSettingsEnabled(context);
+        LocationManager mLocationManager = (LocationManager)(context.getSystemService(Context.LOCATION_SERVICE));
         return mLocationManager.getLastKnownLocation("passive");
     }
 
@@ -83,6 +89,8 @@ public class LocationWrapper {
         checkMapExists(mMap);
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(OSWEGO_COUNTY,COUNTY_ZOOM));
+        mMap.setMyLocationEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
     }
 
     //Move the camera view of the google map to a certain Location

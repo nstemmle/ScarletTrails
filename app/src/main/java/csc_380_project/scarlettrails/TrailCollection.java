@@ -20,7 +20,7 @@ class TrailCollection {
 
     TrailCollection(int capacity) {
         //Default capacity is 10
-        //Use static constants (or a more specific value) if the size of the ArrayList is roughly known ahead of time
+        //Can use static constants (or a more specific value) if the size of the ArrayList is roughly known ahead of time
         trails = new ArrayList<Trail>(capacity);
     }
 
@@ -73,6 +73,7 @@ class TrailCollection {
 
         if (index >= 0)
             return trails.get(index);
+
         //No trail was found matching the given Id
         return null;
     }

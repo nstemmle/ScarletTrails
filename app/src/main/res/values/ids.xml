@@ -3,4 +3,22 @@
     <item name="buttonGetLocation" type="id"/>
     <item name="textViewLatLng" type="id"/>
     <item name="buttonShowMarker" type="id"/>
+    <!--ids for activity_trail.xml -->
+    <item name="trailPage" type="id"/>
+    <item name="trailTxtViewTrailName" type="id"/>
+    <item name="trailImgViewTrail" type="id"/>
+    <item name="trailMapFragment" type="id"/>
+    <item name="trailRatingBar" type="id"/>
+    <item name="trailTxtViewDifficulty" type="id"/>
+    <item name="trailTxtViewDistance" type="id"/>
+    <item name="trailTxtViewDuration" type="id"/>
+    <item name="trailTxtViewElevation" type="id"/>
+    <item name="trailTxtViewGear" type="id"/>
+    <item name="trailTxtViewCondition" type="id"/>
+    <item name="trailTxtViewPetFriendly" type="id"/>
+    <item name="trailListView" type="id"/>
+
+    <!--ids for activity_home.xml-->
+    <item name="homeMap" type="id"/>
+    <item name="homeListView" type="id"/>
 </resources>
