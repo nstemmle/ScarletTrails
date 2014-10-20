@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
-import android.widget.SimpleCursorAdapter;
 
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.GoogleMap;
@@ -18,10 +17,9 @@ import com.google.android.gms.maps.MapFragment;
 import java.util.ArrayList;
 
 /**
- * Created by Nathan on 10/19/2014.
+ * Created by Nathan on 10/20/2014.
  */
-public class ActivityHome extends FragmentActivity implements ActionBar.OnNavigationListener { // implements LoaderManager.LoaderCallbacks<Cursor> {
-    SimpleCursorAdapter mCursor;
+public class ActivityTrail extends FragmentActivity implements ActionBar.OnNavigationListener {
     private GoogleMap mMap;
     private Geocoder mGeocoder;
     private LocationClient mLocationClient;
@@ -34,19 +32,12 @@ public class ActivityHome extends FragmentActivity implements ActionBar.OnNaviga
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setTheme(R.style.AppTheme);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_trail);
 
         initializeNavigationBar();
 
         mLocWrapper = LocationWrapper.getInstance();
         initializeMap();
-        //ProgressBar progressBar = new ProgressBar(this);
-        //progressBar.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        //progressBar.setIndeterminate(true);
-        //getListView().setEmptyView(progressBar);
-
-        //ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
-        //root.addView(progressBar);
     }
 
     @Override
@@ -74,8 +65,8 @@ public class ActivityHome extends FragmentActivity implements ActionBar.OnNaviga
 
         navSpinner = new ArrayList<SpinnerNavItem>();
         //This is how you enter new navigation items. Please use the format provided on next line.
-        navSpinner.add(new SpinnerNavItem("Home"));
         navSpinner.add(new SpinnerNavItem("Trail"));
+        navSpinner.add(new SpinnerNavItem("Home"));
         mAdapter = new NavAdapter(getApplicationContext(), navSpinner);
 
         mActionBar.setListNavigationCallbacks(mAdapter, this);
@@ -84,7 +75,7 @@ public class ActivityHome extends FragmentActivity implements ActionBar.OnNaviga
 
     private void initializeMap() {
         if (mMap == null) {
-            mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.homeMap)).getMap();
+            mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.trailMapFragment)).getMap();
         }
 
         //Check to see if successful
@@ -93,17 +84,18 @@ public class ActivityHome extends FragmentActivity implements ActionBar.OnNaviga
         //This line currently sets map to center on Oswego County
         //Later replace with something that returns map to state it was previously in
         mLocWrapper.setUpMapWithDefaults(mMap);
+        Location greatBearRecreationArea = new Location(43.26589,-76.351958);
+        mLocWrapper.moveCamera(mMap, greatBearRecreationArea, LocationWrapper.TRAIL_ZOOM);
     }
 
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        // Switch to be implemented here depending on which item is selected
-       if (itemPosition == 1) {
-           Intent intent = new Intent(getApplicationContext(), ActivityTrail.class);
-           //if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null)
-           startActivity(intent);
-           return true;
-           }
+        if (itemPosition == 1) {
+            Intent intent = new Intent(getApplicationContext(), ActivityHome.class);
+            //if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null)
+            startActivity(intent);
+            return true;
+        }
         return false;
     }
 

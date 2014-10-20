@@ -1,25 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin">
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/GRAY_MEDIUM"
+    android:textColor="@color/WHITE"
+    tools:context=".ActivityHome">
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@id/homeMap"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.google.android.gms.maps.MapView"
-        tools:context=".MapActivity"
-        tools:layout="@layout/activity_home" />
+        android:layout_weight="2"
+        class="com.google.android.gms.maps.MapFragment">
+        </fragment>
 
-    <ListView android:id="@id/homeListView"
+    <!--<ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        </ListView>
+        android:layout_height="match_parent"
+        android:layout_weight="5">
 
+        <TextView
+            android:id="@id/homeTxtViewTrailTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/sampleTrailName"/>
+        <ImageView
+            android:id="@id/homeImgViewTrail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/greatbearspringsrecreationarea"/>
+    </ListView>-->
 </LinearLayout>

@@ -7,20 +7,14 @@ import java.util.Collections;
  * Created by Nathan on 10/17/2014.
  */
 class TrailCollection {
-    //Constants for capacity size
-    private static final int CAPACITY_SMALL = 20;
-    private static final int CAPACTIY_MEDIUM = 50;
-    private static final int CAPACITY_LARGE = 100;
-
-    ArrayList<Trail> trails;
+    private ArrayList<Trail> trails;
 
     TrailCollection() {
         trails = new ArrayList<Trail>();
     }
 
     TrailCollection(int capacity) {
-        //Default capacity is 10
-        //Can use static constants (or a more specific value) if the size of the ArrayList is roughly known ahead of time
+        //Default capacity is 10 but you can this constructor to assign a specific initial size
         trails = new ArrayList<Trail>(capacity);
     }
 

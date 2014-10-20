@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="buttonGetLocation" type="id"/>
-    <item name="textViewLatLng" type="id"/>
-    <item name="buttonShowMarker" type="id"/>
+    <!--ids for activity_main_map.xml-->
+    <item name="buttonLaunchMapActivity" type="id"/>
+
     <!--ids for activity_trail.xml -->
     <item name="trailPage" type="id"/>
     <item name="trailTxtViewTrailName" type="id"/>
@@ -20,5 +20,7 @@
 
     <!--ids for activity_home.xml-->
     <item name="homeMap" type="id"/>
-    <item name="homeListView" type="id"/>
+    <item name="homeTxtViewTrailTitle" type="id"/>
+    <item name="homeImgViewTrail" type="id"/>
+
 </resources>

@@ -7,7 +7,7 @@
         <item name="android:windowTitleSize">0dp</item>
     </style>
 
-    <!-- For changing the action bar styl,e change xml within this style. -->
+    <!-- For changing the action bar style change xml within this style. -->
     <style name="ActionBarTheme" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">#9C0606</item>
     </style>

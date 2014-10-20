@@ -8,7 +8,7 @@ import java.util.Iterator;
 /**
  * Created by Nathan on 10/16/2014.
  */
-public class Trail implements DatabaseInterface {
+class Trail implements DatabaseInterface {
     private final int trailId;
     private final String name;
     private final Double distance; //Distance in yards, feet, or meters? Should units be changeable?
@@ -24,7 +24,7 @@ public class Trail implements DatabaseInterface {
     private Double rating;
     private Forecast mForecast;
 
-    public Trail(int trailId, String name, Double distance, Double elevation, int duration, int difficulty,
+    Trail(int trailId, String name, Double distance, Double elevation, int duration, int difficulty,
                  Location mLocation, String gear, String trailConditions, boolean petFriendly) {
         this.trailId = trailId;
         this.name = name;

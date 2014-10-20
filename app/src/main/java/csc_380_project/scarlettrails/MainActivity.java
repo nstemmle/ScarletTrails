@@ -1,17 +1,12 @@
 package csc_380_project.scarlettrails;
 
 import android.app.ActionBar;
-import android.app.Activity;
-import android.content.Context;
 import android.location.Geocoder;
-import android.location.Location;
 import android.location.LocationManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
@@ -20,7 +15,6 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
@@ -31,7 +25,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
     private Geocoder mGeocoder;
     private LocationClient mLocationClient;
     private LocationManager mLocationManager;
-    private LocationWrapper mLocInt;
+    private LocationWrapper mLocWrapper;
     private NavAdapter mAdapter;
     private ArrayList<SpinnerNavItem> navSpinner;
 
@@ -43,14 +37,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 
         setContentView(R.layout.splash_screen);
 
-        getActionBar().show();
         setContentView(R.layout.activity_main_map);
+        getActionBar().show();
+
 
         initializeNavigationBar();
 
-        mLocInt = LocationWrapper.getInstance();
+        mLocWrapper = LocationWrapper.getInstance();
         initializeMap();
-        mLocInt.checkMapExists(mMap);
+        mLocWrapper.checkMapExists(mMap);
         //http://stackoverflow.com/questions/22704451/open-google-maps-through-intent-for-specific-location-in-android
 
     }
@@ -112,16 +107,16 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
         }
 
         //Check to see if successful
-        mLocInt.checkMapExists(mMap);
+        mLocWrapper.checkMapExists(mMap);
 
         //This line currently sets map to center on Oswego County
         //Later replace with something that returns map to state it was previously in
-        mLocInt.setUpMapWithDefaults(mMap);
+        mLocWrapper.setUpMapWithDefaults(mMap);
     }
 
     @Override
     public void onConnected(Bundle bundle) {
-        mLocInt.beginListeningForLocationUpdates(mLocationClient);
+        mLocWrapper.beginListeningForLocationUpdates(mLocationClient);
         Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
     }
 

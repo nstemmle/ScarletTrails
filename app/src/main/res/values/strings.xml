@@ -1,22 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- app_name String is blank so title does not show. Please do not change this. -->
     <!-- Please add any strings you plan to declare/use in here and reference them from their string name -->
+    <string name="test">Hello world!</string>
+
     <string name="app_name">ScarletTrails</string>
-    <string name="title_activity_maps">Map</string>
+
+    <!--Strings for activity titles-->
+    <string name="title_activity_map">Map</string>
     <string name="title_activity_main">Scarlet Trails</string>
     <string name="title_activity_home">Home</string>
-    <string name="test">Hello world!</string>
+    <string name="title_activity_trail">Trail</string>
+
+
     <string name="action_settings">Settings</string>
     <string name="action_search">Search</string>
-    <string name="buttonGetLocationText">Get Location</string>
-    <string name="buttonShowMarker">Show Marker</string>
+
+    <!--Strings for activity_main_map.xml-->
+    <string name="buttonLaunchMapActivity">Launch Map Activity</string>
+
+    <!--Strings for activity_trail.xml-->
     <string name="trailImgViewContentDesc">Trail Image</string>
-    <string name="trailTxtViewDifficulty">Difficulty:</string>
-    <string name="trailTxtViewDistance">Distance:</string>
-    <string name="trailTxtViewDuration">Duration:</string>
-    <string name="trailTxtViewElevation">Elevation:</string>
-    <string name="trailTxtViewGear">Gear:</string>
-    <string name="trailTxtViewCondition">Condition:</string>
-    <string name="trailTxtViewPetFriendly">Pet Friendly:</string>
+    <string name="trailTxtViewDifficulty">Difficulty: Easy</string>
+    <string name="trailTxtViewDistance">Distance: 2.3 miles</string>
+    <string name="trailTxtViewDuration">Duration: Short</string>
+    <string name="trailTxtViewElevation">Elevation: Normal </string>
+    <string name="trailTxtViewGear">Gear: Normal</string>
+    <string name="trailTxtViewCondition">Conditions: Dirt Trails</string>
+    <string name="trailTxtViewPetFriendly">Pet Friendly: Yes</string>
+
+    <!--Sample Trail Info-->
+    <string name="sampleTrailName">Great Bear Springs Recreation Area</string>
 </resources>

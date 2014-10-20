@@ -1,11 +1,13 @@
 package csc_380_project.scarlettrails;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.provider.Settings;
 
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -37,10 +39,10 @@ public class LocationWrapper {
     public static final float COUNTY_ZOOM = 8.0f;
     public static final float CITY_ZOOM = 12.0f; //Might need to be adjusted
     public static final float STREET_ZOOM = 14.0f;
-    public static final float OBJECT_ZOOM = 17.0f; //Might need to be adjusted
+    public static final float TRAIL_ZOOM = 15.0f; //Might need to be adjusted
 
 
-    private static Criteria criteriaBest = new Criteria();
+    private static Criteria criteriaBest;
     private static LocationWrapper instance;
 
     private LocationWrapper() {}
@@ -52,22 +54,34 @@ public class LocationWrapper {
         return instance;
     }
 
-    public boolean checkMapExists(GoogleMap map) {
-        if (map == null) {
-            throw new NoMapException("There is no map - no map functionality can be accessed. Please call setGoogleMap(GoogleMap map) in your activity passing the current map object. See the new method");
-            //return false - this option should not be used but you can change functionality if you need to for testing
-        }
-        return true;
-    }
-
-    public void beginListeningForLocationUpdates(LocationClient mLocationClient) {
-        //mLocationClient.requestLocationUpdates();
-    }
-
-    public void checkLocationSettingsEnabled (Context context) {
+    public boolean checkLocationSettingsEnabled (Context context) {
+        boolean network_enabled;
+        boolean gps_enabled;
+        //boolean passive_enabled;
+        //boolean best_enabled;
         LocationManager mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        //network_enabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        gps_enabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        //passive_enabled = mLocationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER);
+
+        return gps_enabled;
+
+        /*criteriaBest = new Criteria();
+        criteriaBest.setHorizontalAccuracy(Criteria.ACCURACY_HIGH);
+        criteriaBest.setVerticalAccuracy(Criteria.ACCURACY_HIGH);
+        criteriaBest.setSpeedAccuracy(Criteria.ACCURACY_HIGH);
+        String bestProvider = mLocationManager.getBestProvider(criteriaBest, false);
+        best_enabled = mLocationManager.isProviderEnabled(bestProvider);
+        return best_enabled;*/
         //criteriaBest.
         //mLocationManager.getBestProvider()
+    }
+
+    public void openLocationSettings(Context context) {
+        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(intent);
+        }
     }
 
     public Location getCurrentLocation(Context context) {
@@ -76,14 +90,14 @@ public class LocationWrapper {
         return mLocationManager.getLastKnownLocation("passive");
     }
 
-    //Returns distance from start to destination
-    public float getDistanceTo(Location origin, Location destination) {
-        return origin.distanceTo(destination);
+    public boolean checkMapExists(GoogleMap map) {
+        if (map == null) {
+            throw new NoMapException("There is no map - no map functionality can be accessed. Please call setGoogleMap(GoogleMap map) in your activity passing the current map object. See the new method");
+            //return false - this option should not be used but you can change functionality if you need to for testing
+        }
+        return true;
     }
 
-    public void displayDirectionsOnMap(Location origin, Location destination, GoogleMap map) {
-
-    }
 
     public void setUpMapWithDefaults(GoogleMap mMap) {
         checkMapExists(mMap);
@@ -94,11 +108,24 @@ public class LocationWrapper {
     }
 
     //Move the camera view of the google map to a certain Location
-    public void moveCamera(GoogleMap mMap, Location l) {
+    public void moveCamera(GoogleMap mMap, Location l, float f) {
         checkMapExists(mMap);
         LatLng tempLatLng = new LatLng(l.getLatitude(),l.getLongitude());
-        mMap.animateCamera(CameraUpdateFactory.newLatLng(tempLatLng));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng,f));
     }
+
+    public void moveCamera(GoogleMap mMap, csc_380_project.scarlettrails.Location l, float f) {
+        checkMapExists(mMap);
+        LatLng tempLatLng = new LatLng(l.getLatitude(), l.getLongitude());
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng,f));
+    }
+
+    public void moveCamera(GoogleMap mMap, Double lat, Double lon, float f) {
+        checkMapExists(mMap);
+        LatLng tempLatLng = new LatLng(lat,lon);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng,f));
+    }
+
 
     //Move the camera view of the google map to a certain Location
     //Call this method when the change in distance is small i.e. from one part of Oswego county to another
@@ -128,12 +155,6 @@ public class LocationWrapper {
             mMap.addMarker(new MarkerOptions().position(currentMarkerLatLng).title(title));
         else
             mMap.addMarker(new MarkerOptions().position(currentMarkerLatLng));
-    }
-
-    //Add an OnMarkerClickListener to the current map
-    //See https://developer.android.com/reference/com/google/android/gms/maps/GoogleMap.OnMarkerClickListener.html
-    public void registerMarkerClickListener(GoogleMap mMap, GoogleMap.OnMarkerClickListener omcl) {
-        mMap.setOnMarkerClickListener(omcl);
     }
 
     public String[] getAddressFromLocation(Geocoder geocoder, Location l) {
@@ -183,11 +204,29 @@ public class LocationWrapper {
         return addressArray;
     }
 
+    //Returns distance from start to destination
+    public float getDistanceTo(Location origin, Location destination) {
+        return origin.distanceTo(destination);
+    }
+
+    public void displayDirectionsOnMap(Location origin, Location destination, GoogleMap map) {
+
+    }
+
+    public void beginListeningForLocationUpdates(LocationClient mLocationClient) {
+        //mLocationClient.requestLocationUpdates();
+    }
+
+    //Add an OnMarkerClickListener to the current map
+    //See https://developer.android.com/reference/com/google/android/gms/maps/GoogleMap.OnMarkerClickListener.html
+    public void registerMarkerClickListener(GoogleMap mMap, GoogleMap.OnMarkerClickListener omcl) {
+        mMap.setOnMarkerClickListener(omcl);
+    }
+
     //Implement if functionality is needed
     //Convert some address strings or a retrieved adddress to a Location object
     public csc_380_project.scarlettrails.Location getLocationFromAddress(Geocoder geocoder, Address address) {
         return new csc_380_project.scarlettrails.Location(address.getLatitude(), address.getLongitude());
         //http://stackoverflow.com/questions/12577168/get-location-latitude-longitude-from-address-without-city-in-android
     }
-
 }

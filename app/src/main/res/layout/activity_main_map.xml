@@ -13,32 +13,13 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@id/buttonGetLocation"
+        android:id="@id/buttonLaunchMapActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/buttonGetLocationText"
+        android:text="@string/buttonLaunchMapActivity"
         android:textColor="@color/WHITE"
         android:background="@color/GRAY_MEDIUM"
-        android:alpha="1.0">
-    </Button>
-
-    <TextView
-        android:id="@id/textViewLatLng"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/test"
-        android:textColor="@color/WHITE"
-        android:background="@color/GRAY_MEDIUM"
-        android:alpha="1.0">
-    </TextView>
-
-    <Button
-        android:id="@id/buttonShowMarker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/buttonShowMarker"
-        android:textColor="@color/WHITE"
-        android:background="@color/GRAY_MEDIUM"
+        android:paddingBottom="16dp"
         android:alpha="1.0">
     </Button>
 

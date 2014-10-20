@@ -32,6 +32,14 @@ public class Location implements DatabaseInterface {
         this.country = country;
     }
 
+    public Double getLatitude() {
+       return latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
     public LatLng createLatLng() {
         return new LatLng(latitude, longitude);
     }
