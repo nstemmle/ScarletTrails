@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 
 import com.google.android.gms.location.LocationClient;
@@ -97,6 +98,11 @@ public class ActivityTrail extends FragmentActivity implements ActionBar.OnNavig
             return true;
         }
         return false;
+    }
+
+    //When image is clicked, it should expand into a full screen view
+    public void trailActivityTrailImageViewOnClick(View view) {
+
     }
 
     /*@Override
