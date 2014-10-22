@@ -1,51 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--ids for activity_main_map.xml-->
-    <item name="buttonLaunchMapActivity" type="id"/>
-
-    <!--ids for activity_trail.xml -->
-    <item name="trailPage" type="id"/>
-
-    <item name="linearLayoutMain" type="id"/>
-
-    <item name="trailTxtViewTrailName" type="id"/>
-    <item name="trailImgViewTrail" type="id"/>
-    <item name="trailMapFragment" type="id"/>
-    <item name="trailRatingBar" type="id"/>
-
-    <item name="relativeLayoutDifficulty" type ="id"/>
-    <item name="trailTxtViewDifficulty" type="id"/>
-    <item name="trailTxtViewDifficultyValue" type="id"/>
-
-    <item name="relativeLayoutDistance" type="id"/>
-    <item name="trailTxtViewDistance" type="id"/>
-    <item name="trailTxtViewDistanceValue" type="id"/>
-
-    <item name="relativeLayoutDuration" type="id"/>
-    <item name="trailTxtViewDuration" type="id"/>
-    <item name="trailTxtViewDurationValue" type="id"/>
-
-    <item name="relativeLayoutElevation" type="id"/>
-    <item name="trailTxtViewElevation" type="id"/>
-    <item name="trailTxtViewElevationValue" type="id"/>
-
-    <item name="relativeLayoutGear" type="id"/>
-    <item name="trailTxtViewGear" type="id"/>
-    <item name="trailTxtViewGearValue" type="id"/>
-
-    <item name="relativeLayoutConditions" type="id"/>
-    <item name="trailTxtViewConditions" type="id"/>
-    <item name="trailTxtViewConditionsValue" type="id"/>
-
-    <item name="relativeLayoutPetFriendly" type="id"/>
-    <item name="trailTxtViewPetFriendly" type="id"/>
-    <item name="trailTxtViewPetFriendlyValue" type="id"/>
-
-    <item name="trailListView" type="id"/>
+    <!--ids for actionbar items-->
+    <item name="actionbar_settings" type="id"/>
+    <item name="actionbar_search" type="id"/>
 
     <!--ids for activity_home.xml-->
-    <item name="homeMap" type="id"/>
-    <item name="homeTxtViewTrailTitle" type="id"/>
-    <item name="homeImgViewTrail" type="id"/>
+    <item name="home_fragment_map" type="id"/>
+    <item name="home_textview_trailtitle" type="id"/>
+    <item name="home_imgview_trail_pic" type="id"/>
 
 </resources>
