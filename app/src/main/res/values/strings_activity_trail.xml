@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Strings for activity_trail.xml & ActivityTrail.java-->
+    <string name="trail_imgview_content_desc">Trail Image</string>
+
+    <string name="trail_textview_difficulty_label">Difficulty: </string>
+    <!--Placeholder String - won't need in end-->
+    <string name="trail_textview_difficulty_value">Easy</string>
+
+    <string name="trail_textview_distance_label">Distance: </string>
+    <!--Placeholder String - won't need in end-->
+    <string name="trail_textview_distance_value">2.3 miles</string>
+
+    <string name="trail_textview_duration_label">Duration: </string>
+    <!--Placeholder String - won't need in end-->
+    <string name="trail_textview_duration_value">Short</string>
+
+    <string name="trail_textview_elevation_label">Elevation: </string>
+    <!--Placeholder String - won't need in end-->
+    <string name="trail_textview_elevation_value">Normal</string>
+
+    <string name="trail_textview_gear_label">Gear: </string>
+    <!--Placeholder String - won't need in end-->
+    <string name="trail_textview_gear_value">Normal</string>
+
+    <string name="trail_textview_conditions_label">Conditions: </string>
+    <!--Placeholder String - won't need in end-->
+    <string name="trail_textview_conditions_value">Dirt Trails</string>
+
+    <string name="trail_textview_petfriendly_label">Pet Friendly: </string>
+    <!--Placeholder String - won't need in end-->
+    <string name="trail_textview_petfriendly_value">Yes</string>
+
+    <!--Sample Trail Title-->
+    <string name="sample_trail_name">Great Bear Springs Recreation Area</string>
+</resources>

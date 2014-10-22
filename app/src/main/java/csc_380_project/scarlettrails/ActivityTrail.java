@@ -13,8 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -60,7 +58,7 @@ public class ActivityTrail extends FragmentActivity implements ActionBar.OnNavig
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.test, menu);
+        getMenuInflater().inflate(R.menu.action_bar_menu, menu);
         return true;
     }
 
@@ -70,7 +68,9 @@ public class ActivityTrail extends FragmentActivity implements ActionBar.OnNavig
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.actionbar_search) {
+            return true;
+        } else if (id == R.id.actionbar_settings) {
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -93,7 +93,7 @@ public class ActivityTrail extends FragmentActivity implements ActionBar.OnNavig
 
     private void initializeMap() {
         if (mMap == null) {
-            mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.trailMapFragment)).getMap();
+            mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.trail_fragment_map)).getMap();
         }
 
         //Check to see if successful
@@ -122,34 +122,34 @@ public class ActivityTrail extends FragmentActivity implements ActionBar.OnNavig
 
     public void populatePageWithTrailInfo(Trail t) {
         //Trail Name
-        ((TextView)findViewById(R.id.trailTxtViewTrailNameValue)).setText(t.getName());
+        ((TextView)findViewById(R.id.trail_textview_trailname_value)).setText(t.getName());
 
         //Trail difficulty
-        ((TextView)findViewById(R.id.trailTxtViewDifficultyValue)).setText(t.getDifficulty());
+        ((TextView)findViewById(R.id.trail_textview_difficulty_value)).setText(t.getDifficulty());
 
         //Trail distance
-        ((TextView)findViewById(R.id.trailTxtViewDistanceValue)).setText(String.valueOf(t.getDistance()) + " mi");
+        ((TextView)findViewById(R.id.trail_textview_distance_value)).setText(String.valueOf(t.getDistance()) + " mi");
 
         //Trail duration
-        ((TextView)findViewById(R.id.trailTxtViewDurationValue)).setText(t.getDuration());
+        ((TextView)findViewById(R.id.trail_textview_duration_value)).setText(t.getDuration());
 
         //Trail elevation
         ((TextView)findViewById(R.id.trailTxtViewElevationValue)).setText(String.valueOf(t.getElevation()) + " ft");
 
         //Trail gear
-        ((TextView)findViewById(R.id.trailTxtViewGearValue)).setText(t.getGear());
+        ((TextView)findViewById(R.id.trail_textview_gear_value)).setText(t.getGear());
 
         //Trail conditions
-        ((TextView)findViewById(R.id.trailTxtViewConditionsValue)).setText(t.getTrailConditions());
+        ((TextView)findViewById(R.id.trail_textview_conditions_value)).setText(t.getTrailConditions());
 
         //Trail pet friendly
-        ((TextView)findViewById(R.id.trailTxtViewPetFriendlyValue)).setText(t.isPetFriendly() ? "Yes" : "No");
+        ((TextView)findViewById(R.id.trail_textview_petfriendly_value)).setText(t.isPetFriendly() ? "Yes" : "No");
 
         //Trail image
         //((ImageView)findViewById(R.id.trailImgViewTrail)).setImageURI();
 
         //Trail rating
-        RatingBar rb = ((RatingBar)findViewById(R.id.trailRatingBar));
+        RatingBar rb = ((RatingBar)findViewById(R.id.trail_ratingbar));
         rb.setRating(t.getRating().floatValue());
         rb.setStepSize(0.5f);
 

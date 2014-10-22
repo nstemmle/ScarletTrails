@@ -18,39 +18,7 @@
     <!--Strings for activity_main_map.xml-->
     <string name="buttonLaunchMapActivity">Launch Map Activity</string>
 
-    <!--Strings for activity_trail.xml & ActivityTrail.java-->
-    <string name="trailImgViewContentDesc">Trail Image</string>
 
-    <string name="trailTxtViewDifficulty">Difficulty: </string>
-    <!--Placeholder String - won't need in end-->
-    <string name="trailTxtViewDifficultyValue">Easy</string>
-
-    <string name="trailTxtViewDistance">Distance: </string>
-    <!--Placeholder String - won't need in end-->
-    <string name="trailTxtViewDistanceValue">2.3 miles</string>
-
-    <string name="trailTxtViewDuration">Duration: </string>
-    <!--Placeholder String - won't need in end-->
-    <string name="trailTxtViewDurationValue">Short</string>
-
-    <string name="trailTxtViewElevation">Elevation: </string>
-    <!--Placeholder String - won't need in end-->
-    <string name="trailTxtViewElevationValue">Normal</string>
-
-    <string name="trailTxtViewGear">Gear: </string>
-    <!--Placeholder String - won't need in end-->
-    <string name="trailTxtViewGearValue">Normal</string>
-
-    <string name="trailTxtViewConditions">Conditions: </string>
-    <!--Placeholder String - won't need in end-->
-    <string name="trailTxtViewConditionsValue">Dirt Trails</string>
-
-    <string name="trailTxtViewPetFriendly">Pet Friendly: </string>
-    <!--Placeholder String - won't need in end-->
-    <string name="trailTxtViewPetFriendlyValue">Yes</string>
-
-    <!--Sample Trail Title-->
-    <string name="sampleTrailName">Great Bear Springs Recreation Area</string>
 
     <!--Global Strings-->
     <string name="dialogLocationSettingsMessage">GPS is not enabled. This application makes extensive use of location services; would you like to open Location Settings?</string>

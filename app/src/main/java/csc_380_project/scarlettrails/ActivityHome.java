@@ -1,15 +1,10 @@
 package csc_380_project.scarlettrails;
 
 import android.app.ActionBar;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Geocoder;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -59,7 +54,7 @@ public class ActivityHome extends FragmentActivity implements ActionBar.OnNaviga
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.test, menu);
+        getMenuInflater().inflate(R.menu.action_bar_menu, menu);
         return true;
     }
 
@@ -69,8 +64,10 @@ public class ActivityHome extends FragmentActivity implements ActionBar.OnNaviga
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.actionbar_search) {
             return true;
+        } else if (id == R.id.actionbar_settings) {
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -92,7 +89,7 @@ public class ActivityHome extends FragmentActivity implements ActionBar.OnNaviga
 
     private void initializeMap() {
         if (mMap == null) {
-            mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.homeMap)).getMap();
+            mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.home_fragment_map)).getMap();
         }
 
         //Check to see if successful
@@ -129,6 +126,8 @@ public class ActivityHome extends FragmentActivity implements ActionBar.OnNaviga
         //getDirections(LocationWrapper.OSWEGO_COUNTY.latitude, LocationWrapper.OSWEGO_COUNTY.longitude, 43.26589,-76.351958);
         mLocWrapper.getDirectionsFromCoords(ActivityHome.this, LocationWrapper.OSWEGO_COUNTY.latitude, LocationWrapper.OSWEGO_COUNTY.longitude, 43.26589, -76.351958);
     }
+
+    //These lines need to be implemented for dynamically fetching and retrieving data
 
     /*@Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {

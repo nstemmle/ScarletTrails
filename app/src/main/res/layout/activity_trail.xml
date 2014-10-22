@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@id/trailPage"
+    android:id="@id/trail_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/GREEN_DARK"
@@ -9,7 +9,7 @@
     android:fillViewport="true">
 
 <LinearLayout
-    android:id="@id/linearLayoutMain"
+    android:id="@id/layout_linear_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -20,35 +20,35 @@
     tools:context=".ActivityTrail">
 
         <TextView style="@style/TextWhiteStyle"
-            android:id="@id/trailTxtViewTrailNameValue"
+            android:id="@id/trail_textview_trailname_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@string/sampleTrailName"
+            android:text="@string/sample_trail_name"
             android:textAlignment="center"
             android:textSize="9pt"
             android:alpha="1.0"/>
 
-        <ImageView android:id="@id/trailImgViewTrail"
+        <ImageView android:id="@id/trail_imgview_trail_pic"
             android:layout_marginTop="3dp"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:background="@drawable/greatbearspringsrecreationarea"
             android:layout_gravity="center_horizontal"
-            android:contentDescription="@string/trailImgViewContentDesc"
+            android:contentDescription="@string/trail_imgview_content_desc"
             android:onClick="trailActivityTrailImageViewOnClick"/>
             <!--android:src="@drawable/greatbearspringsrecreationarea"-->
 
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
-            android:id="@id/trailMapFragment"
+            android:id="@id/trail_fragment_map"
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:name="com.google.android.gms.maps.MapFragment"
             tools:context=".MapActivity"/>
 
-        <RatingBar android:id="@id/trailRatingBar"
+        <RatingBar android:id="@id/trail_ratingbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:numStars="5"
@@ -58,91 +58,91 @@
 
         <!--TextViews for Trail difficulty-->
         <RelativeLayout
-            android:id="@id/relativeLayoutDifficulty"
+            android:id="@id/trail_relativelayout_difficulty"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <TextView style="@style/TextWhiteStyle"
-                android:id="@id/trailTxtViewDifficulty"
+                android:id="@id/trail_textview_difficulty_label"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:alpha="1.0"
-                android:text="@string/trailTxtViewDifficulty"/>
+                android:text="@string/trail_textview_difficulty_label"/>
 
             <TextView style="@style/TextWhiteStyle"
-                android:id="@id/trailTxtViewDifficultyValue"
+                android:id="@id/trail_textview_difficulty_value"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:alpha="1.0"
-                android:text="@string/trailTxtViewDifficultyValue"/>
+                android:text="@string/trail_textview_difficulty_value"/>
         </RelativeLayout>
 
         <!--TextViews for Trail distance-->
         <RelativeLayout
-            android:id="@id/relativeLayoutDistance"
+            android:id="@id/trail_relativelayout_distance"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <TextView style="@style/TextWhiteStyle"
-                android:id="@id/trailTxtViewDistance"
+                android:id="@id/trail_textview_distance_label"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:alpha="1.0"
-                android:text="@string/trailTxtViewDistance"/>
+                android:text="@string/trail_textview_distance_label"/>
 
             <TextView style="@style/TextWhiteStyle"
-                android:id="@id/trailTxtViewDistanceValue"
+                android:id="@id/trail_textview_distance_value"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:alpha="1.0"
-                android:text="@string/trailTxtViewDistanceValue"/>
+                android:text="@string/trail_textview_distance_value"/>
         </RelativeLayout>
 
         <!--TextViews for Trail duration-->
         <RelativeLayout
-            android:id="@id/relativeLayoutDuration"
+            android:id="@id/trail_relativelayout_duration"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <TextView style="@style/TextWhiteStyle"
-                android:id="@id/trailTxtViewDuration"
+                android:id="@id/trail_textview_duration_label"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:alpha="1.0"
-                android:text="@string/trailTxtViewDuration"/>
+                android:text="@string/trail_textview_duration_label"/>
 
             <TextView style="@style/TextWhiteStyle"
-                android:id="@id/trailTxtViewDurationValue"
+                android:id="@id/trail_textview_duration_value"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:alpha="1.0"
-                android:text="@string/trailTxtViewDurationValue"/>
+                android:text="@string/trail_textview_duration_value"/>
         </RelativeLayout>
 
         <!--TextViews for Trail elevation-->
         <RelativeLayout
-            android:id="@id/relativeLayoutElevation"
+            android:id="@id/trail_relativelayout_elevation"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -155,7 +155,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:alpha="1.0"
-                android:text="@string/trailTxtViewElevation"/>
+                android:text="@string/trail_textview_elevation_label"/>
 
             <TextView style="@style/TextWhiteStyle"
                 android:id="@id/trailTxtViewElevationValue"
@@ -165,95 +165,95 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:alpha="1.0"
-                android:text="@string/trailTxtViewElevationValue"/>
+                android:text="@string/trail_textview_elevation_value"/>
         </RelativeLayout>
 
         <!--TextViews for Trail gear-->
         <RelativeLayout
-            android:id="@id/relativeLayoutGear"
+            android:id="@id/trail_relativelayout_gear"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <TextView style="@style/TextWhiteStyle"
-                android:id="@id/trailTxtViewGear"
+                android:id="@id/trail_textview_gear_label"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:alpha="1.0"
-                android:text="@string/trailTxtViewGear"/>
+                android:text="@string/trail_textview_gear_label"/>
 
             <TextView style="@style/TextWhiteStyle"
-                android:id="@id/trailTxtViewGearValue"
+                android:id="@id/trail_textview_gear_value"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:alpha="1.0"
-                android:text="@string/trailTxtViewGearValue"/>
+                android:text="@string/trail_textview_gear_value"/>
         </RelativeLayout>
 
         <!--TextViews for Trail conditions-->
         <RelativeLayout
-            android:id="@id/relativeLayoutConditions"
+            android:id="@id/trail_relativelayout_conditions"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <TextView style="@style/TextWhiteStyle"
-                android:id="@id/trailTxtViewConditions"
+                android:id="@id/trail_textview_conditions_label"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:alpha="1.0"
-                android:text="@string/trailTxtViewConditions"/>
+                android:text="@string/trail_textview_conditions_label"/>
 
             <TextView style="@style/TextWhiteStyle"
-                android:id="@id/trailTxtViewConditionsValue"
+                android:id="@id/trail_textview_conditions_value"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:alpha="1.0"
-                android:text="@string/trailTxtViewConditionsValue"/>
+                android:text="@string/trail_textview_conditions_value"/>
         </RelativeLayout>
 
         <!--TextViews for Trail pet friendly-->
         <RelativeLayout
-            android:id="@id/relativeLayoutPetFriendly"
+            android:id="@id/trail_relativelayout_petfriendly"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <TextView style="@style/TextWhiteStyle"
-                android:id="@id/trailTxtViewPetFriendly"
+                android:id="@id/trail_textview_petfriendly_label"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:alpha="1.0"
-                android:text="@string/trailTxtViewPetFriendly"/>
+                android:text="@string/trail_textview_petfriendly_label"/>
 
             <TextView style="@style/TextWhiteStyle"
-                android:id="@id/trailTxtViewPetFriendlyValue"
+                android:id="@id/trail_textview_petfriendly_value"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:alpha="1.0"
-                android:text="@string/trailTxtViewPetFriendlyValue"/>
+                android:text="@string/trail_textview_petfriendly_value"/>
         </RelativeLayout>
 
         <GridView
-            android:id="@id/trailGridView"
+            android:id="@id/trail_gridview_thumbnails"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:columnWidth="90dp"

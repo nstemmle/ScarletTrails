@@ -126,7 +126,7 @@ public class LocationWrapper {
     //Check to see if the map is not null
     public boolean checkMapExists(GoogleMap map) {
         if (map == null) {
-            throw new NoMapException("There is no map - no map functionality can be accessed. Please call setGoogleMap(GoogleMap map) in your activity passing the current map object. See the new method");
+            throw new NoMapException("There is no map - no map functionality can be accessed. Please ensure that you have retrieved the most recent map on the current activity before using it.");
             //return false - this option should not be used but you can change functionality if you need to for testing
         }
         return true;
@@ -138,23 +138,23 @@ public class LocationWrapper {
     }
 
     //Verify map then set defaults
-    public void setUpMapWithDefaults(GoogleMap mMap) {
-        checkMapExists(mMap);
-        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(OSWEGO_COUNTY,COUNTY_ZOOM));
-        mMap.setMyLocationEnabled(true);
-        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+    public void setUpMapWithDefaults(GoogleMap map) {
+        checkMapExists(map);
+        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(OSWEGO_COUNTY,COUNTY_ZOOM));
+        map.setMyLocationEnabled(true);
+        map.getUiSettings().setMyLocationButtonEnabled(true);
     }
 
 
-    public void displayTrailOnMapInstant(GoogleMap mMap, Trail t, float zoom) {
-        centerCameraOnCustomLocation(mMap, t.getLocation(), zoom);
-        addMarkerAtCustomLocation(mMap, t.getLocation(), t.getName(), true);
+    public void displayTrailOnMapInstant(GoogleMap map, Trail trail, float zoom) {
+        centerCameraOnCustomLocation(map, trail.getLocation(), zoom);
+        addMarkerAtCustomLocation(map, trail.getLocation(), trail.getName(), true);
     }
 
-    public void displayTrailOnMapAnimated(GoogleMap mMap, Trail t, float zoom) {
-        moveCameraAnimatedZoomToCustomLocation(mMap, t.getLocation(), zoom);
-        addMarkerAtCustomLocation(mMap, t.getLocation(), t.getName(), true);
+    public void displayTrailOnMapAnimated(GoogleMap map, Trail trail, float zoom) {
+        moveCameraAnimatedZoomToCustomLocation(map, trail.getLocation(), zoom);
+        addMarkerAtCustomLocation(map, trail.getLocation(), trail.getName(), true);
     }
 
     //Launches a new system activity to get directions from startCoords to endCoords
@@ -185,89 +185,89 @@ public class LocationWrapper {
     //Lat and Lng must be bounded between
     //latitude < -90 || latitude > 90
     //longitude < -180.0 || longitude > 180.0
-    public void centerCameraOnGoogleLocation(GoogleMap mMap, Location l, float zoom) {
-        checkMapExists(mMap);
-        LatLng tempLatLng = new LatLng(l.getLatitude(),l.getLongitude());
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng, zoom));
+    public void centerCameraOnGoogleLocation(GoogleMap map, Location location, float zoom) {
+        checkMapExists(map);
+        LatLng tempLatLng = new LatLng(location.getLatitude(),location.getLongitude());
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng, zoom));
     }
 
     //Center map on custom Location object
     //Lat and Lng must be bounded between
     //latitude < -90 || latitude > 90
     //longitude < -180.0 || longitude > 180.0
-    public void centerCameraOnCustomLocation(GoogleMap mMap, csc_380_project.scarlettrails.Location customLoc, float zoom) {
+    public void centerCameraOnCustomLocation(GoogleMap map, csc_380_project.scarlettrails.Location customLoc, float zoom) {
         LatLng tempLatLng = new LatLng(customLoc.getLatitude(), customLoc.getLongitude());
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng, zoom));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng, zoom));
     }
 
     //Center map on a coordinate pair (Lat, Lng)
     //Lat and Lng must be bounded between
     //latitude < -90 || latitude > 90
     //longitude < -180.0 || longitude > 180.0
-    public void centerCameraOnCoords(GoogleMap mMap, Double lat, Double lon, float zoom) {
+    public void centerCameraOnCoords(GoogleMap map, Double lat, Double lon, float zoom) {
         LatLng tempLatLng = new LatLng(lat,lon);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng, zoom));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng, zoom));
     }
 
     //Move the camera view of the google map to a certain Location
     //Call this method when the change in distance is small i.e. from one part of Oswego county to another
-    public void moveCameraAnimatedToGoogleLocation(GoogleMap mMap, Location l) {
-        LatLng tempLatLng = new LatLng(l.getLatitude(),l.getLongitude());
+    public void moveCameraAnimatedToGoogleLocation(GoogleMap map, Location location) {
+        LatLng tempLatLng = new LatLng(location.getLatitude(),location.getLongitude());
         //A duration value can also be passed to determine how long the animation should take; see android documentation
-        mMap.animateCamera(CameraUpdateFactory.newLatLng(tempLatLng));
+        map.animateCamera(CameraUpdateFactory.newLatLng(tempLatLng));
     }
 
     //Move the camera view of the google map to a certain Location
     //Call this method when the change in distance is small i.e. from one part of Oswego county to another
-    public void moveCameraAnimatedToCustomLocation(GoogleMap mMap, csc_380_project.scarlettrails.Location customLoc) {
+    public void moveCameraAnimatedToCustomLocation(GoogleMap map, csc_380_project.scarlettrails.Location customLoc) {
         LatLng tempLatLng = new LatLng(customLoc.getLatitude(),customLoc.getLongitude());
         //A duration value can also be passed to determine how long the animation should take; see android documentation
-        mMap.animateCamera(CameraUpdateFactory.newLatLng(tempLatLng));
+        map.animateCamera(CameraUpdateFactory.newLatLng(tempLatLng));
     }
 
     //Move the camera view of the google map to a certain Location at a specified Zoom level
     //Call this method when the change in distance is small i.e. from one part of Oswego county to another
     //Specify a zoom level to be used - static constants have been declared for your use
-    public void moveCameraAnimatedZoomToGoogleLocation(GoogleMap mMap, Location l, float zoom) {
-        LatLng tempLatLng = new LatLng(l.getLatitude(),l.getLongitude());
+    public void moveCameraAnimatedZoomToGoogleLocation(GoogleMap map, Location location, float zoom) {
+        LatLng tempLatLng = new LatLng(location.getLatitude(),location.getLongitude());
         //A duration value can also be passed to determine how long the animation should take; see android documentation
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng, zoom));
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng, zoom));
     }
 
     //Move the camera view of the google map to a certain Location at a specified Zoom level
     //Call this method when the change in distance is small i.e. from one part of Oswego county to another
     //Specify a zoom level to be used - static constants have been declared for your use
-    public void moveCameraAnimatedZoomToCustomLocation(GoogleMap mMap, csc_380_project.scarlettrails.Location customLoc, float zoom) {
+    public void moveCameraAnimatedZoomToCustomLocation(GoogleMap map, csc_380_project.scarlettrails.Location customLoc, float zoom) {
         LatLng tempLatLng = new LatLng(customLoc.getLatitude(), customLoc.getLongitude());
         //A duration value can also be passed to determine how long the animation should take; see android documentation
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng, zoom));
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng, zoom));
     }
 
     //Relevant examples/documentation
     //https://developers.google.com/maps/documentation/android/marker
-    public void addMarkerAtGoogleLocation(GoogleMap mMap, Location l, String title, boolean showTitleByDefault) {
-        LatLng currentMarkerLatLng = new LatLng(l.getLatitude(), l.getLongitude());
+    public void addMarkerAtGoogleLocation(GoogleMap map, Location location, String title, boolean showTitleByDefault) {
+        LatLng currentMarkerLatLng = new LatLng(location.getLatitude(), location.getLongitude());
         if (!title.equals(""))
-            mMap.addMarker(new MarkerOptions().position(currentMarkerLatLng).title(title));
+            if (showTitleByDefault)
+                map.addMarker(new MarkerOptions().position(currentMarkerLatLng).title(title)).showInfoWindow();
+            else
+                map.addMarker(new MarkerOptions().position(currentMarkerLatLng).title(title));
         else
-            mMap.addMarker(new MarkerOptions().position(currentMarkerLatLng));
+            map.addMarker(new MarkerOptions().position(currentMarkerLatLng));
     }
 
-    public void addMarkerAtCustomLocation(GoogleMap mMap, csc_380_project.scarlettrails.Location customLoc, String title, boolean showTitleByDefault) {
+    public void addMarkerAtCustomLocation(GoogleMap map, csc_380_project.scarlettrails.Location customLoc, String title, boolean showTitleByDefault) {
         LatLng currentMarkerLatLng = new LatLng(customLoc.getLatitude(), customLoc.getLongitude());
         if (!title.equals(""))
             if (showTitleByDefault)
-                mMap.addMarker(new MarkerOptions().position(currentMarkerLatLng).title(title)).showInfoWindow();
+                map.addMarker(new MarkerOptions().position(currentMarkerLatLng).title(title)).showInfoWindow();
             else
-                mMap.addMarker(new MarkerOptions().position(currentMarkerLatLng).title(title));
+                map.addMarker(new MarkerOptions().position(currentMarkerLatLng).title(title));
         else
-            if (showTitleByDefault)
-                mMap.addMarker(new MarkerOptions().position(currentMarkerLatLng)).showInfoWindow();
-            else
-                mMap.addMarker(new MarkerOptions().position(currentMarkerLatLng));
+                map.addMarker(new MarkerOptions().position(currentMarkerLatLng));
     }
 
-    public String[] getAddressFromLocationGoogleLocation(Geocoder geocoder, Location l) {
+    public String[] getAddressFromGoogleLocation(Geocoder geocoder, Location location) {
         String[] addressArray = new String[5];
         String streetAddress;
         String postalCode;
@@ -281,7 +281,56 @@ public class LocationWrapper {
             //i.e.
             //latitude < -90 || latitude > 90
             //longitude < -180.0 || longitude > 180.0
-            addresses = geocoder.getFromLocation(l.getLatitude(), l.getLongitude(), 1);
+            //will throw an IOException if Network is unavailable
+            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            if (addresses != null && addresses.size() > 0) {
+                address = addresses.get(0);
+
+                //This value can be null if there was no street address found
+                streetAddress = address.getAddressLine(0);
+
+                //This value can be null if there was no postal code found
+                postalCode = address.getPostalCode();
+
+                //This value can be null if there was no city found
+                city = address.getLocality();
+
+                //This value can be null if no state was found
+                state = address.getAdminArea();
+
+                //This value can be null if it is unknown
+                country = address.getCountryName();
+                //Can also call getCountryCode() to return "US" instead of "United States of America"
+            } else {
+                return null;
+            }
+            addressArray[0] = streetAddress;
+            addressArray[1] = postalCode;
+            addressArray[2] = city;
+            addressArray[3] = state;
+            addressArray[4] = country;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return addressArray;
+    }
+
+    public String[] getAddressFromCustomLocation(Geocoder geocoder, csc_380_project.scarlettrails.Location customLoc) {
+        String[] addressArray = new String[5];
+        String streetAddress;
+        String postalCode;
+        String city;
+        String state;
+        String country;
+        Address address;
+        List<Address> addresses;
+
+        try { //This will throw an exception if the location latitude and longitude are outside the android defined bounds
+            //i.e.
+            //latitude < -90 || latitude > 90
+            //longitude < -180.0 || longitude > 180.0
+            //will throw an IOException if Network is unavailable
+            addresses = geocoder.getFromLocation(customLoc.getLatitude(), customLoc.getLongitude(), 1);
             if (addresses != null && addresses.size() > 0) {
                 address = addresses.get(0);
 
@@ -327,18 +376,19 @@ public class LocationWrapper {
 
     //TODO
     //Implement
+    //When are constant location updates needed? More context will help guide implementing this
     public void beginListeningForLocationUpdates(LocationClient mLocationClient) {
         //mLocationClient.requestLocationUpdates();
     }
 
     //Add an OnMarkerClickListener to the current map
     //See https://developer.android.com/reference/com/google/android/gms/maps/GoogleMap.OnMarkerClickListener.html
-    public void registerMarkerClickListener(GoogleMap mMap, GoogleMap.OnMarkerClickListener omcl) {
-        mMap.setOnMarkerClickListener(omcl);
+    public void registerMarkerClickListener(GoogleMap map, GoogleMap.OnMarkerClickListener omcl) {
+        map.setOnMarkerClickListener(omcl);
     }
 
     //Implement if functionality is needed
-    //Convert some address strings or a retrieved adddress to a Location object
+    //Convert some address strings or a retrieved adddress to a customLocation object
     public csc_380_project.scarlettrails.Location getLocationFromAddress(Geocoder geocoder, Address address) {
         return new csc_380_project.scarlettrails.Location(address.getLatitude(), address.getLongitude());
         //http://stackoverflow.com/questions/12577168/get-location-latitude-longitude-from-address-without-city-in-android

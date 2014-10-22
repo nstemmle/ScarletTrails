@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--ids for activity_trail.xml -->
+    <item name="trail_page" type="id"/>
+
+    <item name="layout_linear_main" type="id"/>
+
+    <item name="trail_textview_trailname_value" type="id"/>
+    <item name="trail_imgview_trail_pic" type="id"/>
+    <item name="trail_fragment_map" type="id"/>
+    <item name="trail_ratingbar" type="id"/>
+
+    <item name="trail_relativelayout_difficulty" type ="id"/>
+    <item name="trail_textview_difficulty_label" type="id"/>
+    <item name="trail_textview_difficulty_value" type="id"/>
+
+    <item name="trail_relativelayout_distance" type="id"/>
+    <item name="trail_textview_distance_label" type="id"/>
+    <item name="trail_textview_distance_value" type="id"/>
+
+    <item name="trail_relativelayout_duration" type="id"/>
+    <item name="trail_textview_duration_label" type="id"/>
+    <item name="trail_textview_duration_value" type="id"/>
+
+    <item name="trail_relativelayout_elevation" type="id"/>
+    <item name="trailTxtViewElevation" type="id"/>
+    <item name="trailTxtViewElevationValue" type="id"/>
+
+    <item name="trail_relativelayout_gear" type="id"/>
+    <item name="trail_textview_gear_label" type="id"/>
+    <item name="trail_textview_gear_value" type="id"/>
+
+    <item name="trail_relativelayout_conditions" type="id"/>
+    <item name="trail_textview_conditions_label" type="id"/>
+    <item name="trail_textview_conditions_value" type="id"/>
+
+    <item name="trail_relativelayout_petfriendly" type="id"/>
+    <item name="trail_textview_petfriendly_label" type="id"/>
+    <item name="trail_textview_petfriendly_value" type="id"/>
+
+    <item name="trail_gridview_thumbnails" type="id"/>
+</resources>
