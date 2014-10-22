@@ -8,7 +8,7 @@
 
     <item name="linearLayoutMain" type="id"/>
 
-    <item name="trailTxtViewTrailName" type="id"/>
+    <item name="trailTxtViewTrailNameValue" type="id"/>
     <item name="trailImgViewTrail" type="id"/>
     <item name="trailMapFragment" type="id"/>
     <item name="trailRatingBar" type="id"/>
@@ -41,7 +41,7 @@
     <item name="trailTxtViewPetFriendly" type="id"/>
     <item name="trailTxtViewPetFriendlyValue" type="id"/>
 
-    <item name="trailListView" type="id"/>
+    <item name="trailGridView" type="id"/>
 
     <!--ids for activity_home.xml-->
     <item name="homeMap" type="id"/>

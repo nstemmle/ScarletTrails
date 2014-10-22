@@ -46,17 +46,17 @@ class TrailCollection {
         Collections.sort(trails, Trail.getTrailElevationComaparator());
     }
 
-    public void sortByDifficulty() {
+    /*public void sortByDifficulty() {
         Collections.sort(trails, Trail.getTrailDifficultyComaparator());
-    }
+    }*/
 
-    public void sortByDuration() {
+    /*public void sortByDuration() {
         Collections.sort(trails, Trail.getTrailDurationComaparator());
-    }
+    }*/
 
     Trail getTrailById(int trailId) {
         sortByIds();
-        Trail dummyTrail = new Trail(trailId, null, null, null, 0, 0, null, null, null, false);
+        Trail dummyTrail = new Trail(trailId, null, null, null, "", "", null, null, null, false);
         //Collections framework requires searching the list for an object so a dummy object
         //is created in this scope with the trailID initialized
 

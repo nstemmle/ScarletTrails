@@ -16,6 +16,12 @@
     <style name="SplashTheme" parent="@android:style/Theme.Holo.NoActionBar">
     </style>
 
+    <!--This style is applied to all TextViews in the activity_trail.xml file and changing
+    any attributes here will be applied to all children that apply this
+    Should make for easy tinkering with background color/font color-->
+    <style name="TextWhiteStyle" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+        <item name="android:textColor">@color/WHITE</item>
+    </style>
     <!-- Any new styles go under here and are normally referenced from the layout xml but sometime from code -->
 
 </resources>

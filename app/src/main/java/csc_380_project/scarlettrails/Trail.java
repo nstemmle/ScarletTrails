@@ -1,20 +1,35 @@
 package csc_380_project.scarlettrails;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 /**
  * Created by Nathan on 10/16/2014.
  */
 class Trail implements DatabaseInterface {
+    public static final String DURATION_SHORT = "Short";
+    public static final String DURATION_MEDIUM = "Medium";
+    public static final String DURATION_LONG = "Long";
+    public static final String DURATION_MARATHON = "Marathon";
+
+    public static final String DIFFICULTY_EASY = "Easy";
+    public static final String DIFFICULTY_MEDIUM = "Normal";
+    public static final String DIFFICULTY_CHALLENGING = "Challenging";
+    public static final String DIFFICULTY_EXTREME = "Extreme";
+
     private final int trailId;
     private final String name;
     private final Double distance; //Distance in yards, feet, or meters? Should units be changeable?
     private final Double elevation;
-    private final int duration; //Estimated time in minutes to complete trail
-    private final int difficulty; //Enumeration such as 1 = easy, 2 = normal, 3 = challenging, 4 = extreme or something like that
+    private final String duration;
+    private final String difficulty;
     private final Location mLocation;
     private final String gear;
     private final String trailConditions;
@@ -24,7 +39,7 @@ class Trail implements DatabaseInterface {
     private Double rating;
     private Forecast mForecast;
 
-    Trail(int trailId, String name, Double distance, Double elevation, int duration, int difficulty,
+    Trail(int trailId, String name, Double distance, Double elevation, String duration, String difficulty,
                  Location mLocation, String gear, String trailConditions, boolean petFriendly) {
         this.trailId = trailId;
         this.name = name;
@@ -36,6 +51,10 @@ class Trail implements DatabaseInterface {
         this.gear = gear;
         this.trailConditions = trailConditions;
         this.petFriendly = petFriendly;
+
+        //Random rating for now
+        Random r = new Random();
+        setRating(r.nextDouble() + 4);
     }
 
     public Double getRating() {
@@ -66,11 +85,11 @@ class Trail implements DatabaseInterface {
         return elevation;
     }
 
-    public int getDuration() {
+    public String getDuration() {
         return duration;
     }
 
-    public int getDifficulty() {
+    public String getDifficulty() {
         return difficulty;
     }
 
@@ -84,6 +103,10 @@ class Trail implements DatabaseInterface {
 
     public String getTrailConditions() {
         return trailConditions;
+    }
+
+    public void setRating(Double d) {
+        this.rating = d;
     }
 
     //Creates a comparator object that can be used to sort a collection of trails (TrailCollection) by the specified criteria
@@ -151,25 +174,25 @@ class Trail implements DatabaseInterface {
 
     //Creates a comparator object that can be used to sort a collection of trails (TrailCollection) by the specified criteria
     //e.g. Collections.Sort(TrailCollectionInstance, Trail.getTrailIdComparator());
-    static Comparator<Trail> getTrailDifficultyComaparator() {
+    /*static Comparator<Trail> getTrailDifficultyComaparator() {
         return new Comparator<Trail>() {
             @Override
             public int compare(Trail lhs, Trail rhs) {
                 return lhs.difficulty - rhs.difficulty;
             }
         };
-    }
+    }*/
 
     //Creates a comparator object that can be used to sort a collection of trails (TrailCollection) by the specified criteria
     //e.g. Collections.Sort(TrailCollectionInstance, Trail.getTrailIdComparator());
-    static Comparator<Trail> getTrailDurationComaparator() {
+    /*static Comparator<Trail> getTrailDurationComaparator() {
         return new Comparator<Trail>() {
             @Override
             public int compare(Trail lhs, Trail rhs) {
                 return lhs.duration - rhs.duration;
             }
         };
-    }
+    }*/
 
     @Override
     public void query(String lookup) {

@@ -1,12 +1,15 @@
 package csc_380_project.scarlettrails;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.provider.Settings;
 
 import com.google.android.gms.location.LocationClient;
@@ -41,7 +44,8 @@ public class LocationWrapper {
     public static final float STREET_ZOOM = 14.0f;
     public static final float TRAIL_ZOOM = 15.0f; //Might need to be adjusted
 
-
+    //TODO
+    //Implement constructor for best criteria or remove
     private static Criteria criteriaBest;
     private static LocationWrapper instance;
 
@@ -54,6 +58,9 @@ public class LocationWrapper {
         return instance;
     }
 
+
+    //TODO
+    //After comparing which provider generally returns best location, decide if only one or many providers should be checked
     public boolean checkLocationSettingsEnabled (Context context) {
         boolean network_enabled;
         boolean gps_enabled;
@@ -77,19 +84,46 @@ public class LocationWrapper {
         //mLocationManager.getBestProvider()
     }
 
-    public void openLocationSettings(Context context) {
-        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-        if (intent.resolveActivity(context.getPackageManager()) != null) {
-            context.startActivity(intent);
-        }
+    public void openLocationSettings(final Context context) {
+        AlertDialog.Builder ad = new AlertDialog.Builder(context, AlertDialog.THEME_HOLO_DARK);
+        ad.setMessage(R.string.dialogLocationSettingsMessage)
+                .setTitle(R.string.dialogLocationSettingsTitle)
+                .setPositiveButton(R.string.dialogLocationSettingsPositiveButton, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        //if (intent.resolveActivity(context.getPackageManager()) != null) {
+                        context.startActivity(intent);
+                        //}
+                    }
+                })
+                .setNegativeButton(R.string.dialogLocationSettingsNegativeButton, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        AlertDialog alertDialog = ad.create();
+        alertDialog.show();
     }
 
+    //TODO
+    //Implement retrieving multiple locations from multiple providers and compare them to return best location
+    //Launch async task at splash screen or home screen to start getting location read
     public Location getCurrentLocation(Context context) {
-        checkLocationSettingsEnabled(context);
+        boolean gps_enabled = checkLocationSettingsEnabled(context);
         LocationManager mLocationManager = (LocationManager)(context.getSystemService(Context.LOCATION_SERVICE));
-        return mLocationManager.getLastKnownLocation("passive");
+        if (gps_enabled) {
+            return mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        }
+        //Can enable hook here to prompt user to enable location settings
+        //else
+        //  openLocationSettings(context);
+        return mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
     }
 
+    //Check to see if the map is not null
     public boolean checkMapExists(GoogleMap map) {
         if (map == null) {
             throw new NoMapException("There is no map - no map functionality can be accessed. Please call setGoogleMap(GoogleMap map) in your activity passing the current map object. See the new method");
@@ -98,7 +132,12 @@ public class LocationWrapper {
         return true;
     }
 
+    //Remove all markers, polygons, etc. from the map
+    public void clearMap(GoogleMap map) {
+        map.clear();
+    }
 
+    //Verify map then set defaults
     public void setUpMapWithDefaults(GoogleMap mMap) {
         checkMapExists(mMap);
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
@@ -107,31 +146,81 @@ public class LocationWrapper {
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
     }
 
-    //Move the camera view of the google map to a certain Location
-    public void moveCamera(GoogleMap mMap, Location l, float f) {
+
+    public void displayTrailOnMapInstant(GoogleMap mMap, Trail t, float zoom) {
+        centerCameraOnCustomLocation(mMap, t.getLocation(), zoom);
+        addMarkerAtCustomLocation(mMap, t.getLocation(), t.getName(), true);
+    }
+
+    public void displayTrailOnMapAnimated(GoogleMap mMap, Trail t, float zoom) {
+        moveCameraAnimatedZoomToCustomLocation(mMap, t.getLocation(), zoom);
+        addMarkerAtCustomLocation(mMap, t.getLocation(), t.getName(), true);
+    }
+
+    //Launches a new system activity to get directions from startCoords to endCoords
+    //Typically with Google Maps/Navigation but user has choice if they haven't selected a default
+    public void getDirectionsFromCoords(Context context, Double latStart, Double lngStart, Double latEnd, Double lngEnd) {
+        String uri = "http://maps.google.com/maps?saddr=" + latStart + "," + lngStart + "&daddr=" + latEnd + "," + lngEnd;
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        context.startActivity(intent);
+    }
+
+    //Launches a new system activity to get directions from locStart to locEnd
+    //Typically with Google Maps/Navigation but user has choice if they haven't selected a default
+    public void getDirectionsFromCustomLocations(Context context, csc_380_project.scarlettrails.Location customLocStart, csc_380_project.scarlettrails.Location customLocEnd) {
+        String uri = "http://maps.google.com/maps?saddr=" + customLocStart.getLatitude() + "," + customLocStart.getLongitude() + "&daddr=" + customLocEnd.getLatitude() + "," + customLocEnd.getLongitude();
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        context.startActivity(intent);
+    }
+
+    //Launches a new system activity to get directions from locStart to locEnd
+    //Typically with Google Maps/Navigation but user has choice if they haven't selected a default
+    public void getDirectionsFromGoogleLocations(Context context, Location locStart, Location locEnd) {
+        String uri = "http://maps.google.com/maps?saddr=" + locStart.getLatitude() + "," + locStart.getLongitude() + "&daddr=" + locEnd.getLatitude() + "," + locEnd.getLongitude();
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        context.startActivity(intent);
+    }
+
+    //Center map on Google Location object
+    //Lat and Lng must be bounded between
+    //latitude < -90 || latitude > 90
+    //longitude < -180.0 || longitude > 180.0
+    public void centerCameraOnGoogleLocation(GoogleMap mMap, Location l, float zoom) {
         checkMapExists(mMap);
         LatLng tempLatLng = new LatLng(l.getLatitude(),l.getLongitude());
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng,f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng, zoom));
     }
 
-    public void moveCamera(GoogleMap mMap, csc_380_project.scarlettrails.Location l, float f) {
-        checkMapExists(mMap);
-        LatLng tempLatLng = new LatLng(l.getLatitude(), l.getLongitude());
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng,f));
+    //Center map on custom Location object
+    //Lat and Lng must be bounded between
+    //latitude < -90 || latitude > 90
+    //longitude < -180.0 || longitude > 180.0
+    public void centerCameraOnCustomLocation(GoogleMap mMap, csc_380_project.scarlettrails.Location customLoc, float zoom) {
+        LatLng tempLatLng = new LatLng(customLoc.getLatitude(), customLoc.getLongitude());
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng, zoom));
     }
 
-    public void moveCamera(GoogleMap mMap, Double lat, Double lon, float f) {
-        checkMapExists(mMap);
+    //Center map on a coordinate pair (Lat, Lng)
+    //Lat and Lng must be bounded between
+    //latitude < -90 || latitude > 90
+    //longitude < -180.0 || longitude > 180.0
+    public void centerCameraOnCoords(GoogleMap mMap, Double lat, Double lon, float zoom) {
         LatLng tempLatLng = new LatLng(lat,lon);
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng,f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng, zoom));
     }
-
 
     //Move the camera view of the google map to a certain Location
     //Call this method when the change in distance is small i.e. from one part of Oswego county to another
-    public void moveCameraAnimated(GoogleMap mMap, Location l) {
-        checkMapExists(mMap);
+    public void moveCameraAnimatedToGoogleLocation(GoogleMap mMap, Location l) {
         LatLng tempLatLng = new LatLng(l.getLatitude(),l.getLongitude());
+        //A duration value can also be passed to determine how long the animation should take; see android documentation
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(tempLatLng));
+    }
+
+    //Move the camera view of the google map to a certain Location
+    //Call this method when the change in distance is small i.e. from one part of Oswego county to another
+    public void moveCameraAnimatedToCustomLocation(GoogleMap mMap, csc_380_project.scarlettrails.Location customLoc) {
+        LatLng tempLatLng = new LatLng(customLoc.getLatitude(),customLoc.getLongitude());
         //A duration value can also be passed to determine how long the animation should take; see android documentation
         mMap.animateCamera(CameraUpdateFactory.newLatLng(tempLatLng));
     }
@@ -139,25 +228,46 @@ public class LocationWrapper {
     //Move the camera view of the google map to a certain Location at a specified Zoom level
     //Call this method when the change in distance is small i.e. from one part of Oswego county to another
     //Specify a zoom level to be used - static constants have been declared for your use
-    public void moveCameraAnimatedZoom(GoogleMap mMap, Location l, float f) {
-        checkMapExists(mMap);
+    public void moveCameraAnimatedZoomToGoogleLocation(GoogleMap mMap, Location l, float zoom) {
         LatLng tempLatLng = new LatLng(l.getLatitude(),l.getLongitude());
         //A duration value can also be passed to determine how long the animation should take; see android documentation
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng, f));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng, zoom));
+    }
+
+    //Move the camera view of the google map to a certain Location at a specified Zoom level
+    //Call this method when the change in distance is small i.e. from one part of Oswego county to another
+    //Specify a zoom level to be used - static constants have been declared for your use
+    public void moveCameraAnimatedZoomToCustomLocation(GoogleMap mMap, csc_380_project.scarlettrails.Location customLoc, float zoom) {
+        LatLng tempLatLng = new LatLng(customLoc.getLatitude(), customLoc.getLongitude());
+        //A duration value can also be passed to determine how long the animation should take; see android documentation
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng, zoom));
     }
 
     //Relevant examples/documentation
     //https://developers.google.com/maps/documentation/android/marker
-    public void addMarker(GoogleMap mMap, Location l, String title) {
-        checkMapExists(mMap);
+    public void addMarkerAtGoogleLocation(GoogleMap mMap, Location l, String title, boolean showTitleByDefault) {
         LatLng currentMarkerLatLng = new LatLng(l.getLatitude(), l.getLongitude());
-        if (!title.equals("") || title == null)
+        if (!title.equals(""))
             mMap.addMarker(new MarkerOptions().position(currentMarkerLatLng).title(title));
         else
             mMap.addMarker(new MarkerOptions().position(currentMarkerLatLng));
     }
 
-    public String[] getAddressFromLocation(Geocoder geocoder, Location l) {
+    public void addMarkerAtCustomLocation(GoogleMap mMap, csc_380_project.scarlettrails.Location customLoc, String title, boolean showTitleByDefault) {
+        LatLng currentMarkerLatLng = new LatLng(customLoc.getLatitude(), customLoc.getLongitude());
+        if (!title.equals(""))
+            if (showTitleByDefault)
+                mMap.addMarker(new MarkerOptions().position(currentMarkerLatLng).title(title)).showInfoWindow();
+            else
+                mMap.addMarker(new MarkerOptions().position(currentMarkerLatLng).title(title));
+        else
+            if (showTitleByDefault)
+                mMap.addMarker(new MarkerOptions().position(currentMarkerLatLng)).showInfoWindow();
+            else
+                mMap.addMarker(new MarkerOptions().position(currentMarkerLatLng));
+    }
+
+    public String[] getAddressFromLocationGoogleLocation(Geocoder geocoder, Location l) {
         String[] addressArray = new String[5];
         String streetAddress;
         String postalCode;
@@ -205,14 +315,18 @@ public class LocationWrapper {
     }
 
     //Returns distance from start to destination
-    public float getDistanceTo(Location origin, Location destination) {
+    public float getDistanceToGoogleLocation(Location origin, Location destination) {
         return origin.distanceTo(destination);
     }
 
-    public void displayDirectionsOnMap(Location origin, Location destination, GoogleMap map) {
+    //TODO
+    //From GoogleDirectionAndPlace (GDAP) library
+    public void displayDirectionsOnMapWithGoogleLocations(Location origin, Location destination, GoogleMap map) {
 
     }
 
+    //TODO
+    //Implement
     public void beginListeningForLocationUpdates(LocationClient mLocationClient) {
         //mLocationClient.requestLocationUpdates();
     }

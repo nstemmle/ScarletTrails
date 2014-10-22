@@ -1,13 +1,19 @@
 package csc_380_project.scarlettrails;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Geocoder;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.widget.SimpleCursorAdapter;
 
@@ -40,6 +46,7 @@ public class ActivityHome extends FragmentActivity implements ActionBar.OnNaviga
 
         mLocWrapper = LocationWrapper.getInstance();
         initializeMap();
+        mLocWrapper.checkLocationSettingsEnabled(getApplication());
         //ProgressBar progressBar = new ProgressBar(this);
         //progressBar.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         //progressBar.setIndeterminate(true);
@@ -70,13 +77,14 @@ public class ActivityHome extends FragmentActivity implements ActionBar.OnNaviga
 
     private void initializeNavigationBar() {
         ActionBar mActionBar = getActionBar();
+        assert mActionBar != null;
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
         navSpinner = new ArrayList<SpinnerNavItem>();
         //This is how you enter new navigation items. Please use the format provided on next line.
         navSpinner.add(new SpinnerNavItem("Home"));
         navSpinner.add(new SpinnerNavItem("Trail"));
-        mAdapter = new NavAdapter(getApplicationContext(), navSpinner);
+        mAdapter = new NavAdapter(getApplication(), navSpinner);
 
         mActionBar.setListNavigationCallbacks(mAdapter, this);
         mActionBar.setDisplayShowTitleEnabled(false);
@@ -99,12 +107,27 @@ public class ActivityHome extends FragmentActivity implements ActionBar.OnNaviga
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         // Switch to be implemented here depending on which item is selected
        if (itemPosition == 1) {
-           Intent intent = new Intent(getApplicationContext(), ActivityTrail.class);
-           //if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null)
+           Intent intent = new Intent(getApplication(), ActivityTrail.class);
            startActivity(intent);
            return true;
            }
         return false;
+    }
+
+    /*public void getDirections(Double latStart, Double lngStart, Double latEnd, Double lngEnd) {
+        String uri = "http://maps.google.com/maps?saddr=" + latStart + "," + lngStart + "&daddr=" + latEnd + "," + lngEnd;
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        startActivity(intent);
+    }*/
+
+
+    public void buttonLaunchNavigationClick(View view) {
+        //This line prompts user to open Location Settings
+        //mLocWrapper.openLocationSettings(ActivityHome.this);
+
+        //Start from Oswego County and go to Great Bear Recreation Area
+        //getDirections(LocationWrapper.OSWEGO_COUNTY.latitude, LocationWrapper.OSWEGO_COUNTY.longitude, 43.26589,-76.351958);
+        mLocWrapper.getDirectionsFromCoords(ActivityHome.this, LocationWrapper.OSWEGO_COUNTY.latitude, LocationWrapper.OSWEGO_COUNTY.longitude, 43.26589, -76.351958);
     }
 
     /*@Override
