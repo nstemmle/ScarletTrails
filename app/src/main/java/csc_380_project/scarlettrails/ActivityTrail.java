@@ -68,6 +68,7 @@ public class ActivityTrail extends FragmentActivity implements ActionBar.OnNavig
         //This is how you enter new navigation items. Please use the format provided on next line.
         navSpinner.add(new SpinnerNavItem("Trail"));
         navSpinner.add(new SpinnerNavItem("Home"));
+        navSpinner.add(new SpinnerNavItem("Profile"));
         mAdapter = new NavAdapter(getApplicationContext(), navSpinner);
 
         mActionBar.setListNavigationCallbacks(mAdapter, this);
@@ -97,6 +98,13 @@ public class ActivityTrail extends FragmentActivity implements ActionBar.OnNavig
             startActivity(intent);
             return true;
         }
+        else
+            if (itemPosition == 2) {
+                Intent intent = new Intent(getApplicationContext(), ActivityProfile.class);
+                //if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null)
+                startActivity(intent);
+                return true;
+            }
         return false;
     }
 
