@@ -6,7 +6,20 @@
 
     <!--ids for activity_home.xml-->
     <item name="home_fragment_map" type="id"/>
+    <item name="profile_fragment_map" type="id"/>
     <item name="home_textview_trailtitle" type="id"/>
     <item name="home_imgview_trail_pic" type="id"/>
+
+    <!--ides for signup.xml -->
+    <item name="profilePicture" type="id"/>
+    <item name="selectImage" type="id"/>
+    <item name="fnameField" type="id"/>
+    <item name="lnameField" type="id"/>
+    <item name="emailField" type="id"/>
+    <item name="usernameField" type="id"/>
+    <item name="passwordField" type="id"/>
+    <item name="confirmpasswordField" type="id"/>
+    <item name="dobField" type="id"/>
+    <item name="signinbutton" type="id"/>
 
 </resources>

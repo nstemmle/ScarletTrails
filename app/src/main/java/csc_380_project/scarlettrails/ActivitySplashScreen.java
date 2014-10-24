@@ -14,7 +14,7 @@ public class ActivitySplashScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         //setTheme(R.style.SplashTheme);
-        Intent intent = new Intent(getApplicationContext(), ActivityHome.class);
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
 
     }

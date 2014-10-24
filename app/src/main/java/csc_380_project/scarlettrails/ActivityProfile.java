@@ -46,7 +46,7 @@ public class ActivityProfile extends FragmentActivity implements ActionBar.OnNav
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.test, menu);
+        getMenuInflater().inflate(R.menu.action_bar_menu, menu);
         return true;
     }
 
@@ -56,7 +56,7 @@ public class ActivityProfile extends FragmentActivity implements ActionBar.OnNav
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.actionbar_settings) {
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -78,7 +78,7 @@ public class ActivityProfile extends FragmentActivity implements ActionBar.OnNav
 
     private void initializeMap() {
         if (mMap == null) {
-            mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.trailMapFragment)).getMap();
+            mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.profile_fragment_map)).getMap();
         }
 
         //Check to see if successful
@@ -88,7 +88,7 @@ public class ActivityProfile extends FragmentActivity implements ActionBar.OnNav
         //Later replace with something that returns map to state it was previously in
         mLocWrapper.setUpMapWithDefaults(mMap);
         Location greatBearRecreationArea = new Location(43.26589,-76.351958);
-        mLocWrapper.moveCamera(mMap, greatBearRecreationArea, LocationWrapper.TRAIL_ZOOM);
+        mLocWrapper.centerCameraOnCustomLocation(mMap, greatBearRecreationArea, LocationWrapper.TRAIL_ZOOM);
     }
 
     @Override

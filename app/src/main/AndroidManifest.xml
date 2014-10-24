@@ -20,10 +20,11 @@
             </intent-filter>
 
         </activity>
-        
+
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main" >
+            android:name=".LoginActivity"
+            android:label="Login">
+            <!--android:parentActivityName=".MainActivity"-->
         </activity>
 
         <activity
@@ -40,6 +41,12 @@
         <activity
             android:name=".ActivityMap"
             android:label="@string/title_activity_map">
+            <!--android:parentActivityName=".MainActivity"-->
+        </activity>
+
+        <activity
+            android:name=".ActivityProfile"
+            android:label="Profile">
             <!--android:parentActivityName=".MainActivity"-->
         </activity>
 

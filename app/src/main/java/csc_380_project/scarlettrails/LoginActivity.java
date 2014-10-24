@@ -37,9 +37,6 @@ public class LoginActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-        getActionBar().hide();
-        setContentView(R.layout.splash_screen);
         //Here is where everything is loaded for the app
         setContentView(R.layout.signin);
 
@@ -103,8 +100,8 @@ public class LoginActivity extends Activity {
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(),
                         RegisterActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
-                finish();
             }
         });
     }
@@ -112,7 +109,7 @@ public class LoginActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.test, menu);
+        getMenuInflater().inflate(R.menu.action_bar_menu, menu);
         return true;
     }
 
@@ -122,7 +119,7 @@ public class LoginActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.actionbar_settings) {
             return true;
         }
         return super.onOptionsItemSelected(item);
