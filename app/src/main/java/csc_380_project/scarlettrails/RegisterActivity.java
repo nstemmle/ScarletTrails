@@ -19,9 +19,16 @@ public class RegisterActivity extends Activity {
     EditText inputEmail;
     EditText inputUsername;
     EditText inputPassword;
+    EditText inputPassConf;
     TextView registerErrorMsg;
 
     // JSON Response node names
+    private static String USER_ID = "user_id";
+    private static String FIRST_NAME = "first_name";
+    private static String LAST_NAME = "last_name";
+    private static String EMAIL = "email";
+    private static String DOB = "dob";
+    private static String USERNAME = "username";
     private static String KEY_SUCCESS = "success";
     private static String KEY_ERROR = "error";
     private static String KEY_ERROR_MSG = "error_msg";
@@ -38,6 +45,7 @@ public class RegisterActivity extends Activity {
         inputDob = (EditText) findViewById(R.id.dobField);
         inputUsername = (EditText) findViewById(R.id.usernameField);
         inputPassword = (EditText) findViewById(R.id.passwordField);
+        inputPassConf = (EditText) findViewById(R.id.confirmpasswordField);
         btnRegister = (Button) findViewById(R.id.signinbutton);
 
         // Register Button Click event
@@ -49,15 +57,28 @@ public class RegisterActivity extends Activity {
                 String dob = inputDob.getText().toString();
                 String username = inputUsername.getText().toString();
                 String password = inputPassword.getText().toString();
-                UserFunctions userFunction = new UserFunctions();
-                JSONObject json = userFunction.registerUser(first_name, last_name, email, dob, username, password);
+                String passwordConf = inputPassword.getText().toString();
 
+                JSONObject json = new JSONObject();
+
+                if (password.equals(passwordConf)) {
+                    UserFunctions userFunction = new UserFunctions();
+                    json = userFunction.registerUser(first_name, last_name, email, dob, username, password);
+                }
                 // check for login response
                 try {
                     if (json.getString(KEY_SUCCESS) != null) {
-                        registerErrorMsg.setText("");
                         String res = json.getString(KEY_SUCCESS);
                         if(Integer.parseInt(res) == 1){
+
+                            JSONObject json_user = json.getJSONObject("user");
+                            Profile profile = new Profile(json.getString(USER_ID),
+                                    json_user.getString(FIRST_NAME),
+                                    json_user.getString(LAST_NAME),
+                                    json_user.getString(EMAIL),
+                                    json_user.getString(DOB),
+                                    json_user.getString(USERNAME));
+
                             // user successfully registred
                             // Launch Dashboard Screen
                             Intent dashboard = new Intent(getApplicationContext(), ActivityHome.class);
@@ -68,7 +89,7 @@ public class RegisterActivity extends Activity {
                             finish();
                         }else{
                             // Error in registration
-                            registerErrorMsg.setText("Error occurred in registration");
+                            registerErrorMsg.setText("Error occurred in registration.");
                         }
                     }
                 } catch (JSONException e) {
