@@ -57,7 +57,7 @@ public class RegisterActivity extends Activity {
                 String dob = inputDob.getText().toString();
                 String username = inputUsername.getText().toString();
                 String password = inputPassword.getText().toString();
-                String passwordConf = inputPassword.getText().toString();
+                String passwordConf = inputPassConf.getText().toString();
 
                 JSONObject json = new JSONObject();
 
@@ -91,6 +91,8 @@ public class RegisterActivity extends Activity {
                             // Error in registration
                             registerErrorMsg.setText("Error occurred in registration.");
                         }
+                    } else {
+                        registerErrorMsg.setText("Error occurred in registration.");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
