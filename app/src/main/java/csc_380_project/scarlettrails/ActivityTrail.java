@@ -152,6 +152,22 @@ public class ActivityTrail extends FragmentActivity implements ActionBar.OnNavig
 
         //Trail pet friendly
         ((TextView)findViewById(R.id.trail_textview_petfriendly_value)).setText(t.isPetFriendly() ? "Yes" : "No");
+        
+        //Trail temp max
+        ((TextView)findViewById(R.id.trail_textview_tempmax_value)).setText(String.valueOf(t.getForecast().getTempMax()) + "°F");
+
+        //Trail temp min
+        ((TextView)findViewById(R.id.trail_textview_tempmin_value)).setText(String.valueOf(t.getForecast().getTempMin()) + "°F");
+
+        //Trail precipitation
+        ((TextView)findViewById(R.id.trail_textview_precipitation_value)).setText(String.valueOf(t.getForecast().getPrecipitation()) + "%");
+
+        //Trail sunrise
+        ((TextView)findViewById(R.id.trail_textview_sunrise_value)).setText(String.valueOf(t.getForecast().getSunrise()));
+
+        //Trail sunset
+        ((TextView)findViewById(R.id.trail_textview_sunset_value)).setText(String.valueOf(t.getForecast().getSunset()));
+
 
         //Trail image
         //((ImageView)findViewById(R.id.trailImgViewTrail)).setImageURI();
