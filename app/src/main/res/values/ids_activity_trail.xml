@@ -37,6 +37,29 @@
     <item name="trail_relativelayout_petfriendly" type="id"/>
     <item name="trail_textview_petfriendly_label" type="id"/>
     <item name="trail_textview_petfriendly_value" type="id"/>
+    
+        <item name="trail_relativelayout_weather" type="id"/>
+    <item name="trail_textview_weather_label" type="id"/>
+
+    <item name="trail_relativelayout_tempmax" type="id"/>
+    <item name="trail_textview_tempmax_label" type="id"/>
+    <item name="trail_textview_tempmax_value" type="id"/>
+
+    <item name="trail_relativelayout_tempmin" type="id"/>
+    <item name="trail_textview_tempmin_label" type="id"/>
+    <item name="trail_textview_tempmin_value" type="id"/>
+
+    <item name="trail_relativelayout_precipitation" type="id"/>
+    <item name="trail_textview_precipitation_label" type="id"/>
+    <item name="trail_textview_precipitation_value" type="id"/>
+
+    <item name="trail_relativelayout_sunrise" type="id"/>
+    <item name="trail_textview_sunrise_label" type="id"/>
+    <item name="trail_textview_sunrise_value" type="id"/>
+
+    <item name="trail_relativelayout_sunset" type="id"/>
+    <item name="trail_textview_sunset_label" type="id"/>
+    <item name="trail_textview_sunset_value" type="id"/>
 
     <item name="trail_gridview_thumbnails" type="id"/>
 </resources>
