@@ -30,6 +30,28 @@
     <string name="trail_textview_petfriendly_label">Pet Friendly: </string>
     <!--Placeholder String - won't need in end-->
     <string name="trail_textview_petfriendly_value">Yes</string>
+    
+    <string name="trail_textview_weather_label">Weather Today:  </string>
+
+    <string name="trail_textview_tempmin_label">Min Temp: </string>
+    <!--Placeholder String - won't need in end-->
+    <string name="trail_textview_tempmin_value">58°F</string>
+
+    <string name="trail_textview_tempmax_label">Max Temp: </string>
+    <!--Placeholder String - won't need in end-->
+    <string name="trail_textview_tempmax_value">70°F</string>
+
+    <string name="trail_textview_precipitation_label">Precipitation: </string>
+    <!--Placeholder String - won't need in end-->
+    <string name="trail_textview_precipitation_value">25%</string>
+
+    <string name="trail_textview_sunrise_label">Sunrise: </string>
+    <!--Placeholder String - won't need in end-->
+    <string name="trail_textview_sunrise_value">7:34 am</string>
+
+    <string name="trail_textview_sunset_label">Sunset: </string>
+    <!--Placeholder String - won't need in end-->
+    <string name="trail_textview_sunset_value">6:06 pm</string>
 
     <!--Sample Trail Title-->
     <string name="sample_trail_name">Great Bear Springs Recreation Area</string>
