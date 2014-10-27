@@ -21,5 +21,7 @@
     <item name="confirmpasswordField" type="id"/>
     <item name="dobField" type="id"/>
     <item name="signinbutton" type="id"/>
+    <item name="emailFieldFP" type="id"/>
+    <item name="resetPasswordBtn" type="id"/>
 
 </resources>

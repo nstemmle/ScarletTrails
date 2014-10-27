@@ -55,6 +55,10 @@
             android:label="Register User" >
         </activity>
 
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:label="Forgot Password" >
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"

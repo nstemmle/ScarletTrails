@@ -19,6 +19,7 @@ import csc_380_project.scarlettrails.ActivityHome;
 public class LoginActivity extends Activity {
     Button btnLogin;
     Button btnLinkToRegister;
+    Button btnForgotPassword;
     EditText inputUsername;
     EditText inputPassword;
     TextView loginErrorMsg;
@@ -45,6 +46,7 @@ public class LoginActivity extends Activity {
         inputPassword = (EditText) findViewById(R.id.password);
         btnLogin = (Button) findViewById(R.id.signinbutton);
         btnLinkToRegister = (Button) findViewById(R.id.register);
+        btnForgotPassword = (Button) findViewById(R.id.forgotpassword);
         loginErrorMsg = (TextView) findViewById(R.id.login_error);
 
         // Login button Click Event
@@ -100,6 +102,16 @@ public class LoginActivity extends Activity {
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(),
                         RegisterActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+            }
+        });
+
+        btnForgotPassword.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(),
+                        ForgotPasswordActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
             }
