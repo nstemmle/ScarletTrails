@@ -30,7 +30,6 @@ public class RegisterActivity extends Activity {
     private static String DOB = "dob";
     private static String USERNAME = "username";
     private static String KEY_SUCCESS = "success";
-    private static String KEY_ERROR = "error";
     private static String KEY_ERROR_MSG = "error_msg";
 
     @Override
@@ -47,6 +46,7 @@ public class RegisterActivity extends Activity {
         inputPassword = (EditText) findViewById(R.id.passwordField);
         inputPassConf = (EditText) findViewById(R.id.confirmpasswordField);
         btnRegister = (Button) findViewById(R.id.signinbutton);
+        registerErrorMsg = (TextView) findViewById(R.id.registerErrorMsg);
 
         // Register Button Click event
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -89,10 +89,10 @@ public class RegisterActivity extends Activity {
                             finish();
                         }else{
                             // Error in registration
-                            registerErrorMsg.setText("Error occurred in registration.");
+                            registerErrorMsg.setText(json.getString(KEY_ERROR_MSG));
                         }
                     } else {
-                        registerErrorMsg.setText("Error occurred in registration.");
+                        registerErrorMsg.setText(json.getString(KEY_ERROR_MSG));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

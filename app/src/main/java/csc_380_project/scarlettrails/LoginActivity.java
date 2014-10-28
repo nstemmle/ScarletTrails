@@ -32,7 +32,6 @@ public class LoginActivity extends Activity {
     private static String EMAIL = "email";
     private static String DOB = "dob";
     private static String USERNAME = "username";
-    private static String KEY_ERROR = "error";
     private static String KEY_ERROR_MSG = "error_msg";
 
     @Override
@@ -82,13 +81,13 @@ public class LoginActivity extends Activity {
 
                             // Close Login Screen
                             finish();
-                        }else{
+                        } else {
                             // Error in login
-                            loginErrorMsg.setText("Incorrect username/password");
+                            loginErrorMsg.setText(json.getString(KEY_ERROR_MSG));
                         }
                     } else {
                         // Error in login
-                        loginErrorMsg.setText("Incorrect username/password");
+                        loginErrorMsg.setText(json.getString(KEY_ERROR_MSG));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
