@@ -40,7 +40,7 @@ class Trail implements DatabaseInterface {
     private Forecast mForecast;
 
     Trail(int trailId, String name, Double distance, Double elevation, String duration, String difficulty,
-                 Location mLocation, String gear, String trailConditions, boolean petFriendly, Forecast mForecast) {
+                 Location mLocation, String gear, String trailConditions, boolean petFriendly) {
         this.trailId = trailId;
         this.name = name;
         this.distance = distance;
@@ -51,7 +51,6 @@ class Trail implements DatabaseInterface {
         this.gear = gear;
         this.trailConditions = trailConditions;
         this.petFriendly = petFriendly;
-        this.mForecast = mForecast;
 
         //Random rating for now
         Random r = new Random();
