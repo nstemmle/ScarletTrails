@@ -108,6 +108,10 @@ class Trail implements DatabaseInterface {
     public void setRating(Double d) {
         this.rating = d;
     }
+    
+    public void setForecast(Forecast f){
+        this.mForecast = f;
+    }
 
     //Creates a comparator object that can be used to sort a collection of trails (TrailCollection) by the specified criteria
     //e.g. Collections.Sort(TrailCollectionInstance, Trail.getTrailIdComparator());
