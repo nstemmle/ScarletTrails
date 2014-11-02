@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="forecast_textview_firstday_day">Monday</string>
+    <string name="forecast_textview_firstday_percipitation">80%</string>
+    <string name="forecast_textview_firstday_maxtemp">70°F</string>
+    <string name="forecast_textview_firstday_mintemp">58°F</string>
+
+    <string name="forecast_textview_secondday_day">Tuesday</string>
+    <string name="forecast_textview_secondday_percipitation">60%</string>
+    <string name="forecast_textview_secondday_maxtemp">73°F</string>
+    <string name="forecast_textview_secondday_mintemp">54°F</string>
+
+    <string name="forecast_textview_thirdday_day">Wednesday</string>
+    <string name="forecast_textview_thirdday_percipitation">75%</string>
+    <string name="forecast_textview_thirdday_maxtemp">75°F</string>
+    <string name="forecast_textview_thirdday_mintemp">52°F</string>
+
+    <string name="forecast_textview_fourthday_day">Thursday</string>
+    <string name="forecast_textview_fourthday_percipitation">0%</string>
+    <string name="forecast_textview_fourthday_maxtemp">65°F</string>
+    <string name="forecast_textview_fourthday_mintemp">48°F</string>
+
+    <string name="forecast_textview_fifthday_day">Friday</string>
+    <string name="forecast_textview_fifthday_percipitation">30%</string>
+    <string name="forecast_textview_fifthday_maxtemp">62°F</string>
+    <string name="forecast_textview_fifthday_mintemp">50°F</string>
+</resources>
