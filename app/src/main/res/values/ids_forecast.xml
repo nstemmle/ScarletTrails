@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="layout_linear_forecast" type="id"/>
+
+    <item name="forecast_relativelayout_firstday" type ="id"/>
+    <item name="forecast_textview_firstday_day" type="id"/>
+    <item name="forecast_imgview_firstday_clouds" type="id"/>
+    <item name="forecast_textview_firstday_percipitation" type="id"/>
+    <item name="forecast_textview_firstday_maxtemp" type="id"/>
+    <item name="forecast_textview_firstday_mintemp" type="id"/>
+
+    <item name="forecast_relativelayout_secondday" type ="id"/>
+    <item name="forecast_textview_secondday_day" type="id"/>
+    <item name="forecast_imgview_secondday_clouds" type="id"/>
+    <item name="forecast_textview_secondday_percipitation" type="id"/>
+    <item name="forecast_textview_secondday_maxtemp" type="id"/>
+    <item name="forecast_textview_secondday_mintemp" type="id"/>
+
+    <item name="forecast_relativelayout_thirdday" type ="id"/>
+    <item name="forecast_textview_thirdday_day" type="id"/>
+    <item name="forecast_imgview_thirdday_clouds" type="id"/>
+    <item name="forecast_textview_thirdday_percipitation" type="id"/>
+    <item name="forecast_textview_thirdday_maxtemp" type="id"/>
+    <item name="forecast_textview_thirdday_mintemp" type="id"/>
+
+    <item name="forecast_relativelayout_fourthday" type ="id"/>
+    <item name="forecast_textview_fourthday_day" type="id"/>
+    <item name="forecast_imgview_fourthday_clouds" type="id"/>
+    <item name="forecast_textview_fourthday_percipitation" type="id"/>
+    <item name="forecast_textview_fourthday_maxtemp" type="id"/>
+    <item name="forecast_textview_fourthday_mintemp" type="id"/>
+
+    <item name="forecast_relativelayout_fifthday" type ="id"/>
+    <item name="forecast_textview_fifthday_day" type="id"/>
+    <item name="forecast_imgview_fifthday_clouds" type="id"/>
+    <item name="forecast_textview_fifthday_percipitation" type="id"/>
+    <item name="forecast_textview_fifthday_maxtemp" type="id"/>
+    <item name="forecast_textview_fifthday_mintemp" type="id"/>
+</resources>
