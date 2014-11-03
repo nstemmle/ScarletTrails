@@ -60,7 +60,7 @@ public class ActivityForecast extends FragmentActivity implements ActionBar.OnNa
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
         navSpinner = new ArrayList<SpinnerNavItem>();
-        //This is how you enter new navigation items. Please use the format provided on next line.
+
         navSpinner.add(new SpinnerNavItem("Trail"));
         navSpinner.add(new SpinnerNavItem("Home"));
         mAdapter = new NavAdapter(getApplicationContext(), navSpinner);
@@ -72,7 +72,6 @@ public class ActivityForecast extends FragmentActivity implements ActionBar.OnNa
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         if (itemPosition == 1) {
             Intent intent = new Intent(getApplicationContext(), ActivityHome.class);
-            //if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null)
             startActivity(intent);
             return true;
         }
@@ -88,7 +87,7 @@ public class ActivityForecast extends FragmentActivity implements ActionBar.OnNa
             ((TextView)findViewById(R.id.forecast_textview_firstday_percipitation)).setText(a.getPrecipitation() + "%");
 
             //clouds
-            ((ImageView)findViewById(R.id.forecast_imgview_firstday_clouds)).setBackgroundDrawable(cloudSelector(a.getClouds()));
+            //((ImageView)findViewById(R.id.forecast_imgview_firstday_clouds)).setBackgroundDrawable(cloudSelector(a.getClouds()));
 
             //maxtemp
             ((TextView)findViewById(R.id.forecast_textview_firstday_maxtemp)).setText(a.getTempMax() + "°F");
@@ -105,7 +104,7 @@ public class ActivityForecast extends FragmentActivity implements ActionBar.OnNa
         //fifth day
     }
 
-   public Drawable cloudSelector(int cloudPercent){
+   /*public Drawable cloudSelector(int cloudPercent){
        if (cloudPercent <= 30){
            return getResources().getDrawable(R.drawable.sunny);
        } else if (31 <= cloudPercent && cloudPercent <= 70){
@@ -113,5 +112,5 @@ public class ActivityForecast extends FragmentActivity implements ActionBar.OnNa
        } else {
            return getResources().getDrawable(R.drawable.cloudy);
        }
-   }
+   }*/
 }

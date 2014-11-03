@@ -16,14 +16,17 @@ public class ActivitySplashScreen extends Activity {
         //setTheme(R.style.SplashTheme);
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
-
     }
 
+    @Override
     protected void onStop() {
         super.onStop();
+        this.finish();
     }
 
-    protected void onRestart() {
-        super.onRestart();
+    @Override
+    protected void onPause() {
+        super.onPause();
+        this.finish();
     }
 }

@@ -84,5 +84,18 @@
         android:layout_below="@+id/signinbutton"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:textColor="#FFFFFF"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:textSize="10pt"
+        android:background="#000000"
+        android:text="Skip"
+        android:id="@+id/skip"
+        android:layout_below="@+id/register"
+        android:layout_centerHorizontal="true"
+        android:alpha="1.0"/>
+
 </RelativeLayout>
 

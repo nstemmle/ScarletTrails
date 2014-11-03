@@ -20,6 +20,7 @@ public class LoginActivity extends Activity {
     Button btnLogin;
     Button btnLinkToRegister;
     Button btnForgotPassword;
+    Button btnSkip;
     EditText inputUsername;
     EditText inputPassword;
     TextView loginErrorMsg;
@@ -47,6 +48,7 @@ public class LoginActivity extends Activity {
         btnLinkToRegister = (Button) findViewById(R.id.register);
         btnForgotPassword = (Button) findViewById(R.id.forgotpassword);
         loginErrorMsg = (TextView) findViewById(R.id.login_error);
+        btnSkip = (Button) findViewById(R.id.skip);
 
         // Login button Click Event
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -112,6 +114,14 @@ public class LoginActivity extends Activity {
                 Intent i = new Intent(getApplicationContext(),
                         ForgotPasswordActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+            }
+        });
+
+        btnSkip.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(),
+                        ActivityHome.class);
                 startActivity(i);
             }
         });

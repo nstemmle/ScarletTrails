@@ -8,10 +8,11 @@
     android:id="@id/layout_linear_forecast">
 
 
+    <!--android:background="@drawable/border"-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@drawable/border"
+
         android:layout_weight="0.20">
 
         <TextView style="@style/TextWhiteStyle"
@@ -23,13 +24,13 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:alpha="1.0"
             android:text="@string/forecast_textview_firstday_day"/>
+        <!--android:background="@drawable/cloudy"-->
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@id/forecast_imgview_firstday_clouds"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/cloudy" />
+            android:layout_centerHorizontal="true"/>
         <TextView style="@style/TextWhiteStyle"
             android:id="@id/forecast_textview_firstday_percipitation"
             android:layout_width="wrap_content"
@@ -60,10 +61,10 @@
             android:alpha="1.0"
             android:text="@string/forecast_textview_firstday_maxtemp"/>
     </RelativeLayout>
+    <!--android:background="@drawable/border"-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@drawable/border"
         android:layout_weight="0.20">
         <TextView style="@style/TextWhiteStyle"
             android:id="@id/forecast_textview_secondday_day"
@@ -74,13 +75,13 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:alpha="1.0"
             android:text="@string/forecast_textview_secondday_day"/>
+        <!--android:background="@drawable/partlycloudy"-->
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@id/forecast_imgview_secondday_clouds"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/partlycloudy" />
+            android:layout_centerHorizontal="true"/>
         <TextView style="@style/TextWhiteStyle"
             android:id="@id/forecast_textview_secondday_percipitation"
             android:layout_width="wrap_content"
@@ -112,10 +113,10 @@
             android:text="@string/forecast_textview_secondday_maxtemp"/>
 
     </RelativeLayout>
+    <!--android:background="@drawable/border"-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@drawable/border"
         android:layout_weight="0.20">
         <TextView style="@style/TextWhiteStyle"
             android:id="@id/forecast_textview_thirdday_day"
@@ -126,13 +127,14 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:alpha="1.0"
             android:text="@string/forecast_textview_thirdday_day"/>
+        <!--android:background="@drawable/cloudy" -->
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@id/forecast_imgview_thirdday_clouds"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/cloudy" />
+            />
         <TextView style="@style/TextWhiteStyle"
             android:id="@id/forecast_textview_thirdday_percipitation"
             android:layout_width="wrap_content"
@@ -164,10 +166,10 @@
             android:text="@string/forecast_textview_thirdday_maxtemp"/>
 
     </RelativeLayout>
+    <!--android:background="@drawable/border"-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@drawable/border"
         android:layout_weight="0.20">
         <TextView style="@style/TextWhiteStyle"
             android:id="@id/forecast_textview_fourthday_day"
@@ -178,13 +180,13 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:alpha="1.0"
             android:text="@string/forecast_textview_fourthday_day"/>
+        <!--android:background="@drawable/sunny" -->
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@id/forecast_imgview_fourthday_clouds"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/sunny" />
+            android:layout_centerHorizontal="true"/>
         <TextView style="@style/TextWhiteStyle"
             android:id="@id/forecast_textview_fourthday_percipitation"
             android:layout_width="wrap_content"
@@ -229,13 +231,13 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:alpha="1.0"
             android:text="@string/forecast_textview_fifthday_day"/>
+        <!--android:background="@drawable/partlycloudy" -->
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@id/forecast_imgview_fifthday_clouds"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/partlycloudy" />
+            android:layout_centerHorizontal="true"/>
         <TextView style="@style/TextWhiteStyle"
             android:id="@id/forecast_textview_fifthday_percipitation"
             android:layout_width="wrap_content"
@@ -265,6 +267,5 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:alpha="1.0"
             android:text="@string/forecast_textview_fifthday_maxtemp"/>
-
     </RelativeLayout>
 </LinearLayout>

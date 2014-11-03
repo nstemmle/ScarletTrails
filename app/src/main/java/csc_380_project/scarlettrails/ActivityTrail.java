@@ -20,8 +20,6 @@ import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 
-import java.util.ArrayList;
-
 /**
  * Created by Nathan on 10/20/2014.
  */
@@ -31,24 +29,21 @@ public class ActivityTrail extends FragmentActivity implements ActionBar.OnNavig
     private LocationClient mLocationClient;
     private LocationManager mLocationManager;
     private LocationWrapper mLocWrapper;
-    private NavAdapter mAdapter;
-    private ArrayList<SpinnerNavItem> navSpinner;
+    private Trail mTrail;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mTrail = getIntent().getParcelableExtra("trail");
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setTheme(R.style.AppTheme);
-        setContentView(R.layout.activity_trail);
+        setContentView(R.layout.trail_layout_new_test);
 
-        initializeNavigationBar();
+        //initializeNavigationBar();
 
         mLocWrapper = LocationWrapper.getInstance();
         initializeMap();
 
-        //Sample Trail
-        Trail tempTrail = new Trail(1,"Great Bear Recreation Area",2.3,300.0,Trail.DURATION_SHORT,Trail.DIFFICULTY_EASY,new Location(43.26589,-76.351958),"Normal","Dirt Trails",true);
-
-        populatePageWithTrailInfo(tempTrail);
+        populatePageWithTrailInfo();
 
        //GridView gridview = (GridView) findViewById(R.id.trailGridView);
        //Will implement sample pics later
@@ -74,22 +69,6 @@ public class ActivityTrail extends FragmentActivity implements ActionBar.OnNavig
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void initializeNavigationBar() {
-        ActionBar mActionBar = getActionBar();
-        assert mActionBar != null;
-        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-
-        navSpinner = new ArrayList<SpinnerNavItem>();
-        //This is how you enter new navigation items. Please use the format provided on next line.
-        navSpinner.add(new SpinnerNavItem("Trail"));
-        navSpinner.add(new SpinnerNavItem("Home"));
-        navSpinner.add(new SpinnerNavItem("Profile"));
-        mAdapter = new NavAdapter(getApplicationContext(), navSpinner);
-
-        mActionBar.setListNavigationCallbacks(mAdapter, this);
-        mActionBar.setDisplayShowTitleEnabled(false);
     }
 
     private void initializeMap() {
@@ -128,45 +107,45 @@ public class ActivityTrail extends FragmentActivity implements ActionBar.OnNavig
 
     }
 
-    public void populatePageWithTrailInfo(Trail t) {
+    public void populatePageWithTrailInfo() {
         //Trail Name
-        ((TextView)findViewById(R.id.trail_textview_trailname_value)).setText(t.getName());
+        ((TextView)findViewById(R.id.trail_textview_trailname_value)).setText(mTrail.getName());
 
         //Trail difficulty
-        ((TextView)findViewById(R.id.trail_textview_difficulty_value)).setText(t.getDifficulty());
+        ((TextView)findViewById(R.id.trail_textview_difficulty_value)).setText(mTrail.getDifficulty());
 
         //Trail distance
-        ((TextView)findViewById(R.id.trail_textview_distance_value)).setText(String.valueOf(t.getDistance()) + " mi");
+        ((TextView)findViewById(R.id.trail_textview_distance_value)).setText(String.valueOf(mTrail.getDistance()) + " mi");
 
         //Trail duration
-        ((TextView)findViewById(R.id.trail_textview_duration_value)).setText(t.getDuration());
+        ((TextView)findViewById(R.id.trail_textview_duration_value)).setText(mTrail.getDuration());
 
         //Trail elevation
-        ((TextView)findViewById(R.id.trailTxtViewElevationValue)).setText(String.valueOf(t.getElevation()) + " ft");
+        ((TextView)findViewById(R.id.trailTxtViewElevationValue)).setText(String.valueOf(mTrail.getElevation()) + " ft");
 
         //Trail gear
-        ((TextView)findViewById(R.id.trail_textview_gear_value)).setText(t.getGear());
+        ((TextView)findViewById(R.id.trail_textview_gear_value)).setText(mTrail.getGear());
 
         //Trail conditions
-        ((TextView)findViewById(R.id.trail_textview_conditions_value)).setText(t.getTrailConditions());
+        ((TextView)findViewById(R.id.trail_textview_conditions_value)).setText(mTrail.getTrailConditions());
 
         //Trail pet friendly
-        ((TextView)findViewById(R.id.trail_textview_petfriendly_value)).setText(t.isPetFriendly() ? "Yes" : "No");
+        ((TextView)findViewById(R.id.trail_textview_petfriendly_value)).setText(mTrail.isPetFriendly() ? "Yes" : "No");
         
         //Trail temp max
-        ((TextView)findViewById(R.id.trail_textview_tempmax_value)).setText(String.valueOf(t.getForecast().getTempMax()) + "°F");
+        //((TextView)findViewById(R.id.trail_textview_tempmax_value)).setText(String.valueOf(t.getForecast().getTempMax()) + "°F");
 
         //Trail temp min
-        ((TextView)findViewById(R.id.trail_textview_tempmin_value)).setText(String.valueOf(t.getForecast().getTempMin()) + "°F");
+        //((TextView)findViewById(R.id.trail_textview_tempmin_value)).setText(String.valueOf(t.getForecast().getTempMin()) + "°F");
 
         //Trail precipitation
-        ((TextView)findViewById(R.id.trail_textview_precipitation_value)).setText(String.valueOf(t.getForecast().getPrecipitation()) + "%");
+        //((TextView)findViewById(R.id.trail_textview_precipitation_value)).setText(String.valueOf(t.getForecast().getPrecipitation()) + "%");
 
         //Trail sunrise
-        ((TextView)findViewById(R.id.trail_textview_sunrise_value)).setText(String.valueOf(t.getForecast().getSunrise()));
+        //((TextView)findViewById(R.id.trail_textview_sunrise_value)).setText(String.valueOf(t.getForecast().getSunrise()));
 
         //Trail sunset
-        ((TextView)findViewById(R.id.trail_textview_sunset_value)).setText(String.valueOf(t.getForecast().getSunset()));
+        //((TextView)findViewById(R.id.trail_textview_sunset_value)).setText(String.valueOf(t.getForecast().getSunset()));
 
 
         //Trail image
@@ -174,7 +153,7 @@ public class ActivityTrail extends FragmentActivity implements ActionBar.OnNavig
 
         //Trail rating
         RatingBar rb = ((RatingBar)findViewById(R.id.trail_ratingbar));
-        rb.setRating(t.getRating().floatValue());
+        rb.setRating(mTrail.getRating().floatValue());
         rb.setStepSize(0.5f);
 
         //Change colors
@@ -187,8 +166,8 @@ public class ActivityTrail extends FragmentActivity implements ActionBar.OnNavig
         stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
 
         mLocWrapper.clearMap(mMap);
-        mLocWrapper.centerCameraOnCustomLocation(mMap, t.getLocation(), LocationWrapper.TRAIL_ZOOM);
-        mLocWrapper.addMarkerAtCustomLocation(mMap, t.getLocation(), t.getName(), true);
+        mLocWrapper.centerCameraOnCustomLocation(mMap, mTrail.getLocation(), LocationWrapper.TRAIL_ZOOM);
+        mLocWrapper.addMarkerAtCustomLocation(mMap, mTrail.getLocation(), mTrail.getName(), true);
     }
 
     /*@Override

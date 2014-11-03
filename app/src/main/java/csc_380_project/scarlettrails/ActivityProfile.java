@@ -1,7 +1,6 @@
 package csc_380_project.scarlettrails;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.location.Geocoder;
 import android.location.LocationManager;
@@ -58,6 +57,8 @@ public class ActivityProfile extends FragmentActivity implements ActionBar.OnNav
         int id = item.getItemId();
         if (id == R.id.actionbar_settings) {
             return true;
+        } else if (id ==  R.id.actionbar_search) {
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -69,7 +70,6 @@ public class ActivityProfile extends FragmentActivity implements ActionBar.OnNav
         //This is how you enter new navigation items. Please use the format provided on next line.
         navSpinner.add(new SpinnerNavItem("Profile"));
         navSpinner.add(new SpinnerNavItem("Home"));
-        navSpinner.add(new SpinnerNavItem("Trail"));
         mAdapter = new NavAdapter(getApplicationContext(), navSpinner);
 
         mActionBar.setListNavigationCallbacks(mAdapter, this);
@@ -85,27 +85,16 @@ public class ActivityProfile extends FragmentActivity implements ActionBar.OnNav
         mLocWrapper.checkMapExists(mMap);
 
         //This line currently sets map to center on Oswego County
-        //Later replace with something that returns map to state it was previously in
         mLocWrapper.setUpMapWithDefaults(mMap);
-        Location greatBearRecreationArea = new Location(43.26589,-76.351958);
-        mLocWrapper.centerCameraOnCustomLocation(mMap, greatBearRecreationArea, LocationWrapper.TRAIL_ZOOM);
     }
 
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         if (itemPosition == 1) {
             Intent intent = new Intent(getApplicationContext(), ActivityHome.class);
-            //if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null)
             startActivity(intent);
             return true;
         }
-        else
-            if (itemPosition == 2) {
-                Intent intent = new Intent(getApplicationContext(), ActivityTrail.class);
-                //if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null)
-                startActivity(intent);
-                return true;
-            }
         return false;
     }
 }
