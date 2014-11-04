@@ -46,6 +46,10 @@ public class Forecast implements DatabaseInterface {
         this.clouds = clouds;
     }
 
+    //five day constructor
+    public Forecast(){
+    }
+
     public Date getDate(){return date;}
 
     public Double getTempMax(){return tempMax;}

@@ -1,0 +1,153 @@
+PRAGMA foreign_keys=ON;
+.header on
+.mode column
+.timer on
+
+http://stackoverflow.com/questions/19343076/multi-user-login-java-admin-user-teacher
+String user = usern.getText();
+String pwd = new String (passw.getPassword());
+String type =(String)typeUser.getSelectedItem();
+String sql = "SELECT * FROM useRecords where username=? and password=? and type = ?";
+try {
+    ps = conn.prepareStatement(sql);
+    ps.bindString(1, user);
+    ps.bindString(2, pwd);
+    ps.bindString(3, type);
+    rs=ps.executeQuery();
+
+CREATE TABLE USER
+(
+   USER_ID      INTEGER     PRIMARY KEY AUTO_INCREMENT
+,  FIRST_NAME   VARCHAR(25) NOT NULL
+,  LAST_NAME    VARCHAR(25) NOT NULL
+,  PASSWORD     VARCHAR(50) NOT NULL
+,  EMAIL        VARCHAR(75) NOT NULL
+,  DOB          DATE        NOT NULL
+)
+;
+
+CREATE TABLE LOCATION
+(
+	  LOCATION_ID INTEGER      PRIMARY KEY AUTO_INCREMENT
+,   X           FLOAT       NOT NULL
+,   Y           FLOAT       NOT NULL
+,   ZIPCODE     VARCHAR(10) NOT NULL
+,   CITY        VARCHAR(50) NOT NULL
+,   STATE       VARCHAR(50) NOT NULL
+,   COUNTRY     VARCHAR(50) NOT NULL
+)
+;
+
+CREATE TABLE TRAIL
+(
+   TRAIL_ID     INTEGER      PRIMARY KEY AUTO_INCREMENT  
+,  NAME         VARCHAR(50)  NOT NULL
+,  DISTANCE     FLOAT
+,  ELEVATION    FLOAT
+,  DURATION     FLOAT        -- (0 SHORT, 1 MEDIUM, 2 LONG        , 3 MARATHON)
+,  DIFFICULTY   INTEGER      -- (0 EASY , 1 NORMAL, 2 CHALLENGING , 3 EXTREME)
+,  LOCATION_ID  INTEGER      NOT NULL
+,  GEAR         VARCHAR(30)
+,  CONDITIONS   INTEGER      -- (0 POOR, 1 BAD, 2 REGULAR, 3 GOOD, 4 EXCELLENT)
+,  PET_FRIENDLY INTEGER      -- (0 NO, 1 YES)
+,  RATING       FLOAT
+,  FOREIGN KEY  (LOCATION_ID) REFERENCES LOCATION (LOCATION_ID)
+)
+;
+
+CREATE TABLE TRACK
+(
+	TRACK_ID     INTEGER       PRIMARY KEY AUTO_INCREMENT
+,   USER_ID      INTEGER       NOT NULL
+,   GPX_PATH     VARCHAR(255)  NOT NULL
+,   FOREIGN KEY  (USER_ID) REFERENCES USER (USER_ID)      
+)
+;
+
+CREATE TABLE COMMENT
+(
+	COMMENT_ID    INTEGER       PRIMARY KEY AUTO_INCREMENT
+,   TRAIL_ID      INTEGER       NOT NULL
+,   USER_ID       INTEGER       NOT NULL
+,   COMMENT_TEXT  VARCHAR(255)  NOT NULL
+,   COMMENT_DATE  DATE          NOT NULL
+,   FOREIGN KEY   (USER_ID) REFERENCES USER (USER_ID)
+)
+;
+
+CREATE TABLE PICTURE
+(
+	PICTURE_ID    INTEGER      PRIMARY KEY AUTO_INCREMENT
+,   USER_ID       INTEGER      NOT NULL
+,   TRAIL_ID      INTEGER      NOT NULL
+,   LOCATION_ID   INTEGER      NOT NULL
+,   PICTURE_DATE  DATE         NOT NULL
+,   RATING        FLOAT
+,   FOREIGN KEY   (USER_ID)     REFERENCES USER (USER_ID)
+,   FOREIGN KEY   (TRAIL_ID)    REFERENCES TRAIL (TRAIL_ID)
+,   FOREIGN KEY   (LOCATION_ID) REFERENCES LOCATION (LOCATION_ID)
+)
+;
+
+CREATE TABLE POI 
+(
+	  POI_ID       INTEGER      PRIMARY KEY AUTO_INCREMENT
+,   NAME         VARCHAR(50)  NOT NULL
+,   TRAIL_ID     INTEGER      NOT NULL
+,   USER_ID      INTEGER      NOT NULL
+,   LOCATION_ID  INTEGER      NOT NULL
+,   FOREIGN KEY   (TRAIL_ID)    REFERENCES TRAIL (TRAIL_ID)
+,   FOREIGN KEY   (USER_ID)     REFERENCES USER (USER_ID)
+,   FOREIGN KEY   (LOCATION_ID) REFERENCES LOCATION (LOCATION_ID)
+)
+;
+
+
+CREATE OR REPLACE VIEW VW_TRAIL_COLLECTION
+AS
+SELECT TRAIL.TRAIL_ID      
+,      TRAIL.NAME         
+,      TRAIL.DISTANCE    
+,      TRAIL.ELEVATION    
+,      CASE TRAIL.DURATION
+          WHEN 0 THEN 'Short'
+          WHEN 1 THEN 'Medium'
+          WHEN 2 THEN 'Long'
+          WHEN 3 THEN 'Marathon'
+       END AS DURATION
+,      CASE TRAIL.DIFFICULTY
+          WHEN 0 THEN 'Easy'
+          WHEN 1 THEN 'Normal'
+          WHEN 2 THEN 'Challenging'
+          WHEN 3 THEN 'Extreme'
+       END AS DIFFICULTY
+,      TRAIL.GEAR         
+,      TRAIL.CONDITIONS      
+,      CASE TRAIL.PET_FRIENDLY 
+          WHEN 0 THEN 'false'
+          WHEN 1 THEN 'true'
+       END AS PET_FRIENDLY
+,      TRAIL.RATING    
+,      LOCATION.LOCATION_ID
+,      LOCATION.X
+,      LOCATION.Y
+,      LOCATION.ZIPCODE
+,      LOCATION.CITY
+,      LOCATION.STATE
+,      LOCATION.COUNTRY
+FROM   TRAIL
+,      LOCATION
+WHERE  TRAIL.LOCATION_ID  = LOCATION.LOCATION_ID
+;
+
+
+
+
+
+--MATERIAL
+http://www.sqlite.org/c3ref/last_insert_rowid.html
+
+
+
+
+

@@ -6,11 +6,11 @@ import com.google.android.gms.maps.model.LatLng;
  * Created by Nathan on 10/16/2014.
  */
 public class Location implements DatabaseInterface {
-    private int locationId;
+    private String locationId;
     private final Double latitude;
     private final Double longitude;
     private String address;
-    private int postalCode;
+    private String postalCode;
     private String city;
     private String state;
     private String country; //From the database design picture - is this supposed to be county?
@@ -20,12 +20,23 @@ public class Location implements DatabaseInterface {
         this.longitude = longitude;
     }
 
-    public Location(int locationId, Double latitude, Double longitude, String address,
-                    int postalCode, String city, String state, String country) {
+    public Location(String locationId, Double latitude, Double longitude, String address,
+                    String postalCode, String city, String state, String country) {
         this.locationId = locationId;
         this.latitude = latitude;
         this.longitude = longitude;
         this.address = address;
+        this.postalCode = postalCode;
+        this.city = city;
+        this.state = state;
+        this.country = country;
+    }
+
+    public Location(String locationId, Double latitude, Double longitude,
+                    String postalCode, String city, String state, String country) {
+        this.locationId = locationId;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.postalCode = postalCode;
         this.city = city;
         this.state = state;
@@ -55,7 +66,7 @@ public class Location implements DatabaseInterface {
         if (addressArray[0] != null)
             address = addressArray[0];
         if (addressArray[1] != null)
-            postalCode = Integer.parseInt(addressArray[1]);
+            postalCode = addressArray[1];
         if (addressArray[2] != null)
             city = addressArray[2];
         if (addressArray[3] != null)

@@ -24,7 +24,7 @@ class Trail implements DatabaseInterface {
     public static final String DIFFICULTY_CHALLENGING = "Challenging";
     public static final String DIFFICULTY_EXTREME = "Extreme";
 
-    private final int trailId;
+    private final String trailId;
     private final String name;
     private final Double distance; //Distance in yards, feet, or meters? Should units be changeable?
     private final Double elevation;
@@ -39,7 +39,7 @@ class Trail implements DatabaseInterface {
     private Double rating;
     private Forecast mForecast;
 
-    Trail(int trailId, String name, Double distance, Double elevation, String duration, String difficulty,
+    Trail(String trailId, String name, Double distance, Double elevation, String duration, String difficulty,
                  Location mLocation, String gear, String trailConditions, boolean petFriendly) {
         this.trailId = trailId;
         this.name = name;
@@ -69,7 +69,7 @@ class Trail implements DatabaseInterface {
         return petFriendly;
     }
 
-    public int getTrailId() {
+    public String getTrailId() {
         return trailId;
     }
 
@@ -119,7 +119,7 @@ class Trail implements DatabaseInterface {
         return new Comparator<Trail>() {
             @Override
             public int compare(Trail lhs, Trail rhs) {
-                return lhs.trailId - rhs.trailId;
+                return lhs.trailId.compareTo(rhs.trailId);
             }
         };
     }

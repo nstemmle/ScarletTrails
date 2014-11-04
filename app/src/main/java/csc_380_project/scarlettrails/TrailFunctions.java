@@ -26,34 +26,14 @@ public class TrailFunctions {
     }
 
     /**
-     * function get Trail By zipcode or city
-     * @param zipcode
-     * @param city
+     * function get Trail By zipcode or city or name
+     * @param searchKey
      * */
-    public JSONObject getTrailByZipcodeOrCity(String zipcode, String city){
+    public JSONObject getTrailByZipcodeOrCityOrName(String searchKey){
         // Building Parameters
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("tag", getTrail));
-        params.add(new BasicNameValuePair("zipcode", zipcode));
-        params.add(new BasicNameValuePair("city", city));
-        params.add(new BasicNameValuePair("name", null));
-        JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
-        // return json
-        // Log.e("JSON", json.toString());
-        return json;
-    }
-
-    /**
-     * function get Trail By trail Name
-     * @param name
-     * */
-    public JSONObject getTrailByName(String name){
-        // Building Parameters
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("tag", getTrail));
-        params.add(new BasicNameValuePair("zipcode", null));
-        params.add(new BasicNameValuePair("city", null));
-        params.add(new BasicNameValuePair("name", name));
+        params.add(new BasicNameValuePair("searchKey", searchKey));
         JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
         // return json
         // Log.e("JSON", json.toString());

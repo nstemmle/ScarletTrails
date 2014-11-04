@@ -54,7 +54,7 @@ class TrailCollection {
         Collections.sort(trails, Trail.getTrailDurationComaparator());
     }*/
 
-    Trail getTrailById(int trailId) {
+    Trail getTrailById(String trailId) {
         sortByIds();
         Trail dummyTrail = new Trail(trailId, null, null, null, "", "", null, null, null, false);
         //Collections framework requires searching the list for an object so a dummy object

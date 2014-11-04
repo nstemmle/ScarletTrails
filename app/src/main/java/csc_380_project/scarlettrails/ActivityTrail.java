@@ -20,6 +20,9 @@ import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**
@@ -34,6 +37,26 @@ public class ActivityTrail extends FragmentActivity implements ActionBar.OnNavig
     private NavAdapter mAdapter;
     private ArrayList<SpinnerNavItem> navSpinner;
 
+    private static String KEY_SUCCESS = "success";
+    private static String KEY_ERROR_MSG = "error_msg";
+    private static String TRAIL_ID = "trail_id";
+    private static String NAME = "name";
+    private static String DISTANCE = "distance";
+    private static String ELEVATION = "elevation";
+    private static String DURATION = "duration";
+    private static String DIFFICULTY = "difficulty";
+    private static String LOCATION_ID = "location_id";
+    private static String X = "x";
+    private static String Y = "y";
+    private static String ZIPCODE = "zipcode";
+    private static String CITY = "city";
+    private static String STATE = "state";
+    private static String COUNTRY = "country";
+    private static String GEAR = "gear";
+    private static String CONDITIONS = "conditions";
+    private static String PET_FRIENDLY = "pet_friendly";
+    private static String searchKey = "13126";
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
@@ -45,10 +68,60 @@ public class ActivityTrail extends FragmentActivity implements ActionBar.OnNavig
         mLocWrapper = LocationWrapper.getInstance();
         initializeMap();
 
-        //Sample Trail
-        Trail tempTrail = new Trail(1,"Great Bear Recreation Area",2.3,300.0,Trail.DURATION_SHORT,Trail.DIFFICULTY_EASY,new Location(43.26589,-76.351958),"Normal","Dirt Trails",true);
+        // Waiting for tests to remove comments
+        TrailFunctions trailFunction = new TrailFunctions();
+        JSONObject json = new JSONObject();
+        if (searchKey != null)
+        {
+           json = trailFunction.getTrailByZipcodeOrCityOrName(searchKey);
+        }
 
-        populatePageWithTrailInfo(tempTrail);
+        try {
+                    if (json.getString(KEY_SUCCESS) != null) {
+                        String res = json.getString(KEY_SUCCESS);
+                        if(Integer.parseInt(res) == 1){
+                        // trail successfully found
+                        JSONObject json_trail = json.getJSONObject("trail");
+                        Location tempLoc = new Location(
+                                                        json_trail.getString(LOCATION_ID)
+                                                       ,json_trail.getDouble(X)
+                                                       ,json_trail.getDouble(Y)
+                                                       ,json_trail.getString(ZIPCODE)
+                                                       ,json_trail.getString(CITY)
+                                                       ,json_trail.getString(STATE)
+                                                       ,json_trail.getString(COUNTRY));
+                        Forecast forecast = new Forecast();
+                        Trail trail = new Trail      (json.getString(TRAIL_ID),
+                                                      json_trail.getString(NAME),
+                                                      json_trail.getDouble(DISTANCE),
+                                                      json_trail.getDouble(ELEVATION),
+                                                      json_trail.getString(DURATION),
+                                                      json_trail.getString(DIFFICULTY),
+                                                      tempLoc,
+                                                      json_trail.getString(GEAR),
+                                                      json_trail.getString(CONDITIONS),
+                                                      json_trail.getBoolean(PET_FRIENDLY));
+
+                        trail.setForecast(forecast);
+                        populatePageWithTrailInfo(trail);
+
+                        } else {
+                            // Error in login
+                            //loginErrorMsg.setText(json.getString(KEY_ERROR_MSG));
+                        }
+                    } else {
+                        // Error in login
+                        //loginErrorMsg.setText(json.getString(KEY_ERROR_MSG));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+        //Sample Trail
+      //  Trail tempTrail = new Trail("1","Great Bear Recreation Area",2.3,300.0,Trail.DURATION_SHORT,Trail.DIFFICULTY_EASY,new Location(43.26589,-76.351958),"Normal","Dirt Trails",true);
+
+       // populatePageWithTrailInfo(tempTrail);
 
        //GridView gridview = (GridView) findViewById(R.id.trailGridView);
        //Will implement sample pics later
@@ -152,7 +225,7 @@ public class ActivityTrail extends FragmentActivity implements ActionBar.OnNavig
 
         //Trail pet friendly
         ((TextView)findViewById(R.id.trail_textview_petfriendly_value)).setText(t.isPetFriendly() ? "Yes" : "No");
-        
+
         //Trail temp max
         ((TextView)findViewById(R.id.trail_textview_tempmax_value)).setText(String.valueOf(t.getForecast().getTempMax()) + "°F");
 
