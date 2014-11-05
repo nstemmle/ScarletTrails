@@ -10,6 +10,15 @@
     <!-- For changing the action bar style change xml within this style. -->
     <style name="ActionBarTheme" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">#9C0606</item>
+        <item name="android:titleTextStyle">@style/TitleTextWhiteStyle</item>
+    </style>
+
+    <style name="TitleTextWhiteStyle" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+        <item name="android:textColor">@color/WHITE</item>
+    </style>
+
+    <style name="ActionBarTestTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/ActionBarTheme</item>
     </style>
 
     <!-- Splash screen style -->

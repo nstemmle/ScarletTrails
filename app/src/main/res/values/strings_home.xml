@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Strings for use with activityHome-->
+    <string name="home_button_update_location_settings">Update Location Settings</string>
+    <string name="home_button_ignore_gps_disabled">Ignore</string>
+    <string name="home_textview_gps_disabled_message">GPS is currently disabled. This application works best with GPS on.</string>
+</resources>

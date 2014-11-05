@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Strings for activity_trail.xml & ActivityTrail.java-->
-    <string name="trail_imgview_content_desc">Trail Image</string>
 
     <string name="trail_textview_difficulty_label">Difficulty: </string>
     <!--Placeholder String - won't need in end-->
@@ -52,7 +51,4 @@
     <string name="trail_textview_sunset_label">Sunset: </string>
     <!--Placeholder String - won't need in end-->
     <string name="trail_textview_sunset_value">6:06 pm</string>
-
-    <!--Sample Trail Title-->
-    <string name="sample_trail_name">Great Bear Springs Recreation Area</string>
 </resources>

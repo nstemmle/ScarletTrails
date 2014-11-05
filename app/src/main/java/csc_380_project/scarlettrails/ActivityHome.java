@@ -1,12 +1,16 @@
 package csc_380_project.scarlettrails;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Intent;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -20,20 +24,29 @@ import java.util.Random;
 /**
  * Created by Nathan on 10/19/2014.
  */
-public class ActivityHome extends FragmentActivity implements ActionBar.OnNavigationListener { // implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ActivityHome extends Activity implements ActionBar.OnNavigationListener { // implements LoaderManager.LoaderCallbacks<Cursor> {
     private GoogleMap mMap;
     private LocationWrapper mLocWrapper;
     private NavAdapter mAdapter;
     private ArrayList<SpinnerNavItem> navSpinner;
-    private ArrayList<Marker> mMarkers;
     private TrailCollection trailCollection;
     private Marker lastMarkerClicked;
+    private boolean gps_enabled;
+    private boolean network_enabled;
+    private Marker mLocMarker;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setTheme(R.style.AppTheme);
-        setContentView(R.layout.activity_home);
+
+        gps_enabled = getIntent().getBooleanExtra("gpsEnabled", false);
+        network_enabled = getIntent().getBooleanExtra("networkEnabled", false);
+
+        if (!gps_enabled)
+            setContentView(R.layout.activity_home_location_disabled);
+        else
+            setContentView(R.layout.activity_home);
 
         initializeNavigationBar();
 
@@ -48,39 +61,10 @@ public class ActivityHome extends FragmentActivity implements ActionBar.OnNaviga
             trailCollection.addTrail(new Trail(i, String.valueOf("Trail " + i), (r.nextInt(9000) + 1000.0), (r.nextInt(950) + 50.0), Trail.DURATION_MEDIUM, Trail.DIFFICULTY_MEDIUM, tempLoc, "gear", "conds", true));
         }
 
-        mMarkers = new ArrayList<Marker>();
+
         addTrailCollectionMarkersToMap(trailCollection);
 
-        mLocWrapper.registerMarkerClickListener(mMap, new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                lastMarkerClicked = marker;
-                return false;
-            }
-        });
-
-        Location mLoc = mLocWrapper.getCurrentLocation(getApplicationContext());
-        final Marker mLocMarker;
-        //if (mLoc != null) {
-            mLocMarker = mLocWrapper.addMarkerAtGoogleLocation(mMap, mLoc, "My Location", true);
-            mLocMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-        //}
-
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                if (marker.getId().equals(lastMarkerClicked.getId()) && !marker.getId().equals(mLocMarker.getId()))  {
-                    Trail temp = trailCollection.getTrailbyName(marker.getTitle());
-                    if (temp != null) {
-                        Intent activityTrail = new Intent(getApplicationContext(), ActivityTrail.class);
-                        activityTrail.putExtra("trail", temp);
-                        startActivity(activityTrail);
-                    }
-                }
-            }
-        });
-
-        mLocMarker.showInfoWindow();
+        updateMap();
     }
 
     public Double generateRandomLatitude(Random r) {
@@ -104,9 +88,9 @@ public class ActivityHome extends FragmentActivity implements ActionBar.OnNaviga
     }
 
     public void addTrailCollectionMarkersToMap(TrailCollection tc) {
+        mLocWrapper.clearMap(mMap);
         for (int i = 0; i < tc.getSize(); i++) {
             Marker temp = mLocWrapper.addTrailMarker(mMap, tc.getTrailAtIndex(i),false);
-            mMarkers.add(temp);
         }
     }
 
@@ -161,6 +145,60 @@ public class ActivityHome extends FragmentActivity implements ActionBar.OnNaviga
         mLocWrapper.setUpMapWithDefaults(mMap);
     }
 
+    private void updateMap() {
+        Location mLoc;
+        if (!gps_enabled) {
+            if (!network_enabled) {
+                mLoc = mLocWrapper.getCurrentLocation(getApplicationContext());
+            } else {
+                mLoc = mLocWrapper.getCurrentLocation(getApplicationContext(), LocationManager.NETWORK_PROVIDER);
+                if (mLoc == null)
+                    mLoc = mLocWrapper.getCurrentLocation(getApplicationContext());
+                    Log.v("ActivityHome", "Retrieving location from network provider failed in updateMap()");
+            }
+
+        } else {
+            mLoc = mLocWrapper.getCurrentLocation(getApplicationContext(), LocationManager.GPS_PROVIDER);
+        }
+
+
+        if (mLoc != null) {
+            mLocMarker = mLocWrapper.addMarkerAtGoogleLocation(mMap, mLoc, "My Location", true);
+            mLocMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+        } else {
+            mLocMarker = mLocWrapper.addMarkerAtLatLng(mMap, LocationWrapper.OSWEGO_COUNTY, null, false);
+            mLocMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+        }
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                if (marker.getId().equals(mLocMarker.getId()))
+                {
+                    return true;
+                }
+                lastMarkerClicked = marker;
+                return false;
+            }
+        });
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                if (marker.getId().equals(lastMarkerClicked.getId()) && !marker.getId().equals(mLocMarker.getId()))  {
+                    Trail temp = trailCollection.getTrailbyName(marker.getTitle());
+                    if (temp != null) {
+                        Intent activityTrail = new Intent(getApplicationContext(), ActivityTrail.class);
+                        activityTrail.putExtra("trail", temp);
+                        startActivity(activityTrail);
+                    }
+                }
+            }
+        });
+
+        mLocMarker.showInfoWindow();
+    }
+
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         // Switch to be implemented here depending on which item is selected
@@ -170,6 +208,30 @@ public class ActivityHome extends FragmentActivity implements ActionBar.OnNaviga
            return true;
             }
         return false;
+    }
+
+    public void buttonOpenLocationSettingsOnClick(View view) {
+        mLocWrapper.openLocationSettings(getApplicationContext(), false);
+        if (mLocWrapper.isGPSProviderEnabled(getApplicationContext())) {
+            removeExtraViews();
+        }
+    }
+
+    public void buttonIngoreGPSDisabledOnClick(View view) {
+        removeExtraViews();
+    }
+
+
+    private void removeExtraViews() {
+        ViewGroup viewGroup = (ViewGroup) findViewById(R.id.home_relativelayout_extras);
+        //viewGroup.setLayoutTransition(new LayoutTransition());
+        //viewGroup.getLayoutTransition().setStartDelay(LayoutTransition.DISAPPEARING, 1000l);
+        //TextView txtviewLocSetDis = (TextView) findViewById(R.id.home_textview_location_settings_disabled);
+        //Button btnOpenLocSet = (Button) findViewById(R.id.home_button_open_location_settings);
+        //viewGroup.removeAllViews();
+        viewGroup.removeAllViewsInLayout();
+        ViewGroup viewGroupRoot = (ViewGroup) findViewById(R.id.home_linearlayout_root);
+        viewGroupRoot.removeView(viewGroup);
     }
 
     /*@Override

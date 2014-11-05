@@ -4,11 +4,8 @@
     <item name="actionbar_settings" type="id"/>
     <item name="actionbar_search" type="id"/>
 
-    <!--ids for activity_home.xml-->
-    <item name="home_fragment_map" type="id"/>
+
     <item name="profile_fragment_map" type="id"/>
-    <item name="home_textview_trailtitle" type="id"/>
-    <item name="home_imgview_trail_pic" type="id"/>
 
     <!--ides for signup.xml -->
     <item name="profilePicture" type="id"/>

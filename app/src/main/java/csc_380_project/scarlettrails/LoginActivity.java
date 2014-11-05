@@ -76,6 +76,8 @@ public class LoginActivity extends Activity {
 
                             // Launch Dashboard Screen
                             Intent dashboard = new Intent(getApplicationContext(), ActivityHome.class);
+                            dashboard.putExtra("gpsEnabled", getIntent().getBooleanExtra("gpsEnabled",false));
+                            dashboard.putExtra("networkEnabled", getIntent().getBooleanExtra("networkEnabled", false));
 
                             // Close all views before launching Dashboard
                             dashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -122,6 +124,8 @@ public class LoginActivity extends Activity {
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(),
                         ActivityHome.class);
+                i.putExtra("gpsEnabled", getIntent().getBooleanExtra("gpsEnabled",false));
+                i.putExtra("networkEnabled", getIntent().getBooleanExtra("networkEnabled", false));
                 startActivity(i);
             }
         });
@@ -149,5 +153,11 @@ public class LoginActivity extends Activity {
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         // Switch to be implemented here depending on which item is selected
         return false;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        this.finish();
     }
 }

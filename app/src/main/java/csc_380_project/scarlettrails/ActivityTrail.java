@@ -1,33 +1,28 @@
 package csc_380_project.scarlettrails;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
-import android.location.Geocoder;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.GridView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 
 /**
  * Created by Nathan on 10/20/2014.
  */
-public class ActivityTrail extends FragmentActivity implements ActionBar.OnNavigationListener {
+public class ActivityTrail extends Activity implements ActionBar.OnNavigationListener {
     private GoogleMap mMap;
-    private Geocoder mGeocoder;
-    private LocationClient mLocationClient;
-    private LocationManager mLocationManager;
     private LocationWrapper mLocWrapper;
     private Trail mTrail;
 
@@ -35,8 +30,11 @@ public class ActivityTrail extends FragmentActivity implements ActionBar.OnNavig
         super.onCreate(savedInstanceState);
         mTrail = getIntent().getParcelableExtra("trail");
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+
         setTheme(R.style.AppTheme);
-        setContentView(R.layout.trail_layout_new_test);
+        setContentView(R.layout.activity_trail);
+        assert getActionBar() != null;
+        getActionBar().setTitle(mTrail.getName());
 
         //initializeNavigationBar();
 
@@ -45,7 +43,8 @@ public class ActivityTrail extends FragmentActivity implements ActionBar.OnNavig
 
         populatePageWithTrailInfo();
 
-       //GridView gridview = (GridView) findViewById(R.id.trailGridView);
+       GridView gridview = (GridView) findViewById(R.id.trail_gridview_thumbnails);
+        gridview.setAdapter(new ImageAdapter(this));
        //Will implement sample pics later
 
     }
@@ -108,9 +107,6 @@ public class ActivityTrail extends FragmentActivity implements ActionBar.OnNavig
     }
 
     public void populatePageWithTrailInfo() {
-        //Trail Name
-        ((TextView)findViewById(R.id.trail_textview_trailname_value)).setText(mTrail.getName());
-
         //Trail difficulty
         ((TextView)findViewById(R.id.trail_textview_difficulty_value)).setText(mTrail.getDifficulty());
 
@@ -146,10 +142,6 @@ public class ActivityTrail extends FragmentActivity implements ActionBar.OnNavig
 
         //Trail sunset
         //((TextView)findViewById(R.id.trail_textview_sunset_value)).setText(String.valueOf(t.getForecast().getSunset()));
-
-
-        //Trail image
-        //((ImageView)findViewById(R.id.trailImgViewTrail)).setImageURI();
 
         //Trail rating
         RatingBar rb = ((RatingBar)findViewById(R.id.trail_ratingbar));

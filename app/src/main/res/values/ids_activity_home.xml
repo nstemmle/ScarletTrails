@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--ids for activity_home.xml-->
+    <item name="home_fragment_map" type="id"/>
+    <item name="home_button_open_location_settings" type="id"/>
+    <item name="home_button_ignore_gps_disabled" type="id"/>
+    <item name="home_textview_location_settings_disabled" type="id"/>
+    <item name="home_relativelayout_extras" type="id"/>
+    <item name="home_linearlayout_root" type="id"/>
+</resources>
