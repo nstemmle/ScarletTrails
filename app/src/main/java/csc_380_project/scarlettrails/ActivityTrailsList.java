@@ -118,12 +118,16 @@ public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavi
                     return trailsList;
 
                 } else {
-                    // Error in login
-                    //loginErrorMsg.setText(json.getString(KEY_ERROR_MSG));
+                    // No Trails Found
+                    Intent intent = new Intent(getApplicationContext(), ActivitySearchTrail.class);
+                    intent.putExtra("KEY_ERROR_MSG", json.getString(KEY_ERROR_MSG));
+                    startActivity(intent);
                 }
             } else {
-                // Error in login
-                //loginErrorMsg.setText(json.getString(KEY_ERROR_MSG));
+                // No Trails Found
+                Intent intent = new Intent(getApplicationContext(), ActivitySearchTrail.class);
+                intent.putExtra("KEY_ERROR_MSG", json.getString(KEY_ERROR_MSG));
+                startActivity(intent);
             }
         } catch (JSONException e) {
             e.printStackTrace();

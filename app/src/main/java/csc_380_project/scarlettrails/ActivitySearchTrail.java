@@ -15,11 +15,15 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class ActivitySearchTrail extends Activity implements ActionBar.OnNavigationListener {
 
     Button btnSearch;
     EditText searchTrail;
+    TextView errorMessage;
+
+    private static String KEY_ERROR_MSG = "error_msg";
 
     private ArrayList<SpinnerNavItem> navSpinner;
     private NavAdapter mAdapter;
@@ -35,6 +39,12 @@ public class ActivitySearchTrail extends Activity implements ActionBar.OnNavigat
 
         searchTrail = (EditText) findViewById(R.id.searchTrail);
         btnSearch = (Button) findViewById(R.id.btnSearch);
+        errorMessage = (TextView) findViewById(R.id.registerErrorMsg);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            errorMessage.setText(extras.getString("KEY_ERROR_MSG"));
+        }
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
 
