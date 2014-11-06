@@ -4,23 +4,17 @@ package csc_380_project.scarlettrails;
  * Created by rafaelamfonseca on 11/5/14.
  */
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.ListActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class ActivitySearchTrail extends Activity implements ActionBar.OnNavigationListener {
 
@@ -80,7 +74,6 @@ public class ActivitySearchTrail extends Activity implements ActionBar.OnNavigat
         navSpinner.add(new SpinnerNavItem("Profile"));
         navSpinner.add(new SpinnerNavItem("Home"));
         navSpinner.add(new SpinnerNavItem("Trail"));
-        navSpinner.add(new SpinnerNavItem("Search"));
         mAdapter = new NavAdapter(getApplicationContext(), navSpinner);
 
         mActionBar.setListNavigationCallbacks(mAdapter, this);
@@ -98,13 +91,6 @@ public class ActivitySearchTrail extends Activity implements ActionBar.OnNavigat
         else
         if (itemPosition == 2) {
             Intent intent = new Intent(getApplicationContext(), ActivityTrail.class);
-            //if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null)
-            startActivity(intent);
-            return true;
-        }
-        else
-        if (itemPosition == 3) {
-            Intent intent = new Intent(getApplicationContext(), ActivityTrailsList.class);
             //if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null)
             startActivity(intent);
             return true;

@@ -68,7 +68,7 @@ public class TrailFunctions {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("tag", getTrail));
         params.add(new BasicNameValuePair("getByTag", getAllTrails));
-        params.add(new BasicNameValuePair("searchKey", null));
+        params.add(new BasicNameValuePair("searchKey", getTrail));
         JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
         // return json
         // Log.e("JSON", json.toString());

@@ -4,7 +4,6 @@ package csc_380_project.scarlettrails;
  * Created by rafaelamfonseca on 11/5/14.
  */
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import android.app.ActionBar;
 import android.content.Intent;
@@ -12,7 +11,6 @@ import android.os.Bundle;
 import android.app.ListActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,13 +21,9 @@ import org.json.JSONObject;
 
 public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavigationListener {
 
-    Button btnSearch;
-    EditText searchTrail;
-
     private static String KEY_SUCCESS = "success";
     private static String KEY_ERROR_MSG = "error_msg";
     private static String TAG_TRAILLIST = "trailList";
-    private static String TRAIL = "trail";
     private static String TRAIL_ID = "trail_id";
     private static String NAME = "name";
     private static String DISTANCE = "distance";
@@ -73,8 +67,15 @@ public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavi
     private ArrayList<Trail> generateData(String searchKey) {
 
         TrailFunctions trailFunction = new TrailFunctions();
-        JSONObject json = trailFunction.getTrailByZipcodeOrCityOrName(searchKey);
+        JSONObject json = new JSONObject();
         ArrayList<Trail> trailsList = new ArrayList<Trail>();
+
+        if(searchKey != null && !searchKey.isEmpty()) {
+             json = trailFunction.getTrailByZipcodeOrCityOrName(searchKey);
+        }
+        else {
+             json = trailFunction.getAllTrails();
+        }
 
         try {
             if (json.getString(KEY_SUCCESS) != null) {
@@ -157,7 +158,6 @@ public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavi
         navSpinner.add(new SpinnerNavItem("Profile"));
         navSpinner.add(new SpinnerNavItem("Home"));
         navSpinner.add(new SpinnerNavItem("Trail"));
-        navSpinner.add(new SpinnerNavItem("Search"));
         mAdapter = new NavAdapter(getApplicationContext(), navSpinner);
 
         mActionBar.setListNavigationCallbacks(mAdapter, this);
@@ -175,13 +175,6 @@ public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavi
         else
         if (itemPosition == 2) {
             Intent intent = new Intent(getApplicationContext(), ActivityTrail.class);
-            //if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null)
-            startActivity(intent);
-            return true;
-        }
-        else
-        if (itemPosition == 3) {
-            Intent intent = new Intent(getApplicationContext(), ActivityTrailsList.class);
             //if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null)
             startActivity(intent);
             return true;
