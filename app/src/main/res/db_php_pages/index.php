@@ -82,38 +82,34 @@ if (isset($_POST['tag']) && $_POST['tag'] != '') {
     } else if ($tag == 'getTrail') {
 
         $searchKey = $_POST['searchKey'];
+        $getByTag = $_POST['getByTag'];
 
         if(isset($searchKey) && $searchKey != '')
         {
-           $trail = $db->getTrailByZipcodeOrCityOrName($searchKey);
+           if($getByTag == 'getById') {
+              $trail = $db->getTrailById($searchKey);
+           }
+           else if($getByTag == 'getByZipCityName') {
+              $trail = $db->getTrailByZipcodeOrCityOrName($searchKey);
+           }
+           else if($getByTag == 'getAllTrails') {
+              $trail = $db->getAllTrails();
+           }
+           else {
+              echo "Invalid Request";
+           }
         } 
         if ($trail != false) {
             // user found
             // echo json with success = 1
-            $response["success"] = 1;
-            $response["trail_id"] = $trail["TRAIL_ID"];
-            $response["trail"]["name"] = $trail["NAME"];
-            $response["trail"]["distance"] = $trail["DISTANCE"];
-            $response["trail"]["elevation"] = $trail["ELEVATION"];
-            $response["trail"]["duration"] = $trail["DURATION"];
-            $response["trail"]["difficulty"] = $trail["DIFFICULTY"];
-            $response["trail"]["gear"] = $trail["GEAR"];
-            $response["trail"]["conditions"] = $trail["CONDITIONS"];
-            $response["trail"]["pet_friendly"] = $trail["PET_FRIENDLY"];
-            $response["trail"]["rating"] = $trail["RATING"];
-            $response["trail"]["location_id"] = $trail["LOCATION_ID"];
-            $response["trail"]["x"] = $trail["X"];
-            $response["trail"]["y"] = $trail["Y"];
-            $response["trail"]["zipcode"] = $trail["ZIPCODE"];
-            $response["trail"]["city"] = $trail["CITY"];
-            $response["trail"]["state"] = $trail["STATE"];
-            $response["trail"]["country"] = $trail["COUNTRY"];
-            echo json_encode($response);
+            $trail["success"] = 1;
+            // echoing JSON response
+            echo json_encode($trail);  
         } else {
             // user not found
             // echo json with error = 1
             $response["error"] = 1;
-            $response["error_msg"] = "Failed to return list of Trails.";
+            $response["error_msg"] = "Failed to return Trails.";
             echo json_encode($response);
         }
     } else {

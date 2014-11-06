@@ -11,6 +11,11 @@ public class Location implements DatabaseInterface {
     private final Double longitude;
     private String address;
     private String postalCode;
+
+    public String getCity() {
+        return city;
+    }
+
     private String city;
     private String state;
     private String country; //From the database design picture - is this supposed to be county?
