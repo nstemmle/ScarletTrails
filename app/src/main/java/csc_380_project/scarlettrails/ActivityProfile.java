@@ -58,6 +58,9 @@ public class ActivityProfile extends FragmentActivity implements ActionBar.OnNav
         int id = item.getItemId();
         if (id == R.id.actionbar_settings) {
             return true;
+        } else if (id == R.id.actionbar_search){
+            Intent intent = new Intent(getApplicationContext(), ActivitySearchTrail.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
