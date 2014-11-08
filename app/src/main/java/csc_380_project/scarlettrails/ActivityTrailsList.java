@@ -11,9 +11,9 @@ import android.os.Bundle;
 import android.app.ListActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -140,6 +140,14 @@ public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavi
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.action_bar_menu, menu);
         return true;
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        Trail trail = (Trail) getListAdapter().getItem(position);
+        Intent intent = new Intent(getApplicationContext(), ActivityTrail.class);
+        intent.putExtra("trail", trail);
+        startActivity(intent);
     }
 
     @Override
