@@ -65,7 +65,7 @@ public class CustomLocation implements DatabaseInterface, Parcelable {
     }
 
     public Double getLatitude() {
-       return latitude;
+        return latitude;
     }
 
     public Double getLongitude() {
