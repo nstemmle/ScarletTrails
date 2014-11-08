@@ -98,14 +98,67 @@ public class ActivityForecast extends FragmentActivity implements ActionBar.OnNa
             ((TextView)findViewById(R.id.forecast_textview_firstday_mintemp)).setText(a.getTempMin() + "°F");
 
         //second day
+            //Day
+            //Will figure out how to get day out of date provided
 
+            //rain percentage
+            ((TextView)findViewById(R.id.forecast_textview_secondday_percipitation)).setText(b.getPrecipitation() + "%");
+
+            //clouds
+            ((ImageView)findViewById(R.id.forecast_imgview_secondday_clouds)).setBackgroundDrawable(cloudSelector(b.getClouds()));
+
+            //maxtemp
+            ((TextView)findViewById(R.id.forecast_textview_secondday_maxtemp)).setText(b.getTempMax() + "°F");
+
+            //mintemp
+            ((TextView)findViewById(R.id.forecast_textview_secondday_mintemp)).setText(b.getTempMin() + "°F");
         //third day
+            //Day
+            //Will figure out how to get day out of date provided
 
+            //rain percentage
+            ((TextView)findViewById(R.id.forecast_textview_thirdday_percipitation)).setText(c.getPrecipitation() + "%");
+
+            //clouds
+            ((ImageView)findViewById(R.id.forecast_imgview_thirdday_clouds)).setBackgroundDrawable(cloudSelector(c.getClouds()));
+
+            //maxtemp
+            ((TextView)findViewById(R.id.forecast_textview_thirdday_maxtemp)).setText(c.getTempMax() + "°F");
+
+            //mintemp
+            ((TextView)findViewById(R.id.forecast_textview_thirdday_mintemp)).setText(c.getTempMin() + "°F");
         //fourth day
+            //Day
+            //Will figure out how to get day out of date provided
 
+            //rain percentage
+            ((TextView)findViewById(R.id.forecast_textview_fourthday_percipitation)).setText(d.getPrecipitation() + "%");
+
+            //clouds
+            ((ImageView)findViewById(R.id.forecast_imgview_fourthday_clouds)).setBackgroundDrawable(cloudSelector(d.getClouds()));
+
+            //maxtemp
+            ((TextView)findViewById(R.id.forecast_textview_fourthday_maxtemp)).setText(d.getTempMax() + "°F");
+
+            //mintemp
+            ((TextView)findViewById(R.id.forecast_textview_fourthday_mintemp)).setText(d.getTempMin() + "°F");
         //fifth day
-    }
+            //Day
+            //Will figure out how to get day out of date provided
 
+            //rain percentage
+            ((TextView)findViewById(R.id.forecast_textview_fifthday_percipitation)).setText(e.getPrecipitation() + "%");
+
+            //clouds
+            ((ImageView)findViewById(R.id.forecast_imgview_fifthday_clouds)).setBackgroundDrawable(cloudSelector(e.getClouds()));
+
+            //maxtemp
+            ((TextView)findViewById(R.id.forecast_textview_fifthday_maxtemp)).setText(e.getTempMax() + "°F");
+
+            //mintemp
+            ((TextView)findViewById(R.id.forecast_textview_fifthday_mintemp)).setText(e.getTempMin() + "°F");
+    }
+        //need to change this method, may put in forcast class to decide which drawable to use.
    public Drawable cloudSelector(int cloudPercent){
        if (cloudPercent <= 30){
            return getResources().getDrawable(R.drawable.sunny);
