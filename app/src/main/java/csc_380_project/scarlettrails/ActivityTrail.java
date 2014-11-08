@@ -233,8 +233,7 @@ public class ActivityTrail extends FragmentActivity implements ActionBar.OnNavig
         //Trail temp min
         ((TextView)findViewById(R.id.trail_textview_tempmin_value)).setText(String.valueOf(t.getForecast().getTempMin()) + "°F");
 
-        //Trail precipitation
-        ((TextView)findViewById(R.id.trail_textview_precipitation_value)).setText(String.valueOf(t.getForecast().getPrecipitation()) + "%");
+        //Trail clouds/precipitation picture
 
         //Trail sunrise
         ((TextView)findViewById(R.id.trail_textview_sunrise_value)).setText(String.valueOf(t.getForecast().getSunrise()));
