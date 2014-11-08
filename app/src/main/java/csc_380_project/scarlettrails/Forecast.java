@@ -15,27 +15,24 @@ public class Forecast implements DatabaseInterface {
     private double tempMax;
     private Time sunset;
     private Time sunrise;
-    private String precip;
-    private String clouds;
+    private String description;
 
     //single day constructor
-    public Forecast(double tempMin, double tempMax, Time sunrise, Time sunset, String precip, String clouds){
+    public Forecast(double tempMin, double tempMax, Time sunrise, Time sunset, String description){
         this.tempMin = tempMin;
         this.tempMax = tempMax;
         this.sunset = sunset;
         this.sunrise = sunrise;
-        this.precip = precip;
-        this.clouds = clouds;
+        this.description;
 
     }
 
     //five day constructor
-    public Forecast(Date date, double tempMin, double tempMax, String precip, String clouds){
+    public Forecast(Date date, double tempMin, double tempMax, String description){
         this.date = date;
         this.tempMin = tempMin;
         this.tempMax = tempMax;
-        this.precip = precip;
-        this.clouds = clouds;
+        this.description;
     }
 
 
