@@ -1,5 +1,6 @@
 package csc_380_project.scarlettrails;
 
+import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -8,12 +9,13 @@ import com.google.android.gms.maps.model.LatLng;
 /**
  * Created by Nathan on 10/16/2014.
  */
-public class CustomLocation implements DatabaseInterface, Parcelable {
-    private int locationId;
+@SuppressLint("ParcelCreator")
+public class CustomLocation implements Parcelable {
+    private String locationId;
     private final Double latitude;
     private final Double longitude;
     private String streetAddress;
-    private int postalCode;
+    private String postalCode;
     private String city;
     private String state;
     private String country; //From the database design picture - is this supposed to be county?
@@ -23,12 +25,12 @@ public class CustomLocation implements DatabaseInterface, Parcelable {
         this.longitude = longitude;
     }
 
-    public CustomLocation(int locationId, Double latitude, Double longitude, String streetAddress,
-                          int postalCode, String city, String state, String country) {
+    public CustomLocation(String locationId, Double latitude, Double longitude,
+                          String postalCode, String city, String state, String country) {
         this.locationId = locationId;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.streetAddress = streetAddress;
+        //this.streetAddress = streetAddress;
         this.postalCode = postalCode;
         this.city = city;
         this.state = state;
@@ -54,10 +56,10 @@ public class CustomLocation implements DatabaseInterface, Parcelable {
     public CustomLocation(Parcel in) {
         latitude = in.readDouble();
         longitude = in.readDouble();
-        locationId = in.readInt();
         if (in.dataAvail() > 0) {
+            locationId = in.readString();
             streetAddress = in.readString();
-            postalCode = in.readInt();
+            postalCode = in.readString();
             city = in.readString();
             state = in.readString();
             country = in.readString();
@@ -76,6 +78,10 @@ public class CustomLocation implements DatabaseInterface, Parcelable {
         return new LatLng(latitude, longitude);
     }
 
+    public String getCity() {
+        return city;
+    }
+
     private void setAddressStrings(String[] addressArray) {
         //addressArray[] indices
         /*addressArray[0] = streetAddress || null;
@@ -87,7 +93,7 @@ public class CustomLocation implements DatabaseInterface, Parcelable {
         if (addressArray[0] != null)
             streetAddress = addressArray[0];
         if (addressArray[1] != null)
-            postalCode = Integer.parseInt(addressArray[1]);
+            postalCode = addressArray[1];
         if (addressArray[2] != null)
             city = addressArray[2];
         if (addressArray[3] != null)
@@ -97,27 +103,12 @@ public class CustomLocation implements DatabaseInterface, Parcelable {
     }
 
     @Override
-    public void query(String lookup) {
-
-    }
-
-    @Override
-    public void updateData() {
-
-    }
-
-    @Override
-    public String insertData() {
-        return null;
-    }
-
-    @Override
     public int describeContents() {
         return 0;
     }
 
     /*
-    private int locationId;
+    private String locationId;
     private final Double latitude;
     private final Double longitude;
     private String streetAddress;
@@ -130,16 +121,18 @@ public class CustomLocation implements DatabaseInterface, Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeDouble(latitude);
         dest.writeDouble(longitude);
-        dest.writeInt(locationId);
-        if (streetAddress != null)
-            dest.writeString(streetAddress);
-        if (postalCode != 0)
-            dest.writeInt(postalCode);
-        if (city != null)
-            dest.writeString(city);
-        if (state != null)
-            dest.writeString(state);
-        if (country != null)
-            dest.writeString(country);
+        if (!locationId.isEmpty()) {
+            dest.writeString(locationId);
+            if (streetAddress != null)
+                dest.writeString(streetAddress);
+            if (postalCode != null)
+                dest.writeString(postalCode);
+            if (city != null)
+                dest.writeString(city);
+            if (state != null)
+                dest.writeString(state);
+            if (country != null)
+                dest.writeString(country);
+        }
     }
 }

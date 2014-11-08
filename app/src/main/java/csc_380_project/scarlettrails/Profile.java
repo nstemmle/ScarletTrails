@@ -32,19 +32,6 @@ public class Profile  {
 
     public String getDateOfBirth() { return dateOfBirth; }
 
-
-    public void query(String lookup) {
-
-    }
-
-    public void updateData() {
-
-    }
-
-    public String insertData() {
-        return null;
-    }
-
     public void setProfileId(String profileId) {
         this.profileId = profileId;
     }

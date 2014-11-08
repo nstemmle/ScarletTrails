@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Created by Kheiyasa on 10/23/2014.
  */
-public class Forecast implements DatabaseInterface {
+public class Forecast {
 
    //swiping on forecast screen for 10 day?
     private Date date;
@@ -17,13 +17,14 @@ public class Forecast implements DatabaseInterface {
     private Time sunrise;
     private String description;
 
+    public Forecast() {}
     //single day constructor
     public Forecast(double tempMin, double tempMax, Time sunrise, Time sunset, String description){
         this.tempMin = tempMin;
         this.tempMax = tempMax;
         this.sunset = sunset;
         this.sunrise = sunrise;
-        this.description;
+        this.description = description;
 
     }
 
@@ -32,7 +33,7 @@ public class Forecast implements DatabaseInterface {
         this.date = date;
         this.tempMin = tempMin;
         this.tempMax = tempMax;
-        this.description;
+        this.description = description;
     }
 
 
@@ -42,28 +43,9 @@ public class Forecast implements DatabaseInterface {
 
     public Double getTempMin(){return tempMin;}
 
-    public String getPrecip(){return precip;}
-
     public Time getSunrise(){return sunrise;}
 
     public Time getSunset(){return sunset;}
 
-    public String getClouds(){return clouds;}
-
-    @Override
-    public void query(String lookup) {
-
-    }
-
-    @Override
-    public void updateData() {
-
-    }
-
-    @Override
-    public String insertData() {
-        return null;
-    }
-
-
+    public String getDescription(){return description;}
 }

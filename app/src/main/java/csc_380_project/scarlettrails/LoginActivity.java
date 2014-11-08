@@ -20,6 +20,7 @@ public class LoginActivity extends Activity {
     Button btnLogin;
     Button btnLinkToRegister;
     Button btnForgotPassword;
+    Button btnSkip;
     EditText inputUsername;
     EditText inputPassword;
     TextView loginErrorMsg;
@@ -47,6 +48,7 @@ public class LoginActivity extends Activity {
         btnLinkToRegister = (Button) findViewById(R.id.register);
         btnForgotPassword = (Button) findViewById(R.id.forgotpassword);
         loginErrorMsg = (TextView) findViewById(R.id.login_error);
+        btnSkip = (Button) findViewById(R.id.skip);
 
         // Login button Click Event
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +76,8 @@ public class LoginActivity extends Activity {
 
                             // Launch Dashboard Screen
                             Intent dashboard = new Intent(getApplicationContext(), ActivityHome.class);
+                            dashboard.putExtra("gpsEnabled", getIntent().getBooleanExtra("gpsEnabled",false));
+                            dashboard.putExtra("networkEnabled", getIntent().getBooleanExtra("networkEnabled", false));
 
                             // Close all views before launching Dashboard
                             dashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -115,6 +119,16 @@ public class LoginActivity extends Activity {
                 startActivity(i);
             }
         });
+
+        btnSkip.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(),
+                        ActivityHome.class);
+                i.putExtra("gpsEnabled", getIntent().getBooleanExtra("gpsEnabled",false));
+                i.putExtra("networkEnabled", getIntent().getBooleanExtra("networkEnabled", false));
+                startActivity(i);
+            }
+        });
     }
 
     @Override
@@ -139,5 +153,11 @@ public class LoginActivity extends Activity {
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         // Switch to be implemented here depending on which item is selected
         return false;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        this.finish();
     }
 }

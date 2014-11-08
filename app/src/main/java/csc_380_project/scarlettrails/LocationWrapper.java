@@ -11,11 +11,12 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.provider.Settings;
+import android.util.Log;
 
-import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
@@ -30,6 +31,8 @@ https://developers.google.com/maps/documentation/android/views#setting_boundarie
 */
 
 public class LocationWrapper {
+    //DEBUGGING
+    private static final String TAG = "LOCATION_WRAPPER";
 
     //CONSTANTS
     //Oswego County LatLng pair
@@ -49,7 +52,7 @@ public class LocationWrapper {
     private static Criteria criteriaBest;
     private static LocationWrapper instance;
 
-    private LocationWrapper() {}
+    private LocationWrapper(){}
 
     public static LocationWrapper getInstance() {
         if (instance == null) {
@@ -58,76 +61,85 @@ public class LocationWrapper {
         return instance;
     }
 
-
-    //TODO
-    //After comparing which provider generally returns best location, decide if only one or many providers should be checked
-    public boolean checkLocationSettingsEnabled (Context context) {
-        boolean network_enabled;
-        boolean gps_enabled;
-        //boolean passive_enabled;
-        //boolean best_enabled;
-        LocationManager mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        //network_enabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        gps_enabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        //passive_enabled = mLocationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER);
-
-        return gps_enabled;
-
-        /*criteriaBest = new Criteria();
-        criteriaBest.setHorizontalAccuracy(Criteria.ACCURACY_HIGH);
-        criteriaBest.setVerticalAccuracy(Criteria.ACCURACY_HIGH);
-        criteriaBest.setSpeedAccuracy(Criteria.ACCURACY_HIGH);
-        String bestProvider = mLocationManager.getBestProvider(criteriaBest, false);
-        best_enabled = mLocationManager.isProviderEnabled(bestProvider);
-        return best_enabled;*/
-        //criteriaBest.
-        //mLocationManager.getBestProvider()
-    }
-
-    public void openLocationSettings(final Context context) {
-        AlertDialog.Builder ad = new AlertDialog.Builder(context, AlertDialog.THEME_HOLO_DARK);
-        ad.setMessage(R.string.dialogLocationSettingsMessage)
-                .setTitle(R.string.dialogLocationSettingsTitle)
-                .setPositiveButton(R.string.dialogLocationSettingsPositiveButton, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        //if (intent.resolveActivity(context.getPackageManager()) != null) {
-                        context.startActivity(intent);
-                        //}
-                    }
-                })
-                .setNegativeButton(R.string.dialogLocationSettingsNegativeButton, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-        AlertDialog alertDialog = ad.create();
-        alertDialog.show();
-    }
-
-    //TODO
-    //Implement retrieving multiple locations from multiple providers and compare them to return best location
-    //Launch async task at splash screen or home screen to start getting location read
     public Location getCurrentLocation(Context context) {
-        boolean gps_enabled = checkLocationSettingsEnabled(context);
         LocationManager mLocationManager = (LocationManager)(context.getSystemService(Context.LOCATION_SERVICE));
-        if (gps_enabled) {
-            return mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        }
-        //Can enable hook here to prompt user to enable location settings
-        //else
-        //  openLocationSettings(context);
+        /*//mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,LOCATION_REFRESH_DISTANCE, mLocationListener);
+        LocationListener mLocListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+
+            }
+        };
+        mLocationManager.requestLocationUpdates(getBestProvider(context), 100l, 1f, mLocListener);*/
         return mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+    }
+
+
+    public Location getCurrentLocation(Context context, String provider) {
+        LocationManager mLocationManager = (LocationManager)(context.getSystemService(Context.LOCATION_SERVICE));
+        return mLocationManager.getLastKnownLocation(provider);
+    }
+
+    public String getBestProvider (Context context) {
+        LocationManager mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        Criteria mBestCriteria = new Criteria();
+        mBestCriteria.setAccuracy(Criteria.ACCURACY_FINE);
+        Log.v(TAG, "getBestProvider(.setAccuracy(ACCURACY_FINE), true: " + mLocationManager.getBestProvider(mBestCriteria, true));
+        Log.v(TAG, "getBestProvider(.setAccuracy(ACCURACY_FINE), false: " + mLocationManager.getBestProvider(mBestCriteria, false));
+        return mLocationManager.getBestProvider(mBestCriteria, true);
+    }
+
+    public boolean isPassiveProviderEnabled (Context context) {
+        LocationManager mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        Log.v(TAG, "isPassiveProviderEnabled: " + mLocationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER));
+        return mLocationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER);
+    }
+
+
+    public boolean isNetworkProviderEnabled (Context context) {
+        LocationManager mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        Log.v(TAG, "isNetworkProviderrEnabled: " + mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER));
+        return mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+    public boolean isGPSProviderEnabled(Context context) {
+        LocationManager mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        Log.v(TAG, "isGPSProviderEnabled: " + mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER));
+        return mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    }
+
+    public void openLocationSettings(final Context context, boolean promptUser) {
+        if (!promptUser) {
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        } else {
+            AlertDialog.Builder ad = new AlertDialog.Builder(context, AlertDialog.THEME_HOLO_DARK);
+            ad.setMessage(R.string.dialogLocationSettingsMessage)
+                    .setTitle(R.string.dialogLocationSettingsTitle)
+                    .setPositiveButton(R.string.dialogLocationSettingsPositiveButton, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton(R.string.dialogLocationSettingsNegativeButton, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+            AlertDialog alertDialog = ad.create();
+            alertDialog.show();
+        }
     }
 
     //Check to see if the map is not null
     public boolean checkMapExists(GoogleMap map) {
         if (map == null) {
             throw new NoMapException("There is no map - no map functionality can be accessed. Please ensure that you have retrieved the most recent map on the current activity before using it.");
-            //return false - this option should not be used but you can change functionality if you need to for testing
         }
         return true;
     }
@@ -146,7 +158,6 @@ public class LocationWrapper {
         map.getUiSettings().setMyLocationButtonEnabled(true);
     }
 
-
     public void displayTrailOnMapInstant(GoogleMap map, Trail trail, float zoom) {
         centerCameraOnCustomLocation(map, trail.getLocation(), zoom);
         addMarkerAtCustomLocation(map, trail.getLocation(), trail.getName(), true);
@@ -159,25 +170,28 @@ public class LocationWrapper {
 
     //Launches a new system activity to get directions from startCoords to endCoords
     //Typically with Google Maps/Navigation but user has choice if they haven't selected a default
-    public void getDirectionsFromCoords(Context context, Double latStart, Double lngStart, Double latEnd, Double lngEnd) {
+    public void launchDirectionsFromCoords(Context context, Double latStart, Double lngStart, Double latEnd, Double lngEnd) {
         String uri = "http://maps.google.com/maps?saddr=" + latStart + "," + lngStart + "&daddr=" + latEnd + "," + lngEnd;
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
     //Launches a new system activity to get directions from locStart to locEnd
     //Typically with Google Maps/Navigation but user has choice if they haven't selected a default
-    public void getDirectionsFromCustomLocations(Context context, csc_380_project.scarlettrails.Location customLocStart, csc_380_project.scarlettrails.Location customLocEnd) {
+    public void launchDirectionsFromCustomLocation(Context context, CustomLocation customLocStart, CustomLocation customLocEnd) {
         String uri = "http://maps.google.com/maps?saddr=" + customLocStart.getLatitude() + "," + customLocStart.getLongitude() + "&daddr=" + customLocEnd.getLatitude() + "," + customLocEnd.getLongitude();
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
     //Launches a new system activity to get directions from locStart to locEnd
     //Typically with Google Maps/Navigation but user has choice if they haven't selected a default
-    public void getDirectionsFromGoogleLocations(Context context, Location locStart, Location locEnd) {
+    public void launchDirectionsFromGoogleLocation(Context context, Location locStart, Location locEnd) {
         String uri = "http://maps.google.com/maps?saddr=" + locStart.getLatitude() + "," + locStart.getLongitude() + "&daddr=" + locEnd.getLatitude() + "," + locEnd.getLongitude();
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
@@ -195,7 +209,7 @@ public class LocationWrapper {
     //Lat and Lng must be bounded between
     //latitude < -90 || latitude > 90
     //longitude < -180.0 || longitude > 180.0
-    public void centerCameraOnCustomLocation(GoogleMap map, csc_380_project.scarlettrails.Location customLoc, float zoom) {
+    public void centerCameraOnCustomLocation(GoogleMap map, CustomLocation customLoc, float zoom) {
         LatLng tempLatLng = new LatLng(customLoc.getLatitude(), customLoc.getLongitude());
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng, zoom));
     }
@@ -219,7 +233,7 @@ public class LocationWrapper {
 
     //Move the camera view of the google map to a certain Location
     //Call this method when the change in distance is small i.e. from one part of Oswego county to another
-    public void moveCameraAnimatedToCustomLocation(GoogleMap map, csc_380_project.scarlettrails.Location customLoc) {
+    public void moveCameraAnimatedToCustomLocation(GoogleMap map, CustomLocation customLoc) {
         LatLng tempLatLng = new LatLng(customLoc.getLatitude(),customLoc.getLongitude());
         //A duration value can also be passed to determine how long the animation should take; see android documentation
         map.animateCamera(CameraUpdateFactory.newLatLng(tempLatLng));
@@ -237,7 +251,7 @@ public class LocationWrapper {
     //Move the camera view of the google map to a certain Location at a specified Zoom level
     //Call this method when the change in distance is small i.e. from one part of Oswego county to another
     //Specify a zoom level to be used - static constants have been declared for your use
-    public void moveCameraAnimatedZoomToCustomLocation(GoogleMap map, csc_380_project.scarlettrails.Location customLoc, float zoom) {
+    public void moveCameraAnimatedZoomToCustomLocation(GoogleMap map, CustomLocation customLoc, float zoom) {
         LatLng tempLatLng = new LatLng(customLoc.getLatitude(), customLoc.getLongitude());
         //A duration value can also be passed to determine how long the animation should take; see android documentation
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng, zoom));
@@ -245,26 +259,73 @@ public class LocationWrapper {
 
     //Relevant examples/documentation
     //https://developers.google.com/maps/documentation/android/marker
-    public void addMarkerAtGoogleLocation(GoogleMap map, Location location, String title, boolean showTitleByDefault) {
+    public Marker addMarkerAtGoogleLocation(GoogleMap map, Location location, String title, boolean showTitleByDefault) {
         LatLng currentMarkerLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-        if (!title.equals(""))
-            if (showTitleByDefault)
-                map.addMarker(new MarkerOptions().position(currentMarkerLatLng).title(title)).showInfoWindow();
-            else
-                map.addMarker(new MarkerOptions().position(currentMarkerLatLng).title(title));
-        else
-            map.addMarker(new MarkerOptions().position(currentMarkerLatLng));
+        Marker current;
+        if (title != null) {
+            current = map.addMarker(new MarkerOptions()
+                    .position(currentMarkerLatLng)
+                    .title(title));
+        } else {
+            current = map.addMarker(new MarkerOptions()
+                    .position(currentMarkerLatLng));
+        }
+        if (showTitleByDefault)
+            current.showInfoWindow();
+        return current;
     }
 
-    public void addMarkerAtCustomLocation(GoogleMap map, csc_380_project.scarlettrails.Location customLoc, String title, boolean showTitleByDefault) {
+    public Marker addMarkerAtCustomLocation(GoogleMap map, CustomLocation customLoc, String title, boolean showTitleByDefault) {
         LatLng currentMarkerLatLng = new LatLng(customLoc.getLatitude(), customLoc.getLongitude());
-        if (!title.equals(""))
-            if (showTitleByDefault)
-                map.addMarker(new MarkerOptions().position(currentMarkerLatLng).title(title)).showInfoWindow();
-            else
-                map.addMarker(new MarkerOptions().position(currentMarkerLatLng).title(title));
-        else
-                map.addMarker(new MarkerOptions().position(currentMarkerLatLng));
+        Marker current;
+        if (title != null) {
+            current = map.addMarker(new MarkerOptions()
+                    .position(currentMarkerLatLng)
+                    .title(title));
+        } else {
+            current = map.addMarker(new MarkerOptions()
+                    .position(currentMarkerLatLng));
+        }
+        if (showTitleByDefault)
+            current.showInfoWindow();
+        return current;
+    }
+
+    public Marker addMarkerAtCoords(GoogleMap map, Double latitude, Double longitude, String title, boolean showTitleByDefault) {
+        LatLng currentMarkerLatLng = new LatLng(latitude, longitude);
+        Marker current;
+        if (title != null) {
+            current = map.addMarker(new MarkerOptions()
+                    .position(currentMarkerLatLng)
+                    .title(title));
+        } else {
+            current = map.addMarker(new MarkerOptions()
+                    .position(currentMarkerLatLng));
+        }
+        if (showTitleByDefault)
+            current.showInfoWindow();
+        return current;
+    }
+
+    public Marker addMarkerAtLatLng(GoogleMap map, LatLng markerLatLng, String title, boolean showTitleByDefault) {
+        Marker current;
+        if (title != null) {
+            current = map.addMarker(new MarkerOptions()
+                    .position(markerLatLng)
+                    .title(title));
+        } else {
+            current = map.addMarker(new MarkerOptions()
+                    .position(markerLatLng));
+        }
+        if (showTitleByDefault)
+            current.showInfoWindow();
+        return current;
+    }
+
+    public Marker addTrailMarker(GoogleMap map, Trail trail, boolean showTitleByDefault) {
+        Marker trailMarker = addMarkerAtCustomLocation(map, trail.getLocation(),trail.getName(),showTitleByDefault);
+        trailMarker.setSnippet("Click me to see trail info.");
+        return trailMarker;
     }
 
     public String[] getAddressFromGoogleLocation(Geocoder geocoder, Location location) {
@@ -315,7 +376,7 @@ public class LocationWrapper {
         return addressArray;
     }
 
-    public String[] getAddressFromCustomLocation(Geocoder geocoder, csc_380_project.scarlettrails.Location customLoc) {
+    public String[] getAddressFromCustomLocation(Geocoder geocoder, CustomLocation customLoc) {
         String[] addressArray = new String[5];
         String streetAddress;
         String postalCode;
@@ -369,17 +430,9 @@ public class LocationWrapper {
     }
 
     //TODO
-    //From GoogleDirectionAndPlace (GDAP) library
-    public void displayDirectionsOnMapWithGoogleLocations(Location origin, Location destination, GoogleMap map) {
-
-    }
-
-    //TODO
     //Implement
     //When are constant location updates needed? More context will help guide implementing this
-    public void beginListeningForLocationUpdates(LocationClient mLocationClient) {
-        //mLocationClient.requestLocationUpdates();
-    }
+    public void beginListeningForLocationUpdates() {}
 
     //Add an OnMarkerClickListener to the current map
     //See https://developer.android.com/reference/com/google/android/gms/maps/GoogleMap.OnMarkerClickListener.html
@@ -389,8 +442,8 @@ public class LocationWrapper {
 
     //Implement if functionality is needed
     //Convert some address strings or a retrieved adddress to a customLocation object
-    public csc_380_project.scarlettrails.Location getLocationFromAddress(Geocoder geocoder, Address address) {
-        return new csc_380_project.scarlettrails.Location(address.getLatitude(), address.getLongitude());
+    public CustomLocation getLocationFromAddress(Geocoder geocoder, Address address) {
+        return new CustomLocation(address.getLatitude(), address.getLongitude());
         //http://stackoverflow.com/questions/12577168/get-location-latitude-longitude-from-address-without-city-in-android
     }
 }

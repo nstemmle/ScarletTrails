@@ -85,11 +85,8 @@ public class ActivityForecast extends FragmentActivity implements ActionBar.OnNa
             //Day
             //Will figure out how to get day out of date provided
 
-            //rain percentage
-            ((TextView)findViewById(R.id.forecast_textview_firstday_percipitation)).setText(a.getPrecipitation() + "%");
-
             //clouds
-            ((ImageView)findViewById(R.id.forecast_imgview_firstday_clouds)).setBackgroundDrawable(cloudSelector(a.getClouds()));
+            //((ImageView)findViewById(R.id.forecast_imgview_firstday_clouds)).setBackgroundDrawable(cloudSelector(a.getDescription()));
 
             //maxtemp
             ((TextView)findViewById(R.id.forecast_textview_firstday_maxtemp)).setText(a.getTempMax() + "°F");
@@ -101,11 +98,8 @@ public class ActivityForecast extends FragmentActivity implements ActionBar.OnNa
             //Day
             //Will figure out how to get day out of date provided
 
-            //rain percentage
-            ((TextView)findViewById(R.id.forecast_textview_secondday_percipitation)).setText(b.getPrecipitation() + "%");
-
             //clouds
-            ((ImageView)findViewById(R.id.forecast_imgview_secondday_clouds)).setBackgroundDrawable(cloudSelector(b.getClouds()));
+            //((ImageView)findViewById(R.id.forecast_imgview_secondday_clouds)).setBackgroundDrawable(cloudSelector(b.getClouds()));
 
             //maxtemp
             ((TextView)findViewById(R.id.forecast_textview_secondday_maxtemp)).setText(b.getTempMax() + "°F");
@@ -116,11 +110,8 @@ public class ActivityForecast extends FragmentActivity implements ActionBar.OnNa
             //Day
             //Will figure out how to get day out of date provided
 
-            //rain percentage
-            ((TextView)findViewById(R.id.forecast_textview_thirdday_percipitation)).setText(c.getPrecipitation() + "%");
-
             //clouds
-            ((ImageView)findViewById(R.id.forecast_imgview_thirdday_clouds)).setBackgroundDrawable(cloudSelector(c.getClouds()));
+            //((ImageView)findViewById(R.id.forecast_imgview_thirdday_clouds)).setBackgroundDrawable(cloudSelector(c.getClouds()));
 
             //maxtemp
             ((TextView)findViewById(R.id.forecast_textview_thirdday_maxtemp)).setText(c.getTempMax() + "°F");
@@ -131,11 +122,8 @@ public class ActivityForecast extends FragmentActivity implements ActionBar.OnNa
             //Day
             //Will figure out how to get day out of date provided
 
-            //rain percentage
-            ((TextView)findViewById(R.id.forecast_textview_fourthday_percipitation)).setText(d.getPrecipitation() + "%");
-
             //clouds
-            ((ImageView)findViewById(R.id.forecast_imgview_fourthday_clouds)).setBackgroundDrawable(cloudSelector(d.getClouds()));
+            //((ImageView)findViewById(R.id.forecast_imgview_fourthday_clouds)).setBackgroundDrawable(cloudSelector(d.getClouds()));
 
             //maxtemp
             ((TextView)findViewById(R.id.forecast_textview_fourthday_maxtemp)).setText(d.getTempMax() + "°F");
@@ -146,11 +134,8 @@ public class ActivityForecast extends FragmentActivity implements ActionBar.OnNa
             //Day
             //Will figure out how to get day out of date provided
 
-            //rain percentage
-            ((TextView)findViewById(R.id.forecast_textview_fifthday_percipitation)).setText(e.getPrecipitation() + "%");
-
             //clouds
-            ((ImageView)findViewById(R.id.forecast_imgview_fifthday_clouds)).setBackgroundDrawable(cloudSelector(e.getClouds()));
+            //((ImageView)findViewById(R.id.forecast_imgview_fifthday_clouds)).setBackgroundDrawable(cloudSelector(e.getClouds()));
 
             //maxtemp
             ((TextView)findViewById(R.id.forecast_textview_fifthday_maxtemp)).setText(e.getTempMax() + "°F");

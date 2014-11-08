@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@id/home_linearlayout_root"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/GREEN_DARK"
+    android:textColor="@color/WHITE"
+    tools:context=".ActivityHome"
+    android:animateLayoutChanges="true">
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@id/home_fragment_map"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        class="com.google.android.gms.maps.MapFragment">
+        </fragment>
+
+    <RelativeLayout
+        android:id="@id/home_relativelayout_extras"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3">
+
+        <TextView
+            style="@style/TextWhiteStyle"
+            android:id="@id/home_textview_location_settings_disabled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_vertical_margin"
+            android:layout_centerHorizontal="true"
+            android:text="@string/home_textview_gps_disabled_message"
+            android:textAlignment="center"/>
+
+        <Button
+            android:id="@id/home_button_open_location_settings"
+            android:layout_below="@id/home_textview_location_settings_disabled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:includeFontPadding="true"
+            android:padding="8dp"
+            android:text="@string/home_button_update_location_settings"
+            android:layout_centerHorizontal="true"
+            android:alpha="1.0"
+            android:onClick="buttonOpenLocationSettingsOnClick"
+            android:background="@color/GRAY_LIGHT"/>
+
+        <Button
+            android:id="@id/home_button_ignore_gps_disabled"
+            android:layout_below="@id/home_button_open_location_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:includeFontPadding="true"
+            android:padding="8dp"
+            android:text="@string/home_button_ignore_gps_disabled"
+            android:layout_centerHorizontal="true"
+            android:alpha="1.0"
+            android:onClick="buttonIngoreGPSDisabledOnClick"
+            android:background="@color/GRAY_LIGHT"/>
+
+
+
+        </RelativeLayout>
+    <!--<ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="5">
+
+        <TextView
+            android:id="@id/homeTxtViewTrailTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/sampleTrailName"/>
+        <ImageView
+            android:id="@id/homeImgViewTrail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/greatbearspringsrecreationarea"/>
+    </ListView>-->
+</LinearLayout>

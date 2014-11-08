@@ -97,7 +97,7 @@ public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavi
                                 , json_trail.getDouble(ELEVATION)
                                 , json_trail.getString(DURATION)
                                 , json_trail.getString(DIFFICULTY)
-                                , new Location(
+                                , new CustomLocation(
                                                json_trail.getString(LOCATION_ID)
                                              , json_trail.getDouble(X)
                                              , json_trail.getDouble(Y)

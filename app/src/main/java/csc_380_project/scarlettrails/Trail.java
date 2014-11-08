@@ -1,8 +1,7 @@
 package csc_380_project.scarlettrails;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,7 +12,7 @@ import java.util.Random;
 /**
  * Created by Nathan on 10/16/2014.
  */
-class Trail implements DatabaseInterface {
+class Trail implements Parcelable {
     public static final String DURATION_SHORT = "Short";
     public static final String DURATION_MEDIUM = "Medium";
     public static final String DURATION_LONG = "Long";
@@ -30,7 +29,7 @@ class Trail implements DatabaseInterface {
     private final Double elevation;
     private final String duration;
     private final String difficulty;
-    private final Location mLocation;
+    private final CustomLocation mCustomLocation;
     private final String gear;
     private final String trailConditions;
     private final boolean petFriendly;
@@ -40,14 +39,14 @@ class Trail implements DatabaseInterface {
     private Forecast mForecast;
 
     Trail(String trailId, String name, Double distance, Double elevation, String duration, String difficulty,
-                 Location mLocation, String gear, String trailConditions, boolean petFriendly) {
+                CustomLocation mCustomLocation, String gear, String trailConditions, boolean petFriendly) {
         this.trailId = trailId;
         this.name = name;
         this.distance = distance;
         this.elevation = elevation;
         this.duration = duration;
         this.difficulty = difficulty;
-        this.mLocation = mLocation;
+        this.mCustomLocation = mCustomLocation;
         this.gear = gear;
         this.trailConditions = trailConditions;
         this.petFriendly = petFriendly;
@@ -55,6 +54,42 @@ class Trail implements DatabaseInterface {
         //Random rating for now
         Random r = new Random();
         setRating(r.nextDouble() + 4);
+    }
+
+    //Parcels must be retrieved FIFO - retrieve things first that were put in first
+    /*
+        dest.writeString(trailId);
+        dest.writeString(name);
+        dest.writeDouble(distance);
+        dest.writeDouble(elevation);
+        dest.writeString(duration);
+        dest.writeString(difficulty);
+        dest.writeString(gear);
+        dest.writeString(trailConditions);
+        dest.writeInt((petFriendly) ? 1 : 0);
+        dest.writeDouble((rating != null) ? rating : -1.0);
+        if (mCustomLocation != null)
+            mCustomLocation.writeToParcel(dest, flags);
+     */
+    Trail(Parcel in) {
+        trailId = in.readString();
+        name = in.readString();
+        distance = in.readDouble();
+        elevation = in.readDouble();
+        duration = in.readString();
+        difficulty = in.readString();
+        gear = in.readString();
+        trailConditions = in.readString();
+        petFriendly = in.readInt() == 1;
+        rating = in.readDouble();
+
+        //Next values should be CustomLocation values if values existed
+        if (in.dataAvail() > 0)
+            mCustomLocation = new CustomLocation(in);
+        else {
+            mCustomLocation = null;
+            System.out.println("Custom Location in Trail(Parcel in) was null; debug");
+        }
     }
 
     public Double getRating() {
@@ -93,8 +128,8 @@ class Trail implements DatabaseInterface {
         return difficulty;
     }
 
-    public Location getLocation() {
-        return mLocation;
+    public CustomLocation getLocation() {
+        return mCustomLocation;
     }
 
     public String getGear() {
@@ -198,18 +233,34 @@ class Trail implements DatabaseInterface {
         };
     }*/
 
-    @Override
-    public void query(String lookup) {
+    /** Static field used to regenerate object, individually or as arrays */
+    public static final Parcelable.Creator<Trail> CREATOR = new Parcelable.Creator<Trail>() {
+        public Trail createFromParcel(Parcel parcel) {
+            return new Trail(parcel);
+        }
+        public Trail[] newArray(int size) {
+            return new Trail[size];
+        }
+    };
 
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     @Override
-    public void updateData() {
-
-    }
-
-    @Override
-    public String insertData() {
-        return null;
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(trailId);
+        dest.writeString(name);
+        dest.writeDouble(distance);
+        dest.writeDouble(elevation);
+        dest.writeString(duration);
+        dest.writeString(difficulty);
+        dest.writeString(gear);
+        dest.writeString(trailConditions);
+        dest.writeInt((petFriendly) ? 1 : 0);
+        dest.writeDouble((rating != null) ? rating : -1.0);
+        if (mCustomLocation != null)
+            mCustomLocation.writeToParcel(dest, flags);
     }
 }

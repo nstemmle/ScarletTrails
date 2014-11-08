@@ -22,6 +22,18 @@ class TrailCollection {
         return trails.size();
     }
 
+    public Trail getTrailAtIndex(int index) {
+        return trails.get(index);
+    }
+
+    public void addTrail(Trail t) {
+        trails.add(t);
+    }
+
+    public void removeTrail(String id) {
+        trails.remove(getTrailById(id));
+    }
+
     public void sortByIds() {
         Collections.sort(trails, Trail.getTrailIdComaparator());
     }
@@ -53,6 +65,18 @@ class TrailCollection {
     /*public void sortByDuration() {
         Collections.sort(trails, Trail.getTrailDurationComaparator());
     }*/
+
+    Trail getTrailbyName(String name) {
+        sortByName();
+        Trail dummytrail = new Trail("0",name,null,null,"","",null,"","",false);
+
+        int index = Collections.binarySearch(trails, dummytrail, Trail.getTrailNameComaparator());
+
+        if (index >= 0)
+            return trails.get(index);
+
+        return null;
+    }
 
     Trail getTrailById(String trailId) {
         sortByIds();
