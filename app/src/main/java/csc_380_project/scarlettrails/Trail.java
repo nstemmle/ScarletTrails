@@ -2,6 +2,7 @@ package csc_380_project.scarlettrails;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -81,14 +82,15 @@ class Trail implements Parcelable {
         gear = in.readString();
         trailConditions = in.readString();
         petFriendly = in.readInt() == 1;
-        rating = in.readDouble();
+        Double tempRating = in.readDouble();
+        rating = tempRating >= 0 ? tempRating : null;
 
-        //Next values should be CustomLocation values if values existed
+        //Next values should be CustomLocation values if values exist
         if (in.dataAvail() > 0)
             mCustomLocation = new CustomLocation(in);
         else {
             mCustomLocation = null;
-            System.out.println("Custom Location in Trail(Parcel in) was null; debug");
+            Log.e("Trail.java","Custom Location in Trail(Parcel in) was null; debug");
         }
     }
 

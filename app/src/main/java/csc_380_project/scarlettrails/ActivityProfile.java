@@ -57,20 +57,6 @@ public class ActivityProfile extends Activity implements ActionBar.OnNavigationL
         }
         return super.onOptionsItemSelected(item);
     }
-    private void initializeNavigationBar() {
-        ActionBar mActionBar = getActionBar();
-        assert mActionBar != null;
-        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-
-        navSpinner = new ArrayList<SpinnerNavItem>();
-        //This is how you enter new navigation items. Please use the format provided on next line.
-        navSpinner.add(new SpinnerNavItem("Profile"));
-        navSpinner.add(new SpinnerNavItem("Home"));
-        mAdapter = new NavAdapter(getApplicationContext(), navSpinner);
-
-        mActionBar.setListNavigationCallbacks(mAdapter, this);
-        mActionBar.setDisplayShowTitleEnabled(false);
-    }
 
     private void initializeMap() {
         if (mMap == null) {
@@ -84,11 +70,33 @@ public class ActivityProfile extends Activity implements ActionBar.OnNavigationL
         mLocWrapper.setUpMapWithDefaults(mMap);
     }
 
+    private void initializeNavigationBar() {
+        ActionBar mActionBar = getActionBar();
+        assert mActionBar != null;
+        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+
+        navSpinner = new ArrayList<SpinnerNavItem>();
+        //This is how you enter new navigation items. Please use the format provided on next line.
+        navSpinner.add(new SpinnerNavItem(App.NAV_PROFILE));
+        navSpinner.add(new SpinnerNavItem(App.NAV_HOME));
+        navSpinner.add(new SpinnerNavItem(App.NAV_TRAILS));
+        mAdapter = new NavAdapter(getApplicationContext(), navSpinner);
+
+        mActionBar.setListNavigationCallbacks(mAdapter, this);
+        mActionBar.setDisplayShowTitleEnabled(false);
+    }
+
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        if (itemPosition == 1) {
-            Intent intent = new Intent(getApplicationContext(), ActivityHome.class);
-            startActivity(intent);
+        if (itemPosition == 1) { //Home selected
+            Intent home = new Intent(getApplicationContext(), ActivityHome.class);
+            startActivity(home);
+            return true;
+        }
+
+        else if (itemPosition == 2) { //Trails selected
+            Intent trails = new Intent(getApplicationContext(), ActivityTrailsList.class);
+            startActivity(trails);
             return true;
         }
         return false;

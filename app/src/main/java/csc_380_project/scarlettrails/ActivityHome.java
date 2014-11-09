@@ -2,6 +2,8 @@ package csc_380_project.scarlettrails;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
@@ -24,7 +26,7 @@ import java.util.Random;
 /**
  * Created by Nathan on 10/19/2014.
  */
-public class ActivityHome extends Activity implements ActionBar.OnNavigationListener { // implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ActivityHome extends Activity implements ActionBar.OnNavigationListener {
     private GoogleMap mMap;
     private LocationWrapper mLocWrapper;
     private NavAdapter mAdapter;
@@ -56,11 +58,10 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
         //Create dummy trails
         Random r = new Random();
         trailCollection = new TrailCollection();
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 5; i++) {
             CustomLocation tempLoc = new CustomLocation(generateRandomLatitude(r), generateRandomLongitude(r));
             trailCollection.addTrail(new Trail(String.valueOf(i), String.valueOf("Trail " + i), (r.nextInt(9000) + 1000.0), (r.nextInt(950) + 50.0), Trail.DURATION_MEDIUM, Trail.DIFFICULTY_MEDIUM, tempLoc, "gear", "conds", true));
         }
-
 
         addTrailCollectionMarkersToMap(trailCollection);
 
@@ -126,12 +127,57 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
 
         navSpinner = new ArrayList<SpinnerNavItem>();
         //This is how you enter new navigation items. Please use the format provided on next line.
-        navSpinner.add(new SpinnerNavItem("Home"));
-        navSpinner.add(new SpinnerNavItem("Profile"));
+        navSpinner.add(new SpinnerNavItem(App.NAV_HOME));
+        navSpinner.add(new SpinnerNavItem(App.NAV_TRAILS));
+        navSpinner.add(new SpinnerNavItem(App.NAV_PROFILE));
         mAdapter = new NavAdapter(getApplicationContext(), navSpinner);
 
         mActionBar.setListNavigationCallbacks(mAdapter, this);
         mActionBar.setDisplayShowTitleEnabled(false);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+        if (itemPosition == 1) { //Trails selected
+            Intent trails = new Intent(getApplicationContext(), ActivityTrailsList.class);
+            startActivity(trails);
+            return true;
+
+        } else if (itemPosition == 2) { //Profile selected
+            if (App.isUserLoggedIn()) {
+                Intent profile = new Intent(getApplicationContext(), ActivityProfile.class);
+                startActivity(profile);
+                return true;
+            }
+
+            //Prompt the user to log in
+            else {
+                promptUserToLogin();
+            }
+        }
+        return false;
+    }
+
+    private void promptUserToLogin() {
+        AlertDialog.Builder ad = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_DARK);
+        ad.setMessage(R.string.dialog_login_message)
+                .setTitle(R.string.dialog_login_title)
+                .setPositiveButton(R.string.dialog_login_positive_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent login = new Intent(getApplicationContext(), LoginActivity.class);
+                        login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        getApplicationContext().startActivity(login);
+                    }
+                })
+                .setNegativeButton(R.string.dialog_login_negative_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        AlertDialog alertDialog = ad.create();
+        alertDialog.show();
     }
 
     private void initializeMap() {
@@ -156,7 +202,7 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
                 mLoc = mLocWrapper.getCurrentLocation(getApplicationContext(), LocationManager.NETWORK_PROVIDER);
                 if (mLoc == null)
                     mLoc = mLocWrapper.getCurrentLocation(getApplicationContext());
-                    Log.v("ActivityHome", "Retrieving location from network provider failed in updateMap()");
+                    Log.e("ActivityHome:updateMap()", "Retrieving location from network provider failed in updateMap()");
             }
 
         } else {
@@ -175,8 +221,7 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                if (marker.getId().equals(mLocMarker.getId()))
-                {
+                if (marker.getId().equals(mLocMarker.getId())){
                     return true;
                 }
                 lastMarkerClicked = marker;
@@ -201,19 +246,8 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
         mLocMarker.showInfoWindow();
     }
 
-    @Override
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        // Switch to be implemented here depending on which item is selected
-       if (itemPosition == 1) {
-           Intent intent = new Intent(getApplicationContext(), ActivityProfile.class);
-           startActivity(intent);
-           return true;
-            }
-        return false;
-    }
-
     public void buttonOpenLocationSettingsOnClick(View view) {
-        mLocWrapper.openLocationSettings(getApplicationContext(), false);
+        mLocWrapper.openLocationSettings(this, true);
         if (mLocWrapper.isGPSProviderEnabled(getApplicationContext())) {
             removeExtraViews();
         }
@@ -235,23 +269,4 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
         ViewGroup viewGroupRoot = (ViewGroup) findViewById(R.id.home_linearlayout_root);
         viewGroupRoot.removeView(viewGroup);
     }
-
-    /*@Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return null;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
-
-    public void onListItemClick(ListView listview, View view, int position, long id) {
-
-    }*/
 }

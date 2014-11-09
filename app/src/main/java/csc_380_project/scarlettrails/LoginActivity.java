@@ -6,15 +6,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import csc_380_project.scarlettrails.ActivityHome;
 
 public class LoginActivity extends Activity {
     Button btnLogin;
@@ -73,6 +70,8 @@ public class LoginActivity extends Activity {
                                                       json_user.getString(EMAIL),
                                                       json_user.getString(DOB),
                                                       json_user.getString(USERNAME));
+                            App.setUserLoggedIn(true);
+                            App.setUserProfile(profile);
 
                             // Launch Dashboard Screen
                             Intent dashboard = new Intent(getApplicationContext(), ActivityHome.class);

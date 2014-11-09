@@ -2,11 +2,14 @@ package csc_380_project.scarlettrails;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,9 +20,6 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -32,6 +32,7 @@ public class ActivityTrail extends Activity implements ActionBar.OnNavigationLis
     private NavAdapter mAdapter;
     private ArrayList<SpinnerNavItem> navSpinner;
     private Trail mTrail;
+    private static String TAG = "ActivityTrail.java";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,22 +80,6 @@ public class ActivityTrail extends Activity implements ActionBar.OnNavigationLis
         return super.onOptionsItemSelected(item);
     }
 
-    private void initializeNavigationBar() {
-        ActionBar mActionBar = getActionBar();
-        assert mActionBar != null;
-        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-
-        navSpinner = new ArrayList<SpinnerNavItem>();
-        //This is how you enter new navigation items. Please use the format provided on next line.
-        navSpinner.add(new SpinnerNavItem("Trail"));
-        navSpinner.add(new SpinnerNavItem("Home"));
-        navSpinner.add(new SpinnerNavItem("Profile"));
-        mAdapter = new NavAdapter(getApplicationContext(), navSpinner);
-
-        mActionBar.setListNavigationCallbacks(mAdapter, this);
-        mActionBar.setDisplayShowTitleEnabled(false);
-    }
-
     private void initializeMap() {
         if (mMap == null) {
             mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.trail_fragment_map)).getMap();
@@ -108,22 +93,90 @@ public class ActivityTrail extends Activity implements ActionBar.OnNavigationLis
         mLocWrapper.setUpMapWithDefaults(mMap);
     }
 
+    private void initializeNavigationBar() {
+        ActionBar mActionBar = getActionBar();
+        assert mActionBar != null;
+        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+
+        navSpinner = new ArrayList<SpinnerNavItem>();
+        //This is how you enter new navigation items. Please use the format provided on next line.
+        navSpinner.add(new SpinnerNavItem("Trail"));
+        navSpinner.add(new SpinnerNavItem(App.NAV_HOME));
+        navSpinner.add(new SpinnerNavItem(App.NAV_TRAILS));
+        navSpinner.add(new SpinnerNavItem(App.NAV_PROFILE));
+        mAdapter = new NavAdapter(getApplicationContext(), navSpinner);
+
+        mActionBar.setListNavigationCallbacks(mAdapter, this);
+        mActionBar.setDisplayShowTitleEnabled(false);
+    }
+
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        if (itemPosition == 1) {
-            Intent intent = new Intent(getApplicationContext(), ActivityHome.class);
-            //if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null)
-            startActivity(intent);
+        if (itemPosition == 1) { //Home selected
+            Intent home = new Intent(getApplicationContext(), ActivityHome.class);
+            startActivity(home);
             return true;
         }
-        else
-            if (itemPosition == 2) {
-                Intent intent = new Intent(getApplicationContext(), ActivityProfile.class);
-                //if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null)
-                startActivity(intent);
+
+        else if (itemPosition == 2) { //Trails selected
+            Intent trails = new Intent(getApplicationContext(), ActivityHome.class);
+            startActivity(trails);
+            return true;
+        }
+
+        else if (itemPosition == 3) { //Profile selected
+            if (App.isUserLoggedIn()) {
+                Intent profile = new Intent(getApplicationContext(), ActivityProfile.class);
+                startActivity(profile);
                 return true;
             }
+
+            //Prompt the user to log in
+            else {
+                AlertDialog.Builder ad = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_DARK);
+                ad.setMessage(R.string.dialog_login_message)
+                        .setTitle(R.string.dialog_login_title)
+                        .setPositiveButton(R.string.dialog_login_positive_button, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent login = new Intent(getApplicationContext(), LoginActivity.class);
+                                login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                getApplicationContext().startActivity(login);
+                            }
+                        })
+                        .setNegativeButton(R.string.dialog_login_negative_button, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                AlertDialog alertDialog = ad.create();
+                alertDialog.show();
+            }
+        }
         return false;
+    }
+
+    private void promptUserToLogin() {
+        AlertDialog.Builder ad = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_DARK);
+        ad.setMessage(R.string.dialog_login_message)
+                .setTitle(R.string.dialog_login_title)
+                .setPositiveButton(R.string.dialog_login_positive_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent login = new Intent(getApplicationContext(), LoginActivity.class);
+                        login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        getApplicationContext().startActivity(login);
+                    }
+                })
+                .setNegativeButton(R.string.dialog_login_negative_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        AlertDialog alertDialog = ad.create();
+        alertDialog.show();
     }
 
     //When image is clicked, it should expand into a full screen view
@@ -133,7 +186,8 @@ public class ActivityTrail extends Activity implements ActionBar.OnNavigationLis
 
     public void populatePageWithTrailInfo() {
         //Trail Name
-        ((TextView)findViewById(R.id.trail_textview_trailname_value)).setText(mTrail.getName());
+        Log.e(TAG, "mTrail != null: " + String.valueOf(mTrail != null));
+        Log.e(TAG,"mTrail.getName() " + mTrail.getName());
 
         //Trail difficulty
         ((TextView)findViewById(R.id.trail_textview_difficulty_value)).setText(mTrail.getDifficulty());
@@ -157,18 +211,18 @@ public class ActivityTrail extends Activity implements ActionBar.OnNavigationLis
         ((TextView)findViewById(R.id.trail_textview_petfriendly_value)).setText(mTrail.isPetFriendly() ? "Yes" : "No");
 
         //Trail temp max
-        ((TextView)findViewById(R.id.trail_textview_tempmax_value)).setText(String.valueOf(mTrail.getForecast().getTempMax()) + "°F");
+        //((TextView)findViewById(R.id.trail_textview_tempmax_value)).setText(String.valueOf(mTrail.getForecast().getTempMax()) + "°F");
 
         //Trail temp min
-        ((TextView)findViewById(R.id.trail_textview_tempmin_value)).setText(String.valueOf(mTrail.getForecast().getTempMin()) + "°F");
+        //((TextView)findViewById(R.id.trail_textview_tempmin_value)).setText(String.valueOf(mTrail.getForecast().getTempMin()) + "°F");
 
         //Trail clouds/precipitation picture
 
         //Trail sunrise
-        ((TextView)findViewById(R.id.trail_textview_sunrise_value)).setText(String.valueOf(mTrail.getForecast().getSunrise()));
+        //((TextView)findViewById(R.id.trail_textview_sunrise_value)).setText(String.valueOf(mTrail.getForecast().getSunrise()));
 
         //Trail sunset
-        ((TextView)findViewById(R.id.trail_textview_sunset_value)).setText(String.valueOf(mTrail.getForecast().getSunset()));
+        //((TextView)findViewById(R.id.trail_textview_sunset_value)).setText(String.valueOf(mTrail.getForecast().getSunset()));
 
 
         //Trail image

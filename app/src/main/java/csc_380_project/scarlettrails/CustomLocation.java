@@ -37,20 +37,14 @@ public class CustomLocation implements Parcelable {
         this.country = country;
     }
     /*
-        dest.writeDouble(latitude);
-        dest.writeDouble(longitude);
-        if (locationId != 0)
-            dest.writeInt(locationId);
-        if (streetAddress != null && ! streetAddress.equals(""))
-            dest.writeString(streetAddress);
-        if (postalCode != 0)
-            dest.writeInt(postalCode);
-        if (city != null && ! city.equals(""))
-            dest.writeString(city);
-        if (state != null && ! state.equals(""))
-            dest.writeString(state);
-        if (country != null && ! country.equals(""))
-            dest.writeString(country);
+        Double latitude
+        Double longitude
+        String locationId
+        String streetAddress
+        String postalCode
+        String city
+        String state
+        String country
      */
 
     public CustomLocation(Parcel in) {
@@ -112,7 +106,7 @@ public class CustomLocation implements Parcelable {
     private final Double latitude;
     private final Double longitude;
     private String streetAddress;
-    private int postalCode;
+    private String postalCode;
     private String city;
     private String state;
     private String country;
@@ -121,18 +115,33 @@ public class CustomLocation implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeDouble(latitude);
         dest.writeDouble(longitude);
-        if (!locationId.isEmpty()) {
+        if (locationId != null && !locationId.isEmpty()) {
             dest.writeString(locationId);
+
             if (streetAddress != null)
                 dest.writeString(streetAddress);
+            else
+                dest.writeString("");
+
             if (postalCode != null)
                 dest.writeString(postalCode);
+            else
+                dest.writeString("");
+
             if (city != null)
                 dest.writeString(city);
+            else
+                dest.writeString("");
+
             if (state != null)
                 dest.writeString(state);
+            else
+                dest.writeString("");
+
             if (country != null)
                 dest.writeString(country);
+            else
+                dest.writeString("");
         }
     }
 }

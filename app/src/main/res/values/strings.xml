@@ -25,4 +25,9 @@
     <string name="dialogLocationSettingsTitle">Open Location Settings?</string>
     <string name="dialogLocationSettingsPositiveButton">Open Settings</string>
     <string name="dialogLocationSettingsNegativeButton">Cancel</string>
+
+    <string name="dialog_login_message">You are not logged in. Would you like to log in?</string>
+    <string name="dialog_login_title">Log In?</string>
+    <string name="dialog_login_positive_button">Log In</string>
+    <string name="dialog_login_negative_button">Cancel</string>
 </resources>

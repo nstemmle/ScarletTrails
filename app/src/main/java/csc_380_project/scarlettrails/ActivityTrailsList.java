@@ -6,6 +6,8 @@ package csc_380_project.scarlettrails;
 import java.util.ArrayList;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.ListActivity;
@@ -157,6 +159,8 @@ public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavi
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.actionbar_settings) {
+            Intent settings = new Intent(getApplicationContext(), ActivitySettings.class);
+            startActivity(settings);
             return true;
         } else if (id == R.id.actionbar_search){
             Intent intent = new Intent(getApplicationContext(), ActivitySearchTrail.class);
@@ -170,9 +174,9 @@ public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavi
 
         navSpinner = new ArrayList<SpinnerNavItem>();
         //This is how you enter new navigation items. Please use the format provided on next line.
-        navSpinner.add(new SpinnerNavItem("Profile"));
-        navSpinner.add(new SpinnerNavItem("Home"));
-        navSpinner.add(new SpinnerNavItem("Trail"));
+        navSpinner.add(new SpinnerNavItem(App.NAV_TRAILS));
+        navSpinner.add(new SpinnerNavItem(App.NAV_HOME));
+        navSpinner.add(new SpinnerNavItem(App.NAV_PROFILE));
         mAdapter = new NavAdapter(getApplicationContext(), navSpinner);
 
         mActionBar.setListNavigationCallbacks(mAdapter, this);
@@ -181,19 +185,46 @@ public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavi
 
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        if (itemPosition == 1) {
-            Intent intent = new Intent(getApplicationContext(), ActivityHome.class);
-            //if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null)
-            startActivity(intent);
+        if (itemPosition == 1) { //Home selected
+            Intent home = new Intent(getApplicationContext(), ActivityHome.class);
+            startActivity(home);
             return true;
         }
-        else
-        if (itemPosition == 2) {
-            Intent intent = new Intent(getApplicationContext(), ActivityTrail.class);
-            //if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null)
-            startActivity(intent);
-            return true;
+
+        else if (itemPosition == 2) { //Profile selected
+            if (App.isUserLoggedIn()) {
+                Intent profile = new Intent(getApplicationContext(), ActivityProfile.class);
+                startActivity(profile);
+                return true;
+            }
+
+            //Prompt the user to log in
+            else {
+                promptUserToLogin();
+            }
         }
         return false;
+    }
+
+    private void promptUserToLogin() {
+        AlertDialog.Builder ad = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_DARK);
+        ad.setMessage(R.string.dialog_login_message)
+                .setTitle(R.string.dialog_login_title)
+                .setPositiveButton(R.string.dialog_login_positive_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent login = new Intent(getApplicationContext(), LoginActivity.class);
+                        login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        getApplicationContext().startActivity(login);
+                    }
+                })
+                .setNegativeButton(R.string.dialog_login_negative_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        AlertDialog alertDialog = ad.create();
+        alertDialog.show();
     }
 }

@@ -100,4 +100,10 @@ public class RegisterActivity extends Activity {
             }
         });
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        this.finish();
+    }
 }

@@ -43,4 +43,10 @@ public class ForgotPasswordActivity extends Activity {
             }
         });
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        this.finish();
+    }
 }

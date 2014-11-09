@@ -84,27 +84,22 @@ public class LocationWrapper {
         LocationManager mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         Criteria mBestCriteria = new Criteria();
         mBestCriteria.setAccuracy(Criteria.ACCURACY_FINE);
-        Log.v(TAG, "getBestProvider(.setAccuracy(ACCURACY_FINE), true: " + mLocationManager.getBestProvider(mBestCriteria, true));
-        Log.v(TAG, "getBestProvider(.setAccuracy(ACCURACY_FINE), false: " + mLocationManager.getBestProvider(mBestCriteria, false));
         return mLocationManager.getBestProvider(mBestCriteria, true);
     }
 
     public boolean isPassiveProviderEnabled (Context context) {
         LocationManager mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        Log.v(TAG, "isPassiveProviderEnabled: " + mLocationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER));
         return mLocationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER);
     }
 
 
     public boolean isNetworkProviderEnabled (Context context) {
         LocationManager mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        Log.v(TAG, "isNetworkProviderrEnabled: " + mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER));
         return mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
     public boolean isGPSProviderEnabled(Context context) {
         LocationManager mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        Log.v(TAG, "isGPSProviderEnabled: " + mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER));
         return mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
@@ -152,7 +147,7 @@ public class LocationWrapper {
     //Verify map then set defaults
     public void setUpMapWithDefaults(GoogleMap map) {
         checkMapExists(map);
-        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        //map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(OSWEGO_COUNTY,COUNTY_ZOOM));
         map.setMyLocationEnabled(true);
         map.getUiSettings().setMyLocationButtonEnabled(true);
