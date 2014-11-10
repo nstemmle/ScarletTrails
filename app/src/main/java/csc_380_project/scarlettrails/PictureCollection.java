@@ -35,8 +35,8 @@ import java.util.ArrayList;
                     Picture picture = new Picture(json_picture.getString(PICTURE_ID)
                             , json_picture.getString(PICTURE)
                             , json_picture.getString(USER_ID)
-                            , json_picture.getString(TRAIL_ID)
                             , json_picture.getString(USERNAME)
+                            , json_picture.getString(TRAIL_ID)
                             , json_picture.getString(PICTURE_DATE));
 
                     // adding each child node to HashMap key => value
