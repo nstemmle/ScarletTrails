@@ -48,4 +48,8 @@ import java.util.ArrayList;
             }
             return null;
         }
+
+        public Picture getPictureAtIndex(int index) {
+            return picturesList.get(index);
+        }
     }

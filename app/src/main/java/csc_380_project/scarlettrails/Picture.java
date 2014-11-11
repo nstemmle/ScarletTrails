@@ -7,7 +7,7 @@ import java.util.Calendar;
  */
 public class Picture {
     private final String pictureId;
-    private final String pictureContent; //Location of picture
+    private final String pictureUrl; //Location of picture
     private final String profileOwnerId;
     private final String profileUsername;
     private final String trailOwnerId;
@@ -15,14 +15,45 @@ public class Picture {
     private Double rating;
     private CommentCollection comments;
 
-    public Picture(String pictureId, String pictureContent, String profileOwnerId, String profileUsername,
+    public Picture(String pictureId, String pictureUrl, String profileOwnerId, String profileUsername,
                                                                 String trailOwnerId, String dateSubmitted) {
         this.pictureId = pictureId;
-        this.pictureContent = pictureContent;
+        this.pictureUrl = pictureUrl;
         this.profileOwnerId = profileOwnerId;
         this.profileUsername = profileUsername;
         this.trailOwnerId = trailOwnerId;
         this.dateSubmitted = dateSubmitted;
     }
 
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public String getPictureId() {
+        return pictureId;
+    }
+
+    public String getProfileOwnerId() {
+        return profileOwnerId;
+    }
+
+    public String getProfileUsername() {
+        return profileUsername;
+    }
+
+    public String getTrailOwnerId() {
+        return trailOwnerId;
+    }
+
+    public String getDateSubmitted() {
+        return dateSubmitted;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public CommentCollection getComments() {
+        return comments;
+    }
 }
