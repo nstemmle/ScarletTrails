@@ -148,16 +148,19 @@ class Trail implements Parcelable {
         this.rating = d;
     }
     
-    public void createForecast(){
-        String info = ( (new ForecastWrapper().getWeatherContent(mCustomLocation.getLatitude(), mCustomLocation.getLongitude(), true)));
-        try {
-            mForecast = ForecastWrapper.getWeather(info,0);
+    public Forecast createForecast(){
+        if (mForecast == null) {
+            String info = ((new ForecastWrapper().getWeatherContent(mCustomLocation.getLatitude(), mCustomLocation.getLongitude(), true)));
+            try {
+                mForecast = ForecastWrapper.getWeather(info, 0);
 
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
-
+        return mForecast;
     }
     
     
