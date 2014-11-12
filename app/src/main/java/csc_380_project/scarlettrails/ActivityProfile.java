@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -20,6 +23,13 @@ public class ActivityProfile extends Activity implements ActionBar.OnNavigationL
     private LocationWrapper mLocWrapper;
     private NavAdapter mAdapter;
     private ArrayList<SpinnerNavItem> navSpinner;
+    private ImageButton galleryIcon;
+    Profile userProfile;
+    TextView fullName;
+    TextView username;
+    TextView interests;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,10 +38,29 @@ public class ActivityProfile extends Activity implements ActionBar.OnNavigationL
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_profile);
 
+        userProfile = App.getUserProfile();
+
+        fullName = (TextView)findViewById(R.id.nameProfilePage);
+        fullName.setText(userProfile.getFirstName() + " " + userProfile.getLastName());
+        username = (TextView)findViewById(R.id.nicknameProfilePage);
+        username.setText(userProfile.getUsername());
+        interests = (TextView)findViewById(R.id.interestsProfilePage);
+        interests.setText("Interests");
+
         initializeNavigationBar();
 
         mLocWrapper = LocationWrapper.getInstance();
-        initializeMap();
+        //initializeMap();
+
+        galleryIcon = (ImageButton)findViewById(R.id.galleryButton);
+        galleryIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ActivityPictureCollection.class);
+                intent.putExtra("user_id", userProfile.getProfileId());
+                startActivity(intent);
+            }
+        });
     }
 
 

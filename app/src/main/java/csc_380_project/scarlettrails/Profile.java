@@ -17,7 +17,6 @@ public class Profile  {
         this.email = email;
         this.dateOfBirth = dateOfBirth;
         this.username = username;
-
     }
 
     public String getProfileId() { return profileId; }
@@ -29,6 +28,8 @@ public class Profile  {
     public String getFirstName() { return firstName; }
 
     public String getLastName() { return lastName; }
+
+    public String getUsername() { return username; }
 
     public String getDateOfBirth() { return dateOfBirth; }
 
