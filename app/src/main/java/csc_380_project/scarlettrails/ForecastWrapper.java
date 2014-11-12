@@ -39,7 +39,11 @@ public class ForecastWrapper extends AsyncTask<String, Void, String> {
     public ForecastWrapper(){}
 
     public  String getWeatherContent(double lat, double lng, boolean h){
-        BASE_URL = "http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lng;
+        if (h == true) {
+            BASE_URL = "http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lng;
+        }else{
+            BASE_URL = "http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lng + "&cnt=10&mode=json";
+        }
         HttpURLConnection connection = null;
         InputStream inputStream = null;
         try{
