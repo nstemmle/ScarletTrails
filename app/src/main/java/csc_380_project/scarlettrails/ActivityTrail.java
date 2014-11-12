@@ -210,19 +210,22 @@ public class ActivityTrail extends Activity implements ActionBar.OnNavigationLis
         //Trail pet friendly
         ((TextView)findViewById(R.id.trail_textview_petfriendly_value)).setText(mTrail.isPetFriendly() ? "Yes" : "No");
 
+        Forecast mtemp = mTrail.createForecast();
+        
         //Trail temp max
-        ((TextView)findViewById(R.id.trail_textview_tempmax_value)).setText(String.valueOf(mTrail.getForecast().getTempMax()) + "°F");
+        ((TextView)findViewById(R.id.trail_textview_tempmax_value)).setText(mtemp.getTempMax() + "°F");
 
         //Trail temp min
-        ((TextView)findViewById(R.id.trail_textview_tempmin_value)).setText(String.valueOf(mTrail.getForecast().getTempMin()) + "°F");
+        ((TextView)findViewById(R.id.trail_textview_tempmin_value)).setText(String.valueOf(mTrail.createForecast().getTempMin()) + "°F");
 
         //Trail clouds/precipitation picture
 
         //Trail sunrise
-        ((TextView)findViewById(R.id.trail_textview_sunrise_value)).setText(String.valueOf(mTrail.getForecast().getSunrise()));
+        ((TextView)findViewById(R.id.trail_textview_sunrise_value)).setText(String.valueOf(mTrail.createForecast().getSunrise()));
 
         //Trail sunset
-        ((TextView)findViewById(R.id.trail_textview_sunset_value)).setText(String.valueOf(mTrail.getForecast().getSunset()));
+        ((TextView)findViewById(R.id.trail_textview_sunset_value)).setText(String.valueOf(mTrail.createForecast().getSunset()));
+
 
 
         //Trail image
