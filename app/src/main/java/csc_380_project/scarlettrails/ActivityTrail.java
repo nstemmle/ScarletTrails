@@ -119,7 +119,7 @@ public class ActivityTrail extends Activity implements ActionBar.OnNavigationLis
         }
 
         else if (itemPosition == 2) { //Trails selected
-            Intent trails = new Intent(getApplicationContext(), ActivityHome.class);
+            Intent trails = new Intent(getApplicationContext(), ActivityTrailsList.class);
             startActivity(trails);
             return true;
         }

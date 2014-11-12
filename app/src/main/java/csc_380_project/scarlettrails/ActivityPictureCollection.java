@@ -200,7 +200,7 @@ public class ActivityPictureCollection extends FragmentActivity implements Actio
         //This is how you enter new navigation items. Please use the format provided on next line.
         navSpinner.add(new SpinnerNavItem("Picture"));
         navSpinner.add(new SpinnerNavItem("Home"));
-        navSpinner.add(new SpinnerNavItem("Trail"));
+        navSpinner.add(new SpinnerNavItem("Trails"));
         navSpinner.add(new SpinnerNavItem("Profile"));
         mAdapter = new NavAdapter(getApplicationContext(), navSpinner);
 
@@ -218,7 +218,7 @@ public class ActivityPictureCollection extends FragmentActivity implements Actio
         }
         else {
             if (itemPosition == 2) {
-                Intent intent = new Intent(getApplicationContext(), ActivityTrail.class);
+                Intent intent = new Intent(getApplicationContext(), ActivityTrailsList.class);
                 //if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null)
                 startActivity(intent);
                 return true;
