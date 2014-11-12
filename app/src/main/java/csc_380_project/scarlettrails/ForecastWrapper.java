@@ -133,7 +133,7 @@ public class ForecastWrapper extends AsyncTask<String, Void, String> {
 
         java.util.Date currentDate = new Date((long)listJSON.getLong("dt")*1000);
 
-        Forecast forecast = new Forecast(formatDate(currentDate), tempmin, tempmax, formatDate(sunRiseTime), formatDate(sunSetTime), weathrid);
+        Forecast forecast = new Forecast(formatDate(currentDate), tempmin, tempmax, formatSun(sunRiseTime), formatSun(sunSetTime), weathrid);
         return forecast;
     }
 
@@ -145,6 +145,13 @@ public class ForecastWrapper extends AsyncTask<String, Void, String> {
         return dateFormat.format(date);
     }
 
+    protected static String formatSun(Date date){
+        TimeZone timeZone = TimeZone.getTimeZone("EST");
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm");
+        dateFormat.setTimeZone(timeZone);
+        System.out.print(dateFormat.format(date));
+        return dateFormat.format(date);
+    }
     // converts temperature from Kelvin to F
     private static int ConvertTempToF(int temp){
         return (int)((temp-273.15)*(9/5)+32);
