@@ -22,8 +22,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#FFFFFF"
-            android:text="vnagura"
-            android:id="@+id/username" />
+            android:id="@+id/picUsername" />
     </FrameLayout>
 
 
@@ -45,8 +44,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#FFFFFF"
-        android:text="Trail Name"
-        android:id="@+id/textView2"
+        android:id="@+id/picTrailName"
         android:layout_gravity="center_horizontal" />
 
 </LinearLayout>

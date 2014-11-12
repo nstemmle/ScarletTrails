@@ -4,8 +4,6 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -14,15 +12,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.AdapterView;
+import android.widget.TextView;
 import java.io.ByteArrayOutputStream;
 
 
 import com.squareup.picasso.Picasso;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -31,8 +26,8 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
     private NavAdapter mAdapter;
     private ArrayList<SpinnerNavItem> navSpinner;
     int positionForSwipe;
-
-
+    TextView picTrailName;
+    TextView picUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +35,9 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_picture);
+
+        picTrailName = (TextView) findViewById(R.id.picTrailName);
+        picUsername = (TextView) findViewById(R.id.picUsername);
 
         initializeNavigationBar();
 
@@ -62,6 +60,8 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
                     .centerCrop()
                     .error(R.raw.image_not_found)
                     .into(imageView);
+                    picUsername.setText(ActivityPictureCollection.pictureCollection.getPictureAtIndex(position).getProfileUsername());
+                    picTrailName.setText(ActivityPictureCollection.pictureCollection.getPictureAtIndex(position).getTrailName());
         } else {
             Picasso.with(ActivityPicture.this)
                     .load(R.raw.loading)
@@ -97,6 +97,10 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
                             .error(R.raw.image_not_found)
                             .into(imageView);
                 }
+                picUsername.setText(ActivityPictureCollection.pictureCollection.
+                                          getPictureAtIndex(positionForSwipe).getProfileUsername());
+                picTrailName.setText(ActivityPictureCollection.pictureCollection.
+                                          getPictureAtIndex(positionForSwipe).getTrailName());
             }
 
             @Override
@@ -124,6 +128,10 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
                             .error(R.raw.image_not_found)
                             .into(imageView);
                 }
+                picUsername.setText(ActivityPictureCollection.pictureCollection.
+                                          getPictureAtIndex(positionForSwipe).getProfileUsername());
+                picTrailName.setText(ActivityPictureCollection.pictureCollection.
+                                          getPictureAtIndex(positionForSwipe).getTrailName());
             }
         });
 
@@ -201,5 +209,4 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
         }
         return false;
     }
-
 }
