@@ -149,7 +149,7 @@ class Trail implements Parcelable {
     }
     
     public void createForecast(){
-        String info = ( (new ForecastWrapper().getWeatherContent(mCustomLocation.getLatitude(), mCustomLocation.getLongitude())));
+        String info = ( (new ForecastWrapper().getWeatherContent(mCustomLocation.getLatitude(), mCustomLocation.getLongitude(), true)));
         try {
             mForecast = ForecastWrapper.getWeather(info,0);
 
