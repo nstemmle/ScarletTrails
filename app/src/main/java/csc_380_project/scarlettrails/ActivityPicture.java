@@ -151,7 +151,6 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
                 try {
                     JSONArray trails = jsonObject.getJSONArray(ActivityTrailsList.TAG_TRAILLIST);
                     JSONObject json = trails.getJSONObject(0);
-                    Forecast forecast = new Forecast();
                     Trail trail = new Trail(
                               json.getString(ActivityTrailsList.TRAIL_ID)
                             , json.getString(ActivityTrailsList.NAME)
@@ -171,7 +170,7 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
                             , json.getString(ActivityTrailsList.CONDITIONS)
                             , json.getBoolean(ActivityTrailsList.PET_FRIENDLY));
 
-                    trail.setForecast(forecast);
+                    trail.createForecast();
                     Intent intent = new Intent(getApplicationContext(), ActivityTrail.class);
                     intent.putExtra("trail", trail);
                     startActivity(intent);

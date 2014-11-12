@@ -63,7 +63,9 @@ public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavi
         // 1. pass context and data to the custom adapter
         Adapter adapter = new Adapter(getApplicationContext(), generateData(searchKey));
         //2. setListAdapter
-        setListAdapter(adapter);
+        if(adapter.getTrailsArrayList() != null) {
+            setListAdapter(adapter);
+        }
     }
 
     private ArrayList<Trail> generateData(String searchKey) {
@@ -91,7 +93,6 @@ public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavi
                         JSONObject json_trail = trails.getJSONObject(i);
                         // Storing each json item in variable
 
-                        Forecast forecast = new Forecast();
                         Trail trail = new Trail(
                                   json_trail.getString(TRAIL_ID)
                                 , json_trail.getString(NAME)
@@ -111,7 +112,7 @@ public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavi
                                 , json_trail.getString(CONDITIONS)
                                 , json_trail.getBoolean(PET_FRIENDLY));
 
-                        trail.setForecast(forecast);
+                        trail.createForecast();
 
                         // adding each child node to HashMap key => value
                         trailsList.add(trail);

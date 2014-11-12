@@ -43,4 +43,8 @@ public class Adapter extends ArrayAdapter<Trail> {
         // 5. retrn trailView
         return trailView;
     }
+
+    public ArrayList<Trail> getTrailsArrayList() {
+        return trailsArrayList;
+    }
 }
