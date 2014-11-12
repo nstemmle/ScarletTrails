@@ -74,7 +74,7 @@
                     android:layout_marginTop="6dp"
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="2dp"
-                    android:background="@drawable/galleryIcon"
+                    android:background="@drawable/gallery_icon"
                     android:layout_gravity="center_horizontal"
                     android:layout_height="30dp" />
 
