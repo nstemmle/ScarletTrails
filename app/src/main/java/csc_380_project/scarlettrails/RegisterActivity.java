@@ -78,6 +78,8 @@ public class RegisterActivity extends Activity {
                                     json_user.getString(EMAIL),
                                     json_user.getString(DOB),
                                     json_user.getString(USERNAME));
+                            App.setUserLoggedIn(true);
+                            App.setUserProfile(profile);
 
                             // user successfully registred
                             // Launch Dashboard Screen
