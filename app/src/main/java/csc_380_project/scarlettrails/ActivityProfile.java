@@ -38,7 +38,12 @@ public class ActivityProfile extends Activity implements ActionBar.OnNavigationL
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_profile);
 
-        userProfile = App.getUserProfile();
+        if (getIntent().getExtras() != null) {
+            userProfile = getIntent().getParcelableExtra("user");
+        }
+        else {
+            userProfile = App.getUserProfile();
+        }
 
         fullName = (TextView)findViewById(R.id.nameProfilePage);
         fullName.setText(userProfile.getFirstName() + " " + userProfile.getLastName());

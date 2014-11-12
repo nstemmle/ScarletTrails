@@ -35,6 +35,7 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
     Button picUsername;
     JSONObject jsonObject = new JSONObject();
     TrailFunctions trailFunctions = new TrailFunctions();
+    UserFunctions userFunctions = new UserFunctions();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,6 +178,36 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        // Link to Activity Trail Page
+        picUsername.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ActivityProfile.class);
+                String userId = ActivityPictureCollection.pictureCollection.getPictureAtIndex(positionForSwipe).getProfileOwnerId();
+                String appUserId = App.getUserProfile().getProfileId();
+
+                if (!appUserId.equals(userId)) {
+                    jsonObject = userFunctions.getUserById(userId);
+                    try {
+                        JSONArray trails = jsonObject.getJSONArray("usersList");
+                        JSONObject json = trails.getJSONObject(0);
+                        Profile profile = new Profile(json.getString(LoginActivity.USER_ID),
+                                                      json.getString(LoginActivity.FIRST_NAME),
+                                                      json.getString(LoginActivity.LAST_NAME),
+                                                      json.getString(LoginActivity.EMAIL),
+                                                      json.getString(LoginActivity.DOB),
+                                                      json.getString(LoginActivity.USERNAME));
+
+                        intent.putExtra("user", profile);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                startActivity(intent);
             }
         });
     }
