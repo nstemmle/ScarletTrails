@@ -76,6 +76,10 @@ public class CustomLocation implements Parcelable {
         return city;
     }
 
+    public String getState() {
+        return state;
+    }
+
     private void setAddressStrings(String[] addressArray) {
         //addressArray[] indices
         /*addressArray[0] = streetAddress || null;

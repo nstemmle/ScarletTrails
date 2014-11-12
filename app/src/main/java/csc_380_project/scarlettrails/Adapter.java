@@ -35,10 +35,12 @@ public class Adapter extends ArrayAdapter<Trail> {
         // 3. Get the two text view from the trailView
         TextView trailNameView = (TextView) trailView.findViewById(R.id.trailName);
         TextView trailCityView = (TextView) trailView.findViewById(R.id.trailCity);
+        TextView trailStateView = (TextView) trailView.findViewById(R.id.trailState);
 
         // 4. Set the text for textView
         trailNameView.setText(trailsArrayList.get(position).getName());
         trailCityView.setText(trailsArrayList.get(position).getLocation().getCity());
+        trailStateView.setText(trailsArrayList.get(position).getLocation().getState());
 
         // 5. retrn trailView
         return trailView;
