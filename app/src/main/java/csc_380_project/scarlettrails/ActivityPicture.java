@@ -12,12 +12,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import java.io.ByteArrayOutputStream;
 
 
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 
@@ -26,8 +31,10 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
     private NavAdapter mAdapter;
     private ArrayList<SpinnerNavItem> navSpinner;
     int positionForSwipe;
-    TextView picTrailName;
-    TextView picUsername;
+    Button picTrailName;
+    Button picUsername;
+    JSONObject jsonObject = new JSONObject();
+    TrailFunctions trailFunctions = new TrailFunctions();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +43,8 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_picture);
 
-        picTrailName = (TextView) findViewById(R.id.picTrailName);
-        picUsername = (TextView) findViewById(R.id.picUsername);
+        picTrailName = (Button) findViewById(R.id.picTrailName);
+        picUsername = (Button) findViewById(R.id.picUsername);
 
         initializeNavigationBar();
 
@@ -135,6 +142,44 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
             }
         });
 
+        // Link to Activity Trail Page
+        picTrailName.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                String trailId = ActivityPictureCollection.pictureCollection.getPictureAtIndex(positionForSwipe).getTrailOwnerId();
+                jsonObject = trailFunctions.getTrailById(trailId);
+                try {
+                    JSONArray trails = jsonObject.getJSONArray(ActivityTrailsList.TAG_TRAILLIST);
+                    JSONObject json = trails.getJSONObject(0);
+                    Forecast forecast = new Forecast();
+                    Trail trail = new Trail(
+                              json.getString(ActivityTrailsList.TRAIL_ID)
+                            , json.getString(ActivityTrailsList.NAME)
+                            , json.getDouble(ActivityTrailsList.DISTANCE)
+                            , json.getDouble(ActivityTrailsList.ELEVATION)
+                            , json.getString(ActivityTrailsList.DURATION)
+                            , json.getString(ActivityTrailsList.DIFFICULTY)
+                            , new CustomLocation(
+                                                 json.getString(ActivityTrailsList.LOCATION_ID)
+                                               , json.getDouble(ActivityTrailsList.X)
+                                               , json.getDouble(ActivityTrailsList.Y)
+                                               , json.getString(ActivityTrailsList.ZIPCODE)
+                                               , json.getString(ActivityTrailsList.CITY)
+                                               , json.getString(ActivityTrailsList.STATE)
+                                               , json.getString(ActivityTrailsList.COUNTRY))
+                            , json.getString(ActivityTrailsList.GEAR)
+                            , json.getString(ActivityTrailsList.CONDITIONS)
+                            , json.getBoolean(ActivityTrailsList.PET_FRIENDLY));
+
+                    trail.setForecast(forecast);
+                    Intent intent = new Intent(getApplicationContext(), ActivityTrail.class);
+                    intent.putExtra("trail", trail);
+                    startActivity(intent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     //Not used

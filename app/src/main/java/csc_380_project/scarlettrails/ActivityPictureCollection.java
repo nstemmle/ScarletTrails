@@ -72,8 +72,25 @@ public class ActivityPictureCollection extends FragmentActivity implements Actio
                 String res = json.getString(KEY_SUCCESS);
                 if (Integer.parseInt(res) == 1) {
 
+                    pictureCollection.clear();
+                    mThumbIds = null;
                     pictureCollection.getPictureCollection(json);
                     mThumbIds = getListOfUris(pictureCollection);
+
+                    GridView gridview = (GridView)findViewById(R.id.gridView);
+                    gridview.setAdapter(new ImageAdapter(this));
+
+                    gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent(ActivityPictureCollection.this, ActivityPicture.class);
+                            intent.putExtra("position", position);
+                            //Bundle bundle = new Bundle();
+                            //bundle.putSerializable("listOfPictures", listOfPictures);
+                            //intent.putExtras(bundle);
+                            startActivity(intent);
+                        }
+                    });
 
                 } else {
                     // No Trails Found
@@ -84,21 +101,6 @@ public class ActivityPictureCollection extends FragmentActivity implements Actio
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        GridView gridview = (GridView)findViewById(R.id.gridView);
-        gridview.setAdapter(new ImageAdapter(this));
-
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(ActivityPictureCollection.this, ActivityPicture.class);
-                intent.putExtra("position", position);
-                //Bundle bundle = new Bundle();
-                //bundle.putSerializable("listOfPictures", listOfPictures);
-                //intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
 
     }
 

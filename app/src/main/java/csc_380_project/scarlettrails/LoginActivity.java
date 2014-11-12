@@ -23,14 +23,14 @@ public class LoginActivity extends Activity {
     TextView loginErrorMsg;
 
     // JSON Response node names
-    private static String KEY_SUCCESS = "success";
-    private static String USER_ID = "user_id";
-    private static String FIRST_NAME = "first_name";
-    private static String LAST_NAME = "last_name";
-    private static String EMAIL = "email";
-    private static String DOB = "dob";
-    private static String USERNAME = "username";
-    private static String KEY_ERROR_MSG = "error_msg";
+    public static String KEY_SUCCESS = "success";
+    public static String USER_ID = "user_id";
+    public static String FIRST_NAME = "first_name";
+    public static String LAST_NAME = "last_name";
+    public static String EMAIL = "email";
+    public static String DOB = "dob";
+    public static String USERNAME = "username";
+    public static String KEY_ERROR_MSG = "error_msg";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

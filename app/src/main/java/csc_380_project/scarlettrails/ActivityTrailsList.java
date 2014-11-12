@@ -23,25 +23,25 @@ import org.json.JSONObject;
 
 public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavigationListener {
 
-    private static String KEY_SUCCESS = "success";
-    private static String KEY_ERROR_MSG = "error_msg";
-    private static String TAG_TRAILLIST = "trailList";
-    private static String TRAIL_ID = "trail_id";
-    private static String NAME = "name";
-    private static String DISTANCE = "distance";
-    private static String ELEVATION = "elevation";
-    private static String DURATION = "duration";
-    private static String DIFFICULTY = "difficulty";
-    private static String LOCATION_ID = "location_id";
-    private static String X = "x";
-    private static String Y = "y";
-    private static String ZIPCODE = "zipcode";
-    private static String CITY = "city";
-    private static String STATE = "state";
-    private static String COUNTRY = "country";
-    private static String GEAR = "gear";
-    private static String CONDITIONS = "conditions";
-    private static String PET_FRIENDLY = "pet_friendly";
+    public static String KEY_SUCCESS = "success";
+    public static String KEY_ERROR_MSG = "error_msg";
+    public static String TAG_TRAILLIST = "trailList";
+    public static String TRAIL_ID = "trail_id";
+    public static String NAME = "name";
+    public static String DISTANCE = "distance";
+    public static String ELEVATION = "elevation";
+    public static String DURATION = "duration";
+    public static String DIFFICULTY = "difficulty";
+    public static String LOCATION_ID = "location_id";
+    public static String X = "x";
+    public static String Y = "y";
+    public static String ZIPCODE = "zipcode";
+    public static String CITY = "city";
+    public static String STATE = "state";
+    public static String COUNTRY = "country";
+    public static String GEAR = "gear";
+    public static String CONDITIONS = "conditions";
+    public static String PET_FRIENDLY = "pet_friendly";
 
     private ArrayList<SpinnerNavItem> navSpinner;
     private NavAdapter mAdapter;

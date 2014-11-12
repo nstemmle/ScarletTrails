@@ -58,4 +58,8 @@ import java.util.ArrayList;
         public int getSize() {
             return picturesList.size();
         }
+
+        public void clear () {
+            picturesList.clear();
+        }
     }
