@@ -33,7 +33,7 @@ public class ActivityPictureCollection extends FragmentActivity implements Actio
     private NavAdapter mAdapter;
     private ArrayList<SpinnerNavItem> navSpinner;
     private static String KEY_SUCCESS = "success";
-    PictureCollection pictureCollection = new PictureCollection();
+    static PictureCollection pictureCollection = new PictureCollection();
     static Uri[] mThumbIds;
 
     @Override
@@ -103,7 +103,7 @@ public class ActivityPictureCollection extends FragmentActivity implements Actio
     }
 
     public static Uri [] getListOfUris(PictureCollection listOfPictures) {
-        int size = listOfPictures.getSize();
+        int size = pictureCollection.getSize();
         Uri[] list = new Uri[size];
 
         for(int i=0; i < size; i++)
@@ -178,7 +178,13 @@ public class ActivityPictureCollection extends FragmentActivity implements Actio
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.actionbar_search) {
+            Intent intent = new Intent(getApplicationContext(), ActivitySearchTrail.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.actionbar_settings) {
+            Intent intent = new Intent(getApplicationContext(), ActivitySettings.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

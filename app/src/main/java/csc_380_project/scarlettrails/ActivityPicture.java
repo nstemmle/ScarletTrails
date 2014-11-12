@@ -110,7 +110,7 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
                             .noFade()
                             .resize(600, 600)
                             .centerCrop()
-                            .error(R.raw.pic9)
+                            .error(R.raw.image_not_found)
                             .into(imageView);
                 }
                 else {
@@ -121,7 +121,7 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
                             .noFade()
                             .resize(600, 600)
                             .centerCrop()
-                            .error(R.raw.pic9)
+                            .error(R.raw.image_not_found)
                             .into(imageView);
                 }
             }
@@ -150,7 +150,13 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.actionbar_search) {
+            Intent intent = new Intent(getApplicationContext(), ActivitySearchTrail.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.actionbar_settings) {
+            Intent intent = new Intent(getApplicationContext(), ActivitySettings.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -11,17 +11,20 @@ public class Picture {
     private final String profileOwnerId;
     private final String profileUsername;
     private final String trailOwnerId;
+
+    private final String trailName;
     private final String dateSubmitted; //Could be a String in a specific format such as “MMDDYYYY-HHMMSS” or a Calendar or similar object
     private Double rating;
     private CommentCollection comments;
 
     public Picture(String pictureId, String pictureUrl, String profileOwnerId, String profileUsername,
-                                                                String trailOwnerId, String dateSubmitted) {
+                                      String trailOwnerId, String trailName, String dateSubmitted) {
         this.pictureId = pictureId;
         this.pictureUrl = pictureUrl;
         this.profileOwnerId = profileOwnerId;
         this.profileUsername = profileUsername;
         this.trailOwnerId = trailOwnerId;
+        this.trailName = trailName;
         this.dateSubmitted = dateSubmitted;
     }
 
@@ -55,5 +58,9 @@ public class Picture {
 
     public CommentCollection getComments() {
         return comments;
+    }
+
+    public String getTrailName() {
+        return trailName;
     }
 }

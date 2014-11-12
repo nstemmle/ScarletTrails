@@ -13,6 +13,7 @@ import java.util.ArrayList;
         public static String PICTURE = "picture";
         public static String PICTURE_DATE = "picture_date";
         public static String TRAIL_ID ="trail_id";
+        public static String TRAIL_NAME = "name";
         public static String USER_ID = "user_id";
         public static String USERNAME = "username";
 
@@ -37,6 +38,7 @@ import java.util.ArrayList;
                             , json_picture.getString(USER_ID)
                             , json_picture.getString(USERNAME)
                             , json_picture.getString(TRAIL_ID)
+                            , json_picture.getString(TRAIL_NAME)
                             , json_picture.getString(PICTURE_DATE));
 
                     // adding each child node to HashMap key => value
@@ -51,5 +53,9 @@ import java.util.ArrayList;
 
         public Picture getPictureAtIndex(int index) {
             return picturesList.get(index);
+        }
+
+        public int getSize() {
+            return picturesList.size();
         }
     }
