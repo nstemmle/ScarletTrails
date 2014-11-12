@@ -26,7 +26,7 @@ import java.util.ArrayList;
 /**
  * Created by Nathan on 10/20/2014.
  */
-public class ActivityTrail extends Activity implements ActionBar.OnNavigationListener {
+public class ActivityTrail extends Activity { //implements ActionBar.OnNavigationListener {
     private GoogleMap mMap;
     private LocationWrapper mLocWrapper;
     private NavAdapter mAdapter;
@@ -36,15 +36,16 @@ public class ActivityTrail extends Activity implements ActionBar.OnNavigationLis
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mTrail = getIntent().getParcelableExtra("trail");
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        //mTrail = getIntent().getParcelableExtra("trail");
+        mTrail = ActivityTrailTabHostTest.mTrail;
+        //getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 
-        setTheme(R.style.AppTheme);
+        //setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_trail);
-        assert getActionBar() != null;
-        getActionBar().setTitle(mTrail.getName());
+        //assert getActionBar() != null;
+        //getActionBar().setTitle(mTrail.getName());
 
-        initializeNavigationBar();
+        //initializeNavigationBar();
 
         mLocWrapper = LocationWrapper.getInstance();
         initializeMap();
@@ -52,8 +53,8 @@ public class ActivityTrail extends Activity implements ActionBar.OnNavigationLis
        populatePageWithTrailInfo();
 
        //GridView gridview = (GridView) findViewById(R.id.trailGridView);
-       GridView gridview = (GridView) findViewById(R.id.trail_gridview_thumbnails);
-       gridview.setAdapter(new ImageAdapter(this));
+       //GridView gridview = (GridView) findViewById(R.id.trail_gridview_thumbnails);
+       //gridview.setAdapter(new ImageAdapter(this));
        //Will implement sample pics later
 
     }
@@ -93,7 +94,7 @@ public class ActivityTrail extends Activity implements ActionBar.OnNavigationLis
         mLocWrapper.setUpMapWithDefaults(mMap);
     }
 
-    private void initializeNavigationBar() {
+    /*private void initializeNavigationBar() {
         ActionBar mActionBar = getActionBar();
         assert mActionBar != null;
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
@@ -108,9 +109,9 @@ public class ActivityTrail extends Activity implements ActionBar.OnNavigationLis
 
         mActionBar.setListNavigationCallbacks(mAdapter, this);
         mActionBar.setDisplayShowTitleEnabled(false);
-    }
+    }*/
 
-    @Override
+    /*@Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         if (itemPosition == 1) { //Home selected
             Intent home = new Intent(getApplicationContext(), ActivityHome.class);
@@ -155,9 +156,9 @@ public class ActivityTrail extends Activity implements ActionBar.OnNavigationLis
             }
         }
         return false;
-    }
+    }*/
 
-    private void promptUserToLogin() {
+    /*private void promptUserToLogin() {
         AlertDialog.Builder ad = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_DARK);
         ad.setMessage(R.string.dialog_login_message)
                 .setTitle(R.string.dialog_login_title)
@@ -177,7 +178,7 @@ public class ActivityTrail extends Activity implements ActionBar.OnNavigationLis
                 });
         AlertDialog alertDialog = ad.create();
         alertDialog.show();
-    }
+    }*/
 
     //When image is clicked, it should expand into a full screen view
     public void trailActivityTrailImageViewOnClick(View view) {

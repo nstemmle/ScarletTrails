@@ -148,18 +148,20 @@ class Trail implements Parcelable {
         this.rating = d;
     }
     
-    public Forecast createForecast(){
-        if (mForecast == null) {
-            String info = ((new ForecastWrapper().getWeatherContent(mCustomLocation.getLatitude(), mCustomLocation.getLongitude(), true)));
-            try {
-                mForecast = ForecastWrapper.getWeather(info, 0);
+    public Forecast createForecast() {
+        //new ForecastWrapper.execute();
+        String info = ((new ForecastWrapper().getWeatherContent(mCustomLocation.getLatitude(), mCustomLocation.getLongitude(), true)));
+        try {
+            mForecast = ForecastWrapper.getWeather(info, 0);
+        /**
+         * http://stackoverflow.com/questions/6343166/android-os-networkonmainthreadexception
+         * http://www.androiddesignpatterns.com/2012/06/app-force-close-honeycomb-ics.html
+         * */
 
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
         return mForecast;
     }
     

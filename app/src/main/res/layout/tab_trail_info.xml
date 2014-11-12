@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@id/trail_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/BROWN_LIGHT"
+        tools:context=".ActivityTrail">
+
+        <!--<ImageView android:id="@id/trail_imgview_trail_pic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/greatbearspringsrecreationarea"
+            android:layout_gravity="start"
+            android:contentDescription="@string/trail_imgview_content_desc"
+            android:onClick="trailActivityTrailImageViewOnClick"/>
+        <!-android:src="@drawable/greatbearspringsrecreationarea"-->
+
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@id/tab_fragment_map"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="8dp"
+            android:name="com.google.android.gms.maps.MapFragment"
+            tools:context=".MapActivity"/>
+
+         <RatingBar android:id="@id/tab_trail_ratingbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:stepSize="0.5"
+            android:rating="4.5"
+            android:isIndicator="true"
+             android:scaleY="0.75"
+             android:scaleX="0.75"
+            android:layout_gravity="center"/>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:baselineAligned="false"
+            android:paddingBottom="8dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_weight="1">
+
+                <!--TextViews for Trail difficulty-->
+                <RelativeLayout
+                    android:id="@id/tab_trail_relativelayout_difficulty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView style="@style/TextWhiteStyle"
+                        android:id="@id/tab_trail_textview_difficulty_label"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="1.0"
+                        android:text="@string/trail_textview_difficulty_label"/>
+
+                    <TextView style="@style/TextWhiteStyle"
+                        android:id="@id/tab_trail_textview_difficulty_value"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="1.0"
+                        android:text="@string/trail_textview_difficulty_value"/>
+                </RelativeLayout>
+
+                <!--TextViews for Trail distance-->
+                <RelativeLayout
+                    android:id="@id/tab_trail_relativelayout_distance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView style="@style/TextWhiteStyle"
+                        android:id="@id/tab_trail_textview_distance_label"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="1.0"
+                        android:text="@string/trail_textview_distance_label"/>
+
+                    <TextView style="@style/TextWhiteStyle"
+                        android:id="@id/tab_trail_textview_distance_value"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="1.0"
+                        android:text="@string/trail_textview_distance_value"/>
+                </RelativeLayout>
+
+                <!--TextViews for Trail duration-->
+                <RelativeLayout
+                    android:id="@id/tab_trail_relativelayout_duration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView style="@style/TextWhiteStyle"
+                        android:id="@id/tab_trail_textview_duration_label"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="1.0"
+                        android:text="@string/trail_textview_duration_label"/>
+
+                    <TextView style="@style/TextWhiteStyle"
+                        android:id="@id/tab_trail_textview_duration_value"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="1.0"
+                        android:text="@string/trail_textview_duration_value"/>
+                </RelativeLayout>
+
+                <!--TextViews for Trail elevation-->
+                <RelativeLayout
+                    android:id="@id/tab_trail_relativelayout_elevation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView style="@style/TextWhiteStyle"
+                        android:id="@id/tab_trailTxtViewElevation"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="1.0"
+                        android:text="@string/trail_textview_elevation_label"/>
+
+                    <TextView style="@style/TextWhiteStyle"
+                        android:id="@id/tab_trailTxtViewElevationValue"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="1.0"
+                        android:text="@string/trail_textview_elevation_value"/>
+                </RelativeLayout>
+
+                <!--TextViews for Trail gear-->
+                <RelativeLayout
+                    android:id="@id/tab_trail_relativelayout_gear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView style="@style/TextWhiteStyle"
+                        android:id="@id/tab_trail_textview_gear_label"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="1.0"
+                        android:text="@string/trail_textview_gear_label"/>
+
+                    <TextView style="@style/TextWhiteStyle"
+                        android:id="@id/tab_trail_textview_gear_value"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="1.0"
+                        android:text="@string/trail_textview_gear_value"/>
+                </RelativeLayout>
+
+                <!--TextViews for Trail conditions-->
+                <RelativeLayout
+                    android:id="@id/tab_trail_relativelayout_conditions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView style="@style/TextWhiteStyle"
+                        android:id="@id/tab_trail_textview_conditions_label"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="1.0"
+                        android:text="@string/trail_textview_conditions_label"/>
+
+                    <TextView style="@style/TextWhiteStyle"
+                        android:id="@id/tab_trail_textview_conditions_value"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="1.0"
+                        android:text="@string/trail_textview_conditions_value"/>
+                </RelativeLayout>
+
+                <!--TextViews for Trail pet friendly-->
+                <RelativeLayout
+                    android:id="@id/tab_trail_relativelayout_petfriendly"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView style="@style/TextWhiteStyle"
+                        android:id="@id/tab_trail_textview_petfriendly_label"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="1.0"
+                        android:text="@string/trail_textview_petfriendly_label"/>
+
+                    <TextView style="@style/TextWhiteStyle"
+                        android:id="@id/tab_trail_textview_petfriendly_value"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="1.0"
+                        android:text="@string/trail_textview_petfriendly_value"/>
+                </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+                    <RelativeLayout
+                        android:id="@id/tab_trail_relativelayout_weather"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView style="@style/TextWhiteStyle"
+                            android:id="@id/tab_trail_textview_weather_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="1.0"
+                            android:text="@string/trail_textview_weather_label"
+                            android:layout_centerHorizontal="true" />
+                    </RelativeLayout>
+
+                    <!--TextViews for Trail TempMax-->
+                    <RelativeLayout
+                        android:id="@id/tab_trail_relativelayout_tempmax"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView style="@style/TextWhiteStyle"
+                            android:id="@id/tab_trail_textview_tempmax_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="1.0"
+                            android:text="@string/trail_textview_tempmax_label"/>
+
+                        <TextView style="@style/TextWhiteStyle"
+                            android:id="@id/tab_trail_textview_tempmax_value"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="1.0"
+                            android:text="@string/trail_textview_tempmax_value"/>
+                    </RelativeLayout>
+
+                    <!--TextViews for Trail TempMin-->
+                    <RelativeLayout
+                        android:id="@id/tab_trail_relativelayout_tempmin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView style="@style/TextWhiteStyle"
+                            android:id="@id/tab_trail_textview_tempmin_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="1.0"
+                            android:text="@string/trail_textview_tempmin_label"/>
+                        <TextView style="@style/TextWhiteStyle"
+                            android:id="@id/tab_trail_textview_tempmin_value"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="1.0"
+                            android:text="@string/trail_textview_tempmin_value"/>
+                    </RelativeLayout>
+
+                    <!--TextViews for Trail Precipitation-->
+                    <RelativeLayout
+                        android:id="@id/tab_trail_relativelayout_precipitation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView style="@style/TextWhiteStyle"
+                            android:id="@id/tab_trail_textview_precipitation_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="1.0"
+                            android:text="@string/trail_textview_precipitation_label"/>
+                        <TextView style="@style/TextWhiteStyle"
+                            android:id="@id/tab_trail_textview_precipitation_value"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="1.0"
+                            android:text="@string/trail_textview_precipitation_value"/>
+                    </RelativeLayout>
+
+                    <!--TextViews for Trail Sunrise-->
+                    <RelativeLayout
+                        android:id="@id/tab_trail_relativelayout_sunrise"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView style="@style/TextWhiteStyle"
+                            android:id="@id/tab_trail_textview_sunrise_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="1.0"
+                            android:text="@string/trail_textview_sunrise_label"/>
+
+                        <TextView style="@style/TextWhiteStyle"
+                            android:id="@id/tab_trail_textview_sunrise_value"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="1.0"
+                            android:text="@string/trail_textview_sunrise_value"/>
+                    </RelativeLayout>
+
+                    <!--TextViews for Trail Sunset-->
+                    <RelativeLayout
+                        android:id="@id/tab_trail_relativelayout_sunset"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView style="@style/TextWhiteStyle"
+                            android:id="@id/tab_trail_textview_sunset_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="1.0"
+                            android:text="@string/trail_textview_sunset_label"/>
+
+                        <TextView style="@style/TextWhiteStyle"
+                            android:id="@id/tab_trail_textview_sunset_value"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="1.0"
+                            android:text="@string/trail_textview_sunset_value"/>
+                    </RelativeLayout>
+
+                    </LinearLayout>
+
+        </LinearLayout>
+</LinearLayout>

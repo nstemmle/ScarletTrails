@@ -173,7 +173,6 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
                 .setNegativeButton(R.string.dialog_login_negative_button, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                     }
                 });
         AlertDialog alertDialog = ad.create();
@@ -235,7 +234,7 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
                 if (marker.getId().equals(lastMarkerClicked.getId()) && !marker.getId().equals(mLocMarker.getId()))  {
                     Trail temp = trailCollection.getTrailbyName(marker.getTitle());
                     if (temp != null) {
-                        Intent activityTrail = new Intent(getApplicationContext(), ActivityTrail.class);
+                        Intent activityTrail = new Intent(getApplicationContext(), ActivityTrailTabHostTest.class);
                         activityTrail.putExtra("trail", temp);
                         startActivity(activityTrail);
                     }
@@ -260,11 +259,6 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
 
     private void removeExtraViews() {
         ViewGroup viewGroup = (ViewGroup) findViewById(R.id.home_relativelayout_extras);
-        //viewGroup.setLayoutTransition(new LayoutTransition());
-        //viewGroup.getLayoutTransition().setStartDelay(LayoutTransition.DISAPPEARING, 1000l);
-        //TextView txtviewLocSetDis = (TextView) findViewById(R.id.home_textview_location_settings_disabled);
-        //Button btnOpenLocSet = (Button) findViewById(R.id.home_button_open_location_settings);
-        //viewGroup.removeAllViews();
         viewGroup.removeAllViewsInLayout();
         ViewGroup viewGroupRoot = (ViewGroup) findViewById(R.id.home_linearlayout_root);
         viewGroupRoot.removeView(viewGroup);

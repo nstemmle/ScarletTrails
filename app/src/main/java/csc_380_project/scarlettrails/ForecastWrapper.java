@@ -1,6 +1,7 @@
 package csc_380_project.scarlettrails;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -30,41 +31,54 @@ public class ForecastWrapper extends AsyncTask<String, Void, String> {
 
     private Forecast forecast;
 
-    private static String BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/city?id=5130081&APPID=322d5966d76cb53db68e74205b3d096f";
+    //public static final String BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/city?id=5130081&APPID=322d5966d76cb53db68e74205b3d096f";
+    public static final String URL_COORDS_START = "http://api.openweathermap.org/data/2.5/weather?lat=";
+    public static final String URL_COORDS_MID = "&lon=";
+    public static final String URL_COORDS_END = "&cnt=10&mode=json";
 
+    private static final String TAG = "FORECAST_WRAPPER";
 
     public ForecastWrapper(Forecast forecast){
         this.forecast = forecast;
     }
     public ForecastWrapper(){}
 
-    public  String getWeatherContent(double lat, double lng, boolean h){
-        if (h == true) {
-            BASE_URL = "http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lng;
-        }else{
-            BASE_URL = "http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lng + "&cnt=10&mode=json";
+    public String getWeatherContent(double lat, double lng, boolean h)  {
+        String mURL;
+        if (h) {
+            mURL = URL_COORDS_START + lat + URL_COORDS_MID + lng;
+        } else {
+            mURL = URL_COORDS_START + lat + URL_COORDS_MID + lng + URL_COORDS_END;
         }
+        Log.e(TAG, "mURL: " + mURL);
+
         HttpURLConnection connection = null;
         InputStream inputStream = null;
         try{
-            connection = (HttpURLConnection) ( new URL(BASE_URL)).openConnection();
+        connection = (HttpURLConnection) (new URL(mURL)).openConnection();
+        Log.e(TAG, "1 - connection != null: " + String.valueOf(connection != null));
 
-            connection.setRequestMethod("GET");
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-            connection.connect();
+        connection.setRequestMethod("GET");
+        Log.e(TAG, "2 - connection != null: " + String.valueOf(connection != null));
+        connection.setDoInput(true);
+        Log.e(TAG, "3 - connection != null: " + String.valueOf(connection != null));
+        connection.setDoOutput(true);
+        Log.e(TAG, "4 - connection != null: " + String.valueOf(connection != null));
+        connection.connect();
+        Log.e(TAG, "5 - connection != null: " + String.valueOf(connection != null));
 
-            // read response
-            StringBuffer buffer = new StringBuffer();
-            inputStream = connection.getInputStream();
-            BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-            String line = null;
-            while((line = bufferedReader.readLine()) != null)
-                buffer.append(line + "\r\n");
+        // read response
+        StringBuffer buffer = new StringBuffer();
+        inputStream = connection.getInputStream();
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        String line = null;
+        while ((line = bufferedReader.readLine()) != null)
+            buffer.append(line + "\r\n");
 
-            inputStream.close();
-            connection.disconnect();
-            return buffer.toString();
+        inputStream.close();
+        connection.disconnect();
+
+        return buffer.toString();
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -133,8 +147,7 @@ public class ForecastWrapper extends AsyncTask<String, Void, String> {
 
         java.util.Date currentDate = new Date((long)listJSON.getLong("dt")*1000);
 
-        Forecast forecast = new Forecast(formatDate(currentDate), tempmin, tempmax, formatSun(sunRiseTime), formatSun(sunSetTime), weathrid);
-        return forecast;
+        return new Forecast(formatDate(currentDate), tempmin, tempmax, formatSun(sunRiseTime), formatSun(sunSetTime), weathrid);
     }
 
     protected static String formatDate(Date date){

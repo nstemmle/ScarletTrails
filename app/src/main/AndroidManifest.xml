@@ -31,6 +31,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ActivityTrailTabHostTest"
+            android:label="Tab_Test">
+        </activity>
+
+        <activity
+            android:name=".TabTrail"
+            android:label="Trail Info">
+        </activity>
+
+        <activity
+            android:name=".TabGallery"
+            android:label="Trail Gallery">
+        </activity>
+
+        <activity
+            android:name=".TabForecast"
+            android:label="Trail Forecast">
+        </activity>
+
         <activity
             android:name="csc_380_project.scarlettrails.LoginActivity"
             android:label="Login" >

@@ -27,6 +27,10 @@ public class Forecast {
 
     }
 
+    public String toString() {
+        return "Forecast: " + "date="+date + "; tempMin="+tempMin + "; tempMax="+tempMax + "; sunset="+sunset + "; sunrise="+sunrise + "; description="+description;
+    }
+
     public String getDate(){return date;}
 
     public Double getTempMax(){return tempMax;}
