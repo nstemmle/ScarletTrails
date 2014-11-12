@@ -1,7 +1,7 @@
 package csc_380_project.scarlettrails;
 
 import android.text.format.Time;
-
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -10,16 +10,16 @@ import java.util.Date;
 public class Forecast {
 
    //swiping on forecast screen for 10 day?
-    private Date date;
+    private Calendar date;
     private double tempMin;
     private double tempMax;
     private Time sunset;
     private Time sunrise;
-    private String description;
+    private int description;
 
     public Forecast() {}
     //single day constructor
-    public Forecast(double tempMin, double tempMax, Time sunrise, Time sunset, String description){
+    public Forecast(double tempMin, double tempMax, Time sunrise, Time sunset, int description){
         this.tempMin = tempMin;
         this.tempMax = tempMax;
         this.sunset = sunset;
@@ -29,7 +29,7 @@ public class Forecast {
     }
 
     //five day constructor
-    public Forecast(Date date, double tempMin, double tempMax, String description){
+    public Forecast(Calendar date, double tempMin, double tempMax, int description){
         this.date = date;
         this.tempMin = tempMin;
         this.tempMax = tempMax;
@@ -37,7 +37,7 @@ public class Forecast {
     }
 
 
-    public Date getDate(){return date;}
+    public Calendar getDate(){return date;}
 
     public Double getTempMax(){return tempMax;}
 
@@ -47,5 +47,5 @@ public class Forecast {
 
     public Time getSunset(){return sunset;}
 
-    public String getDescription(){return description;}
+    public int getDescription(){return description;}
 }
