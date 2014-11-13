@@ -148,7 +148,7 @@ public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavi
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         Trail trail = (Trail) getListAdapter().getItem(position);
-        Intent intent = new Intent(getApplicationContext(), ActivityTrail.class);
+        Intent intent = new Intent(getApplicationContext(), ActivityTrailTabHostTest.class);
         intent.putExtra("trail", trail);
         startActivity(intent);
     }

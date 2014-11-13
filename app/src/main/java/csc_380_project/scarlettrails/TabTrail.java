@@ -1,9 +1,11 @@
 package csc_380_project.scarlettrails;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.RatingBar;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.Marker;
 
 import java.util.ArrayList;
 
@@ -47,6 +50,7 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
         //This line currently sets map to center on Oswego County
         //Later replace with something that returns map to state it was previously in
         mLocWrapper.setUpMapWithDefaults(mMap);
+        mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
     }
 
     public void populatePageWithTrailInfo() {
@@ -108,7 +112,19 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
         stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
 
         mLocWrapper.clearMap(mMap);
-        mLocWrapper.centerCameraOnCustomLocation(mMap, mTrail.getLocation(), LocationWrapper.TRAIL_ZOOM);
-        mLocWrapper.addMarkerAtCustomLocation(mMap, mTrail.getLocation(), mTrail.getName(), true);
+        mLocWrapper.centerCameraOnCustomLocation(mMap, mTrail.getLocation(), LocationWrapper.STREET_ZOOM);
+        Marker marker = mLocWrapper.addMarkerAtCustomLocation(mMap, mTrail.getLocation(), mTrail.getName(), true);
+        marker.setSnippet("Click me for directions.");
+        marker.showInfoWindow();
+
+        /*Location loc = mLocWrapper.getCurrentLocation(getApplicationContext());
+        final CustomLocation mCusLoc = new CustomLocation(loc.getLatitude(), loc.getLongitude());
+        final Context context = getApplicationContext();
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                mLocWrapper.launchDirectionsFromCustomLocation(context, mCusLoc, mTrail.getLocation());
+            }
+        });*/
     }
 }

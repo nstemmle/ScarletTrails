@@ -25,11 +25,11 @@ public class TabForecast extends Activity { //implements ActionBar.OnNavigationL
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mTrail = ActivityTrailTabHostTest.mTrail;
-        setContentView(R.layout.tab_trail_forecast);
+        setContentView(R.layout.forecast);
 
-        Forecast first = mTrail.createForecast();
+        //Forecast first = mTrail.createForecast();
 
-        populatePageWithForecastInfo(first, first, first, first, first);
+        //populatePageWithForecastInfo(first, first, first, first, first);
     }
 
     public void populatePageWithForecastInfo(Forecast a, Forecast b, Forecast c, Forecast d, Forecast e) {

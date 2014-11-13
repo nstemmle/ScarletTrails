@@ -1,6 +1,7 @@
 package csc_380_project.scarlettrails;
 
 import android.app.Application;
+import android.location.Location;
 
 /**
  * Created by nstemmle on 11/8/14.
