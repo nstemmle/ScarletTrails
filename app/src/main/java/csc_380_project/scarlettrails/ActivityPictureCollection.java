@@ -15,8 +15,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -104,6 +106,11 @@ public class ActivityPictureCollection extends FragmentActivity implements Actio
             e.printStackTrace();
         }
 
+        if(pictureCollection.getSize() <= 0) {
+            //GridView gridview = (GridView) findViewById(R.id.trailGridView);
+            TextView noPicture = (TextView) findViewById(R.id.noPicturesMessage);
+            noPicture.setText("No picture");
+        }
     }
 
     public static Uri [] getListOfUris(PictureCollection listOfPictures) {
