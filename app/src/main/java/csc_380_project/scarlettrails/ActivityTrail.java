@@ -50,13 +50,32 @@ public class ActivityTrail extends Activity { //implements ActionBar.OnNavigatio
         mLocWrapper = LocationWrapper.getInstance();
         initializeMap();
 
-       populatePageWithTrailInfo();
+       Thread t = new Thread() {
+            public void run() {
+                getmTrail().createForecast();
+                if (getmTrail().getmForecast() == null){
+                }
+            }
+
+
+        };
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        populatePageWithTrailInfo();
 
        //GridView gridview = (GridView) findViewById(R.id.trailGridView);
        //GridView gridview = (GridView) findViewById(R.id.trail_gridview_thumbnails);
        //gridview.setAdapter(new ImageAdapter(this));
        //Will implement sample pics later
 
+    }
+    
+        public Trail getmTrail() {
+        return mTrail;
     }
 
     @Override
@@ -210,22 +229,22 @@ public class ActivityTrail extends Activity { //implements ActionBar.OnNavigatio
 
         //Trail pet friendly
         ((TextView)findViewById(R.id.trail_textview_petfriendly_value)).setText(mTrail.isPetFriendly() ? "Yes" : "No");
-
-        Forecast mtemp = mTrail.createForecast();
         
-        //Trail temp max
-        ((TextView)findViewById(R.id.trail_textview_tempmax_value)).setText(mtemp.getTempMax() + "°F");
+        
+
+         //Trail temp max
+        ((TextView)findViewById(R.id.trail_textview_tempmax_value)).setText(mTrail.getForecast().getTempMax() + "°F");
 
         //Trail temp min
-        ((TextView)findViewById(R.id.trail_textview_tempmin_value)).setText(String.valueOf(mTrail.createForecast().getTempMin()) + "°F");
+        ((TextView)findViewById(R.id.trail_textview_tempmin_value)).setText(String.valueOf(mTrail.getForecast().getTempMin()) + "°F");
 
         //Trail clouds/precipitation picture
 
         //Trail sunrise
-        ((TextView)findViewById(R.id.trail_textview_sunrise_value)).setText(String.valueOf(mTrail.createForecast().getSunrise()));
+        ((TextView)findViewById(R.id.trail_textview_sunrise_value)).setText(String.valueOf(mTrail.getForecast().getSunrise()));
 
         //Trail sunset
-        ((TextView)findViewById(R.id.trail_textview_sunset_value)).setText(String.valueOf(mTrail.createForecast().getSunset()));
+        ((TextView)findViewById(R.id.trail_textview_sunset_value)).setText(String.valueOf(mTrail.getForecast().getSunset()));
 
 
 
