@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -132,6 +134,11 @@ public class Upload extends Activity implements ActionBar.OnNavigationListener {
                     //get the cropped bitmap
                     Bitmap thePic = extras.getParcelable("data");
 
+                    //Database interaction here!!
+                    //Save bitmap to File (or ByteArray)
+                    //and then send it to Server (with the following name: User() + Date/Time() + ".jpg or png")
+                    //Insert Picture field in database passing userID, trailID...
+
                     //retrieve a reference to the ImageView
                     ImageView picView = (ImageView)findViewById(R.id.photoFromCamera);
                     Picasso.with(Upload.this)
@@ -167,8 +174,8 @@ public class Upload extends Activity implements ActionBar.OnNavigationListener {
             cropIntent.putExtra("aspectX", 1);
             cropIntent.putExtra("aspectY", 1);
             //indicate output X and Y
-            cropIntent.putExtra("outputX", 256);
-            cropIntent.putExtra("outputY", 256);
+            cropIntent.putExtra("outputX", 1200);
+            cropIntent.putExtra("outputY", 1200);
             //retrieve data on return
             cropIntent.putExtra("return-data", true);
             //start the activity - we handle returning in onActivityResult
