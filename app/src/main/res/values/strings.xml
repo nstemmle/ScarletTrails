@@ -1,33 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!-- Please add any strings you plan to declare/use in here and reference them from their string name -->
     <string name="test">Hello world!</string>
-
     <string name="app_name">ScarletTrails</string>
 
-    <!--Strings for activity titles-->
+    <!-- Strings for activity titles -->
     <string name="title_activity_map">Map</string>
     <string name="title_activity_main">Scarlet Trails</string>
     <string name="title_activity_home">Home</string>
     <string name="title_activity_trail">Trail</string>
 
-    <!--Strings for action bar items-->
+    <!-- Strings for action bar items -->
     <string name="action_settings">Settings</string>
     <string name="action_search">Search</string>
 
-    <!--Strings for activity_main_map.xml-->
+    <!-- Strings for activity_main_map.xml -->
     <string name="buttonLaunchMapActivity">Launch Map Activity</string>
 
-
-
-    <!--Global Strings-->
+    <!-- Global Strings -->
     <string name="dialogLocationSettingsMessage">GPS is not enabled. This application makes extensive use of location services; would you like to open Location Settings?</string>
     <string name="dialogLocationSettingsTitle">Open Location Settings?</string>
     <string name="dialogLocationSettingsPositiveButton">Open Settings</string>
     <string name="dialogLocationSettingsNegativeButton">Cancel</string>
-
     <string name="dialog_login_message">You are not logged in. Would you like to log in?</string>
     <string name="dialog_login_title">Log In?</string>
     <string name="dialog_login_positive_button">Log In</string>
     <string name="dialog_login_negative_button">Cancel</string>
+    <string name="title_activity_upload">Upload</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="uploaded">Successfully uploaded</string>
+    <string name="intro">!!This is only one example of the Upload feature!!</string>
+    <string name="picture">Picture</string>
+    <string name="capture">Upload Picture</string>
+
 </resources>

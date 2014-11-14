@@ -11,6 +11,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but are recommended.
@@ -23,8 +26,8 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher_dark"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
-        <activity android:name="csc_380_project.scarlettrails.ActivitySplashScreen" >
+        android:theme="@style/AppTheme" >
+        <activity android:name=".ActivitySplashScreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,53 +56,49 @@
         </activity>
 
         <activity
-            android:name="csc_380_project.scarlettrails.LoginActivity"
+            android:name=".LoginActivity"
             android:label="Login" >
         </activity>
         <activity
-            android:name="csc_380_project.scarlettrails.ActivityHome"
+            android:name=".ActivityHome"
             android:label="@string/title_activity_home" >
         </activity>
         <activity
-            android:name="csc_380_project.scarlettrails.ActivityTrail"
+            android:name=".ActivityTrail"
             android:label="@string/title_activity_trail" >
         </activity>
         <activity
-            android:name="csc_380_project.scarlettrails.ActivitySettings"
+            android:name=".ActivitySettings"
             android:label="@string/title_activity_settings" >
         </activity>
         <activity
-            android:name="csc_380_project.scarlettrails.ActivityMap"
+            android:name=".ActivityMap"
             android:label="@string/title_activity_map" >
         </activity>
         <activity
-            android:name="csc_380_project.scarlettrails.ActivityProfile"
+            android:name=".ActivityProfile"
             android:label="Profile" >
         </activity>
         <activity
-            android:name="csc_380_project.scarlettrails.RegisterActivity"
+            android:name=".RegisterActivity"
             android:label="Register User" >
         </activity>
         <activity
-            android:name="csc_380_project.scarlettrails.ForgotPasswordActivity"
+            android:name=".ForgotPasswordActivity"
             android:label="Forgot Password" >
         </activity>
-
         <activity
             android:name=".ActivitySearchTrail"
             android:label="Search Trail" >
         </activity>
-
         <activity
             android:name=".ActivityTrailsList"
             android:label="Trails List" >
         </activity>
-
         <activity
             android:name=".ActivityPicture"
             android:label="Picture" >
         </activity>
-
         <activity
             android:name=".ActivityPictureCollection"
             android:label="Picture Collection" >
@@ -111,6 +110,11 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCD1Zzkfhnvcsqaf2V0PuC6xuNlcA-XM20" />
+
+        <activity
+            android:name=".Upload"
+            android:label="@string/title_activity_upload" >
+        </activity>
     </application>
 
 </manifest>
