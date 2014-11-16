@@ -148,24 +148,7 @@ class Trail implements Parcelable {
         this.rating = d;
     }
     
-    public Forecast createForecast() {
-        //new ForecastWrapper.execute();
-        String info = ((new ForecastWrapper().getWeatherContent(mCustomLocation.getLatitude(), mCustomLocation.getLongitude(), true)));
-        try {
-            mForecast = ForecastWrapper.getWeather(info, 0);
-        /**
-         * http://stackoverflow.com/questions/6343166/android-os-networkonmainthreadexception
-         * http://www.androiddesignpatterns.com/2012/06/app-force-close-honeycomb-ics.html
-         * */
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return mForecast;
-    }
-    
-    
 
     //Creates a comparator object that can be used to sort a collection of trails (TrailCollection) by the specified criteria
     //e.g. Collections.Sort(TrailCollectionInstance, Trail.getTrailIdComparator());
