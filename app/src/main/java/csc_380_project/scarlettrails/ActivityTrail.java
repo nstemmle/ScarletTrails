@@ -50,21 +50,7 @@ public class ActivityTrail extends Activity { //implements ActionBar.OnNavigatio
         mLocWrapper = LocationWrapper.getInstance();
         initializeMap();
 
-       Thread t = new Thread() {
-            public void run() {
-                getmTrail().createForecast();
-                if (getmTrail().getmForecast() == null){
-                }
-            }
-
-
-        };
-        t.start();
-        try {
-            t.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+      
         populatePageWithTrailInfo();
 
        //GridView gridview = (GridView) findViewById(R.id.trailGridView);
@@ -233,7 +219,7 @@ public class ActivityTrail extends Activity { //implements ActionBar.OnNavigatio
         
 
          //Trail temp max
-        ((TextView)findViewById(R.id.trail_textview_tempmax_value)).setText(mTrail.getForecast().getTempMax() + "°F");
+        /*((TextView)findViewById(R.id.trail_textview_tempmax_value)).setText(mTrail.getForecast().getTempMax() + "°F");
 
         //Trail temp min
         ((TextView)findViewById(R.id.trail_textview_tempmin_value)).setText(String.valueOf(mTrail.getForecast().getTempMin()) + "°F");
@@ -244,7 +230,7 @@ public class ActivityTrail extends Activity { //implements ActionBar.OnNavigatio
         ((TextView)findViewById(R.id.trail_textview_sunrise_value)).setText(String.valueOf(mTrail.getForecast().getSunrise()));
 
         //Trail sunset
-        ((TextView)findViewById(R.id.trail_textview_sunset_value)).setText(String.valueOf(mTrail.getForecast().getSunset()));
+        ((TextView)findViewById(R.id.trail_textview_sunset_value)).setText(String.valueOf(mTrail.getForecast().getSunset()));*/
 
 
 
