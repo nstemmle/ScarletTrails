@@ -112,7 +112,6 @@ public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavi
                                 , json_trail.getString(CONDITIONS)
                                 , json_trail.getBoolean(PET_FRIENDLY));
 
-                        trail.createForecast();
 
                         // adding each child node to HashMap key => value
                         trailsList.add(trail);
