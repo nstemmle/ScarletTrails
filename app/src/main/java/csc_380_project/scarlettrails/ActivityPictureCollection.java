@@ -15,8 +15,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -35,6 +37,8 @@ public class ActivityPictureCollection extends FragmentActivity implements Actio
     private static String KEY_SUCCESS = "success";
     static PictureCollection pictureCollection = new PictureCollection();
     static Uri[] mThumbIds;
+    public static final String EXTRA_KEY_USERID = "user_id";
+    public static final String EXTRA_KEY_TRAILID = "trail_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +54,8 @@ public class ActivityPictureCollection extends FragmentActivity implements Actio
         String userId = "";
         String trailId ="";
         if (extras != null) {
-            userId = extras.getString("user_id");
-            trailId = extras.getString("trail_id");
+            userId = extras.getString(EXTRA_KEY_USERID);
+            trailId = extras.getString(EXTRA_KEY_TRAILID);
         }
 
         PictureFunctions pictureFunction = new PictureFunctions();
@@ -102,6 +106,11 @@ public class ActivityPictureCollection extends FragmentActivity implements Actio
             e.printStackTrace();
         }
 
+        if(pictureCollection.getSize() <= 0) {
+            //GridView gridview = (GridView) findViewById(R.id.trailGridView);
+            TextView noPicture = (TextView) findViewById(R.id.noPicturesMessage);
+            noPicture.setText("No picture");
+        }
     }
 
     public static Uri [] getListOfUris(PictureCollection listOfPictures) {
@@ -198,7 +207,7 @@ public class ActivityPictureCollection extends FragmentActivity implements Actio
 
         navSpinner = new ArrayList<SpinnerNavItem>();
         //This is how you enter new navigation items. Please use the format provided on next line.
-        navSpinner.add(new SpinnerNavItem("Picture"));
+        navSpinner.add(new SpinnerNavItem("Gallery"));
         navSpinner.add(new SpinnerNavItem("Home"));
         navSpinner.add(new SpinnerNavItem("Trails"));
         navSpinner.add(new SpinnerNavItem("Profile"));

@@ -171,7 +171,7 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
                             , json.getString(ActivityTrailsList.CONDITIONS)
                             , json.getBoolean(ActivityTrailsList.PET_FRIENDLY));
 
-                    trail.createForecast();
+
                     Intent intent = new Intent(getApplicationContext(), ActivityTrail.class);
                     intent.putExtra("trail", trail);
                     startActivity(intent);

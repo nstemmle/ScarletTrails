@@ -27,6 +27,7 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
     private ArrayList<SpinnerNavItem> navSpinner;
     private Trail mTrail;
     private static String TAG = "TabTrail.java";
+    private Forecast mForecast;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +37,18 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
         mLocWrapper = LocationWrapper.getInstance();
         initializeMap();
 
+        Thread t = new Thread() {
+            public void run() {
+                mForecast = ForecastWrapper.createForecast(mTrail);
+            }
+
+        };
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
        populatePageWithTrailInfo();
     }
 
@@ -80,18 +93,19 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
         ((TextView)findViewById(R.id.tab_trail_textview_petfriendly_value)).setText(mTrail.isPetFriendly() ? "Yes" : "No");
 
         //Trail temp max
-        //((TextView)findViewById(R.id.trail_textview_tempmax_value)).setText(String.valueOf(mTrail.getForecast().getTempMax()) + "°F");
+        ((TextView)findViewById(R.id.tab_trail_textview_tempmax_value)).setText(String.valueOf(mForecast.getTempMax() + "°F"));
 
         //Trail temp min
-        //((TextView)findViewById(R.id.trail_textview_tempmin_value)).setText(String.valueOf(mTrail.getForecast().getTempMin()) + "°F");
+        ((TextView)findViewById(R.id.tab_trail_textview_tempmin_value)).setText(String.valueOf(mForecast.getTempMin()) + "°F");
 
         //Trail clouds/precipitation picture
+        setIcon(mForecast.getDescription());
 
         //Trail sunrise
-        //((TextView)findViewById(R.id.trail_textview_sunrise_value)).setText(String.valueOf(mTrail.getForecast().getSunrise()));
+        ((TextView)findViewById(R.id.tab_trail_textview_sunrise_value)).setText(mForecast.getSunrise());
 
         //Trail sunset
-        //((TextView)findViewById(R.id.trail_textview_sunset_value)).setText(String.valueOf(mTrail.getForecast().getSunset()));
+        ((TextView)findViewById(R.id.tab_trail_textview_sunset_value)).setText(mForecast.getSunset());
 
 
         //Trail image
@@ -127,4 +141,32 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
             }
         });*/
     }
+
+    //will add implementation on 11/16
+    public void setIcon(int weatherid){
+        if (weatherid <= 232 || weatherid ==960 || weatherid == 961){
+            //storm
+        } else if (weatherid <= 321){
+            //light rain
+        } else if (weatherid <= 531){
+            //heavy rain
+        } else if (611 <= weatherid || weatherid <= 616){
+            //mix
+        } else if (weatherid <= 622){
+            //snow
+        } else if (weatherid == 800){
+            //sunny
+        } else if (weatherid == 801){
+            //few clouds
+        } else if (weatherid <= 803){
+            //partly cloudy
+        } else if (weatherid == 804 ){
+            //cloudy
+        } else if (weatherid <= 906 ){
+            //hail
+        }else{
+            //default picture
+        }
+    }
+
 }

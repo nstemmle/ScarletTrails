@@ -130,6 +130,7 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
         navSpinner.add(new SpinnerNavItem(App.NAV_HOME));
         navSpinner.add(new SpinnerNavItem(App.NAV_TRAILS));
         navSpinner.add(new SpinnerNavItem(App.NAV_PROFILE));
+        navSpinner.add(new SpinnerNavItem(App.NAV_UPLOAD_PICTURE));
         mAdapter = new NavAdapter(getApplicationContext(), navSpinner);
 
         mActionBar.setListNavigationCallbacks(mAdapter, this);
@@ -154,6 +155,11 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
             else {
                 promptUserToLogin();
             }
+        }
+        else if (itemPosition == 3) {
+            Intent upload = new Intent(getApplicationContext(), Upload.class);
+            startActivity(upload);
+            return true;
         }
         return false;
     }
