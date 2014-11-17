@@ -1,6 +1,5 @@
 package csc_380_project.scarlettrails;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,13 +8,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import java.io.ByteArrayOutputStream;
-
 
 import com.squareup.picasso.Picasso;
 
@@ -26,7 +23,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class ActivityPicture extends FragmentActivity implements ActionBar.OnNavigationListener {
+public class ActivityPicture extends FragmentActivity {// implements ActionBar.OnNavigationListener {
 
     private NavAdapter mAdapter;
     private ArrayList<SpinnerNavItem> navSpinner;
@@ -36,6 +33,9 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
     JSONObject jsonObject = new JSONObject();
     TrailFunctions trailFunctions = new TrailFunctions();
     UserFunctions userFunctions = new UserFunctions();
+
+    public static final String EXTRA_ACTIVITY = "activity";
+    private String activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,29 +47,53 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
         picTrailName = (Button) findViewById(R.id.picTrailName);
         picUsername = (Button) findViewById(R.id.picUsername);
 
-        initializeNavigationBar();
+
+        //initializeNavigationBar();
 
         ImageView imageView = (ImageView) findViewById(R.id.picture);
 
-        final int gallerySize = ActivityPictureCollection.mThumbIds.length;
+        activity = getIntent().getStringExtra(EXTRA_ACTIVITY);
+
+        final int gallerySize;
+
+        if (activity.equals(TabGallery.EXTRA_KEY_ACTIVITY)) {
+            gallerySize = TabGallery.mThumbIds.length;
+        } else if (activity.equals(ActivityPictureCollection.EXTRA_KEY_ACTIVITY)) {
+            gallerySize = ActivityPictureCollection.mThumbIds.length;
+        } else {
+            gallerySize = 0;
+        }
 
         final int position = getIntent().getIntExtra("position", -1);
 
-        //final PictureCollection listOfPic = (PictureCollection) getIntent().getSerializableExtra("listOfPictures");
+        //final PictureCollection listOfP
 
         positionForSwipe = position;
 
         if (position != -1) {
-            Picasso.with(ActivityPicture.this)
-                    .load(ActivityPictureCollection.mThumbIds[position])
-                    //.placeholder(R.raw.pic9)
-                    .noFade()
-                    .resize(400, 400)
-                    .centerCrop()
-                    .error(R.raw.image_not_found)
-                    .into(imageView);
-                    picUsername.setText(ActivityPictureCollection.pictureCollection.getPictureAtIndex(position).getProfileUsername());
-                    picTrailName.setText(ActivityPictureCollection.pictureCollection.getPictureAtIndex(position).getTrailName());
+            if (activity.equals(TabGallery.EXTRA_KEY_ACTIVITY)) {
+                Picasso.with(ActivityPicture.this)
+                        .load(TabGallery.mThumbIds[position])
+                                //.placeholder(R.raw.pic9)
+                        .noFade()
+                        .resize(400, 400)
+                        .centerCrop()
+                        .error(R.raw.image_not_found)
+                        .into(imageView);
+                picUsername.setText(TabGallery.pictureCollection.getPictureAtIndex(position).getProfileUsername());
+                picTrailName.setText(TabGallery.pictureCollection.getPictureAtIndex(position).getTrailName());
+            } else if (activity.equals(ActivityPictureCollection.EXTRA_KEY_ACTIVITY)) {
+                Picasso.with(ActivityPicture.this)
+                        .load(ActivityPictureCollection.mThumbIds[position])
+                                //.placeholder(R.raw.pic9)
+                        .noFade()
+                        .resize(400, 400)
+                        .centerCrop()
+                        .error(R.raw.image_not_found)
+                        .into(imageView);
+                picUsername.setText(ActivityPictureCollection.pictureCollection.getPictureAtIndex(position).getProfileUsername());
+                picTrailName.setText(ActivityPictureCollection.pictureCollection.getPictureAtIndex(position).getTrailName());
+            }
         } else {
             Picasso.with(ActivityPicture.this)
                     .load(R.raw.loading)
@@ -83,50 +107,66 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
             @Override
             public void onSwipeLeft() {
                 ImageView imageView = (ImageView) findViewById(R.id.picture);
-                if(positionForSwipe == gallerySize - 1) {
-                    positionForSwipe = 0;
-                    Picasso.with(ActivityPicture.this)
-                            .load(ActivityPictureCollection.mThumbIds[positionForSwipe])
-                                    //.placeholder(R.raw.pic9)
-                            .noFade()
-                            .resize(600, 600)
-                            .centerCrop()
-                            .error(R.raw.image_not_found)
-                            .into(imageView);
-                }
-                else {
+                if (positionForSwipe == gallerySize - 1) {
+                    //positionForSwipe = 0;
+                    return;
+                } else {
                     positionForSwipe = positionForSwipe + 1;
-                    Picasso.with(ActivityPicture.this)
-                            .load(ActivityPictureCollection.mThumbIds[positionForSwipe])
-                                    //.placeholder(R.raw.pic9)
-                            .noFade()
-                            .resize(600, 600)
-                            .centerCrop()
-                            .error(R.raw.image_not_found)
-                            .into(imageView);
+                    if (activity.equals(TabGallery.EXTRA_KEY_ACTIVITY)) {
+                        Picasso.with(ActivityPicture.this)
+                                .load(TabGallery.mThumbIds[positionForSwipe])
+                                        //.placeholder(R.raw.pic9)
+                                .noFade()
+                                .resize(600, 600)
+                                .centerCrop()
+                                .error(R.raw.image_not_found)
+                                .into(imageView);
+                        picUsername.setText(TabGallery.pictureCollection.
+                                getPictureAtIndex(positionForSwipe).getProfileUsername());
+                        picTrailName.setText(TabGallery.pictureCollection.
+                                getPictureAtIndex(positionForSwipe).getTrailName());
+                    } else if (activity.equals(ActivityPictureCollection.EXTRA_KEY_ACTIVITY)) {
+                        Picasso.with(ActivityPicture.this)
+                                .load(ActivityPictureCollection.mThumbIds[positionForSwipe])
+                                        //.placeholder(R.raw.pic9)
+                                .noFade()
+                                .resize(600, 600)
+                                .centerCrop()
+                                .error(R.raw.image_not_found)
+                                .into(imageView);
+                        picUsername.setText(ActivityPictureCollection.pictureCollection.
+                                getPictureAtIndex(positionForSwipe).getProfileUsername());
+                        picTrailName.setText(ActivityPictureCollection.pictureCollection.
+                                getPictureAtIndex(positionForSwipe).getTrailName());
+
+                    }
                 }
-                picUsername.setText(ActivityPictureCollection.pictureCollection.
-                                          getPictureAtIndex(positionForSwipe).getProfileUsername());
-                picTrailName.setText(ActivityPictureCollection.pictureCollection.
-                                          getPictureAtIndex(positionForSwipe).getTrailName());
             }
 
             @Override
             public void onSwipeRight() {
                 ImageView imageView = (ImageView) findViewById(R.id.picture);
                 if(positionForSwipe == 0){
-                    positionForSwipe = gallerySize - 1;
-                    Picasso.with(ActivityPicture.this)
-                            .load(ActivityPictureCollection.mThumbIds[positionForSwipe])
-                                    //.placeholder(R.raw.pic9)
-                            .noFade()
-                            .resize(600, 600)
-                            .centerCrop()
-                            .error(R.raw.image_not_found)
-                            .into(imageView);
+                    //positionForSwipe = gallerySize - 1;
+                    return;
                 }
                 else {
                     positionForSwipe = positionForSwipe - 1;
+                }
+                if (activity.equals(TabGallery.EXTRA_KEY_ACTIVITY)) {
+                    Picasso.with(ActivityPicture.this)
+                            .load(TabGallery.mThumbIds[positionForSwipe])
+                                    //.placeholder(R.raw.pic9)
+                            .noFade()
+                            .resize(600, 600)
+                            .centerCrop()
+                            .error(R.raw.image_not_found)
+                            .into(imageView);
+                    picUsername.setText(TabGallery.pictureCollection.
+                            getPictureAtIndex(positionForSwipe).getProfileUsername());
+                    picTrailName.setText(TabGallery.pictureCollection.
+                            getPictureAtIndex(positionForSwipe).getTrailName());
+                } else if (activity.equals(ActivityPictureCollection.EXTRA_KEY_ACTIVITY)) {
                     Picasso.with(ActivityPicture.this)
                             .load(ActivityPictureCollection.mThumbIds[positionForSwipe])
                                     //.placeholder(R.raw.pic9)
@@ -135,11 +175,12 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
                             .centerCrop()
                             .error(R.raw.image_not_found)
                             .into(imageView);
+                    picUsername.setText(ActivityPictureCollection.pictureCollection.
+                            getPictureAtIndex(positionForSwipe).getProfileUsername());
+                    picTrailName.setText(ActivityPictureCollection.pictureCollection.
+                            getPictureAtIndex(positionForSwipe).getTrailName());
                 }
-                picUsername.setText(ActivityPictureCollection.pictureCollection.
-                                          getPictureAtIndex(positionForSwipe).getProfileUsername());
-                picTrailName.setText(ActivityPictureCollection.pictureCollection.
-                                          getPictureAtIndex(positionForSwipe).getTrailName());
+
             }
         });
 
@@ -147,7 +188,13 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
         picTrailName.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                String trailId = ActivityPictureCollection.pictureCollection.getPictureAtIndex(positionForSwipe).getTrailOwnerId();
+                String trailId = "";
+                if (activity.equals(ActivityPictureCollection.EXTRA_KEY_ACTIVITY)) {
+                    trailId = ActivityPictureCollection.pictureCollection.getPictureAtIndex(positionForSwipe).getTrailOwnerId();
+                } else if (activity.equals(TabGallery.EXTRA_KEY_ACTIVITY)) {
+                    trailId = TabGallery.pictureCollection.getPictureAtIndex(positionForSwipe).getTrailOwnerId();
+                }
+
                 jsonObject = trailFunctions.getTrailById(trailId);
                 try {
                     JSONArray trails = jsonObject.getJSONArray(ActivityTrailsList.TAG_TRAILLIST);
@@ -171,8 +218,7 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
                             , json.getString(ActivityTrailsList.CONDITIONS)
                             , json.getBoolean(ActivityTrailsList.PET_FRIENDLY));
 
-
-                    Intent intent = new Intent(getApplicationContext(), ActivityTrail.class);
+                    Intent intent = new Intent(getApplicationContext(), ActivityTrailTabHostTest.class);
                     intent.putExtra("trail", trail);
                     startActivity(intent);
                 } catch (JSONException e) {
@@ -186,10 +232,14 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
 
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), ActivityProfile.class);
-                String userId = ActivityPictureCollection.pictureCollection.getPictureAtIndex(positionForSwipe).getProfileOwnerId();
-                String appUserId = App.getUserProfile().getProfileId();
+                String userId = "";
+                if (activity.equals(ActivityPictureCollection.EXTRA_KEY_ACTIVITY)) {
+                    userId = ActivityPictureCollection.pictureCollection.getPictureAtIndex(positionForSwipe).getProfileOwnerId();
+                } else if (activity.equals(TabGallery.EXTRA_KEY_ACTIVITY)) {
+                    userId = TabGallery.pictureCollection.getPictureAtIndex(positionForSwipe).getProfileOwnerId();
+                }
 
-                if (!appUserId.equals(userId)) {
+                if (!App.getProfileId().equals(userId)) {
                     jsonObject = userFunctions.getUserById(userId);
                     try {
                         JSONArray trails = jsonObject.getJSONArray("usersList");
@@ -227,7 +277,7 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
         return true;
     }
 
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -283,5 +333,5 @@ public class ActivityPicture extends FragmentActivity implements ActionBar.OnNav
             }
         }
         return false;
-    }
+    }*/
 }

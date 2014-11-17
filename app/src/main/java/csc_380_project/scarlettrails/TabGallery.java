@@ -29,27 +29,19 @@ public class TabGallery extends Activity {
 
     public static final String EXTRA_KEY_USERID = "user_id";
     public static final String EXTRA_KEY_TRAILID = "trail_id";
+    public static final String EXTRA_KEY_ACTIVITY = "tab_gallery";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_trail_gallery);
 
-        Bundle extras = getIntent().getExtras();
-        String userId = "";
-        String trailId ="";
-        if (extras != null) {
-            userId = extras.getString(EXTRA_KEY_USERID);
-            trailId = extras.getString(EXTRA_KEY_TRAILID);
-        }
+        String trailId =ActivityTrailTabHostTest.mTrail.getTrailId();
 
         PictureFunctions pictureFunction = new PictureFunctions();
         JSONObject json;
 
-        if((userId != null && !userId.isEmpty()) && (trailId == null)) {
-            json = pictureFunction.getUserPictures(userId);
-        }
-        else if((userId == null) && (trailId != null && !trailId.isEmpty())) {
+        if(trailId != null && !trailId.isEmpty()) {
             json = pictureFunction.getTrailPictures(trailId);
         }
         else {
@@ -74,9 +66,7 @@ public class TabGallery extends Activity {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             Intent intent = new Intent(TabGallery.this, ActivityPicture.class);
                             intent.putExtra("position", position);
-                            //Bundle bundle = new Bundle();
-                            //bundle.putSerializable("listOfPictures", listOfPictures);
-                            //intent.putExtras(bundle);
+                            intent.putExtra(ActivityPicture.EXTRA_ACTIVITY, EXTRA_KEY_ACTIVITY);
                             startActivity(intent);
                         }
                     });

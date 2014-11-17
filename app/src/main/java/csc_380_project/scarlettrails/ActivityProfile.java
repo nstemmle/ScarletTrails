@@ -29,8 +29,6 @@ public class ActivityProfile extends Activity implements ActionBar.OnNavigationL
     TextView username;
     TextView interests;
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

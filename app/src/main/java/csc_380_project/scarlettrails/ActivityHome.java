@@ -35,20 +35,27 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
     private Marker lastMarkerClicked;
     private boolean gps_enabled;
     private boolean network_enabled;
+
+    private boolean gps_ignored = false;
     private Marker mLocMarker;
+
+    private static final String KEY_BOOLEAN_GPS_IGNORED = "gps_ignored";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setTheme(R.style.AppTheme);
 
-        gps_enabled = getIntent().getBooleanExtra("gpsEnabled", false);
-        network_enabled = getIntent().getBooleanExtra("networkEnabled", false);
-
-        if (!gps_enabled)
-            setContentView(R.layout.activity_home_location_disabled);
-        else
+        if (savedInstanceState == null) {
+            gps_enabled = getIntent().getBooleanExtra("gpsEnabled", false);
+            network_enabled = getIntent().getBooleanExtra("networkEnabled", false);
+            if (!gps_enabled)
+                setContentView(R.layout.activity_home_location_disabled);
+            else
+                setContentView(R.layout.activity_home);
+        } else {
             setContentView(R.layout.activity_home);
+        }
 
         initializeNavigationBar();
 
@@ -68,23 +75,37 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
         updateMap();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(KEY_BOOLEAN_GPS_IGNORED, gps_ignored);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle inState) {
+        super.onRestoreInstanceState(inState);
+        if (inState.containsKey(KEY_BOOLEAN_GPS_IGNORED)) {
+            gps_ignored = inState.getBoolean(KEY_BOOLEAN_GPS_IGNORED);
+        }
+    }
+
     public Double generateRandomLatitude(Random r) {
         Double baseLat = LocationWrapper.OSWEGO_COUNTY.latitude;
-        int pos_neg = r.nextInt(1);
+        int pos_neg = r.nextInt(2);
         if (pos_neg == 0) { //Add
-            return baseLat + (r.nextDouble() / 10);
+            return baseLat + (r.nextDouble() / 3);
         } else { //Subtract
-            return baseLat - (r.nextDouble() / 10);
+            return baseLat - (r.nextDouble() / 3);
         }
     }
 
     public Double generateRandomLongitude(Random r) {
         Double baseLng = LocationWrapper.OSWEGO_COUNTY.longitude;
-        int pos_neg = r.nextInt(1);
+        int pos_neg = r.nextInt(2);
         if (pos_neg == 0) { //Add
-            return baseLng + (r.nextDouble());
+            return baseLng + (r.nextDouble() / 3);
         } else { //Subtract
-            return baseLng - (r.nextDouble());
+            return baseLng - (r.nextDouble() / 3);
         }
     }
 
@@ -139,26 +160,30 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
 
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+        ActionBar mActionBar = getActionBar();
+        assert mActionBar != null;
         if (itemPosition == 1) { //Trails selected
             Intent trails = new Intent(getApplicationContext(), ActivityTrailsList.class);
             startActivity(trails);
+            mActionBar.setSelectedNavigationItem(0);
             return true;
-
         } else if (itemPosition == 2) { //Profile selected
             if (App.isUserLoggedIn()) {
                 Intent profile = new Intent(getApplicationContext(), ActivityProfile.class);
                 startActivity(profile);
+                mActionBar.setSelectedNavigationItem(0);
                 return true;
             }
-
             //Prompt the user to log in
             else {
                 promptUserToLogin();
+                mActionBar.setSelectedNavigationItem(0);
             }
         }
         else if (itemPosition == 3) {
             Intent upload = new Intent(getApplicationContext(), Upload.class);
             startActivity(upload);
+            mActionBar.setSelectedNavigationItem(0);
             return true;
         }
         return false;
@@ -261,6 +286,7 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
 
     public void buttonIngoreGPSDisabledOnClick(View view) {
         removeExtraViews();
+        gps_ignored = true;
     }
 
 

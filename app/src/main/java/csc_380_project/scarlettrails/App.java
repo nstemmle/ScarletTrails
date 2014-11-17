@@ -24,7 +24,7 @@ public class App extends Application {
         return logged_in;
     }
 
-    static void setProfileId(String profileId) {
+    private static void setProfileId(String profileId) {
         profile_id = profileId;
     }
 
@@ -38,5 +38,6 @@ public class App extends Application {
 
     static void setUserProfile(Profile profile) {
         user_profile = profile;
+        setProfileId(profile.getProfileId());
     }
 }

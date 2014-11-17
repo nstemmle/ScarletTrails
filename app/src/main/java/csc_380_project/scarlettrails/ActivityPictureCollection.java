@@ -40,6 +40,8 @@ public class ActivityPictureCollection extends FragmentActivity implements Actio
     public static final String EXTRA_KEY_USERID = "user_id";
     public static final String EXTRA_KEY_TRAILID = "trail_id";
 
+    public static final String EXTRA_KEY_ACTIVITY = "picture_collection";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,9 +91,7 @@ public class ActivityPictureCollection extends FragmentActivity implements Actio
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             Intent intent = new Intent(ActivityPictureCollection.this, ActivityPicture.class);
                             intent.putExtra("position", position);
-                            //Bundle bundle = new Bundle();
-                            //bundle.putSerializable("listOfPictures", listOfPictures);
-                            //intent.putExtras(bundle);
+                            intent.putExtra(ActivityPicture.EXTRA_ACTIVITY, EXTRA_KEY_ACTIVITY);
                             startActivity(intent);
                         }
                     });

@@ -1,9 +1,6 @@
 package csc_380_project.scarlettrails;
 
-import android.app.ActionBar;
-import android.app.AlertDialog;
 import android.app.TabActivity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,16 +10,15 @@ import android.view.Window;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 /**
  * Created by nstemmle on 11/11/14.
  */
-public class ActivityTrailTabHostTest extends TabActivity implements ActionBar.OnNavigationListener {
-    private NavAdapter mAdapter;
-    private ArrayList<SpinnerNavItem> navSpinner;
+public class ActivityTrailTabHostTest extends TabActivity {//implements ActionBar.OnNavigationListener {
+    //private NavAdapter mAdapter;
+    //private ArrayList<SpinnerNavItem> navSpinner;
 
-    private boolean gps_enabled;
-    private boolean network_enabled;
+    //private boolean gps_enabled;
+    //private boolean network_enabled;
 
     private TabHost mTabHost;
     private String mCurrentTab;
@@ -30,7 +26,7 @@ public class ActivityTrailTabHostTest extends TabActivity implements ActionBar.O
     public static Trail mTrail;
 
     public static final String M_CURRENT_TAB = "M_CURRENT_TAB";
-    public static final int NUM_TABS = 3;
+    //public static final int NUM_TABS = 3;
     public static final String TAB_TRAIL = "TAB_MAP";
     public static final String TAB_GALLERY = "TAB_GALLERY";
     public static final String TAB_FORECAST = "TAB_FORECAST";
@@ -52,7 +48,7 @@ public class ActivityTrailTabHostTest extends TabActivity implements ActionBar.O
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-        setTheme(R.style.AppTheme);
+        setTheme(R.style.ChildTheme);
         setContentView(R.layout.activity_trail_tab_host_test);
 
         mTrail = getIntent().getParcelableExtra("trail");
@@ -65,14 +61,14 @@ public class ActivityTrailTabHostTest extends TabActivity implements ActionBar.O
         //mTabHost.setOnTabChangedListener(new TabChangeListener());
 
         if (savedInstanceState == null) {
-            gps_enabled = getIntent().getBooleanExtra("gpsEnabled", false);
-            network_enabled = getIntent().getBooleanExtra("networkEnabled", false);
+            //gps_enabled = getIntent().getBooleanExtra("gpsEnabled", false);
+            //network_enabled = getIntent().getBooleanExtra("networkEnabled", false);
         } else {
             mCurrentTab = savedInstanceState.getString(M_CURRENT_TAB);
             mTabHost.setCurrentTabByTag(mCurrentTab);
         }
 
-        initializeNavigationBar();
+        //initializeNavigationBar();
     }
 
     private void initializeTabs() {
@@ -113,7 +109,7 @@ public class ActivityTrailTabHostTest extends TabActivity implements ActionBar.O
         }*/
     }
 
-    private class TabChangeListener implements TabHost.OnTabChangeListener {
+    /*private class TabChangeListener implements TabHost.OnTabChangeListener {
         @Override
         public void onTabChanged(String tabId) {
             mCurrentTab = tabId;
@@ -126,12 +122,21 @@ public class ActivityTrailTabHostTest extends TabActivity implements ActionBar.O
 
             }
         }
-    }
+    }*/
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(M_CURRENT_TAB, mCurrentTab);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle inState) {
+        super.onRestoreInstanceState(inState);
+        if (inState.containsKey(M_CURRENT_TAB)) {
+            mCurrentTab = inState.getString(M_CURRENT_TAB);
+            mTabHost.setCurrentTabByTag(mCurrentTab);
+        }
     }
 
     @Override
@@ -159,7 +164,7 @@ public class ActivityTrailTabHostTest extends TabActivity implements ActionBar.O
         return super.onOptionsItemSelected(item);
     }
 
-    private void initializeNavigationBar() {
+    /*private void initializeNavigationBar() {
         ActionBar mActionBar = getActionBar();
         assert mActionBar != null;
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
@@ -216,5 +221,5 @@ public class ActivityTrailTabHostTest extends TabActivity implements ActionBar.O
                 });
         AlertDialog alertDialog = ad.create();
         alertDialog.show();
-    }
+    }*/
 }

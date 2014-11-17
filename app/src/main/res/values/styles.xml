@@ -7,6 +7,21 @@
         <item name="android:windowTitleSize">0dp</item>
     </style>
 
+    <!--Child activity theme-->
+    <style name="ChildTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/ActionBarChildTheme</item>
+        <item name="android:title">false</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowTitleSize">0dp</item>
+    </style>
+
+    <!-- For changing the action bar style change xml within this style. -->
+    <style name="ActionBarChildTheme" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">#9C0606</item>
+        <item name="android:titleTextStyle">@style/TitleTextWhiteStyle</item>
+        <item name="android:displayOptions">showHome|homeAsUp</item>
+    </style>
+
     <!-- For changing the action bar style change xml within this style. -->
     <style name="ActionBarTheme" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">#9C0606</item>

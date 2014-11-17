@@ -14,16 +14,6 @@ import java.util.ArrayList;
 /**
  * Created by Scott on 10/14/2014.
  */
-import java.util.ArrayList;
-
-import android.app.Activity;
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 //This class uses a navigation adapter to create a dropdown menu in the upper left side of the screen
 public class NavAdapter extends BaseAdapter {
