@@ -24,7 +24,7 @@ public class ActivityForecast extends FragmentActivity implements ActionBar.OnNa
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setTheme(R.style.AppTheme);
-        setContentView(R.layout.forecast);
+        setContentView(R.layout.tab_trail_forecast);
 
         initializeNavigationBar();
 
