@@ -3,13 +3,14 @@ package csc_380_project.scarlettrails;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Date;
+
 /**
  * Created by Kheiyasa on 10/23/2014.
  */
 public class Forecast implements Parcelable {
 
    //swiping on forecast screen for 10 day?
-    private String date;
     private int tempMin;
     private int tempMax;
     private String sunset;
@@ -17,7 +18,6 @@ public class Forecast implements Parcelable {
     private int description;
 
     public Forecast(Parcel in) {
-        this.date = in.readString();
         this.tempMin = in.readInt();
         this.tempMax = in.readInt();
         this.sunrise = in.readString();
@@ -25,8 +25,7 @@ public class Forecast implements Parcelable {
         this.description = in.readInt();
     }
 
-    public Forecast(String date, int tempMin, int tempMax, String sunrise, String sunset, int description){
-        this.date = date;
+    public Forecast(int tempMin, int tempMax, String sunrise, String sunset, int description){
         this.tempMin = tempMin;
         this.tempMax = tempMax;
         this.sunset = sunset;
@@ -36,10 +35,9 @@ public class Forecast implements Parcelable {
     }
 
     public String toString() {
-        return "Forecast: " + "date="+date + "; tempMin="+tempMin + "; tempMax="+tempMax + "; sunset="+sunset + "; sunrise="+sunrise + "; description="+description;
+        return "Forecast: " + "; tempMin="+tempMin + "; tempMax="+tempMax + "; sunset="+sunset + "; sunrise="+sunrise + "; description="+description;
     }
 
-    public String getDate(){return date;}
 
     public int getTempMax(){return tempMax;}
 
@@ -59,7 +57,6 @@ public class Forecast implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(date);
         dest.writeInt(tempMin);
         dest.writeInt(tempMax);
         dest.writeString(sunrise);
