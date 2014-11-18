@@ -12,6 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -34,7 +35,7 @@ public class ForecastWrapper {
             if (h == true) {
                 mURL = URL_COORDS_START + lat + URL_COORDS_MID + lng + URL_COORDS_COMPLETEEND;
             } else {
-                mURL = URL_COORDS_START2 + lat + URL_COORDS_MID + lng + URL_COORDS_END +URL_COORDS_COMPLETEEND;
+                mURL = URL_COORDS_START2 + lat + URL_COORDS_MID + lng + URL_COORDS_END + URL_COORDS_COMPLETEEND;
             }
             url = new URL(mURL);
             InputStreamReader is = new InputStreamReader(url.openStream());
@@ -83,25 +84,24 @@ public class ForecastWrapper {
 
     public static Forecast getWeather(String info) throws JSONException {
 
-            JSONObject jObj = new JSONObject(info);
-
-            java.util.Date currentDate = new Date(jObj.getLong("dt") * 1000);
-
-            JSONObject mainJSON = getObject("main", jObj);
-            int tempmax = getInt("temp_max", mainJSON);
-            int tempmin = getInt("temp_min", mainJSON);
-
-            JSONArray jArr = jObj.getJSONArray("weather");
-            JSONObject weatherJSON = jArr.getJSONObject(0);
-            int weathrid = getInt("id", weatherJSON);
-
-            JSONObject sysJSON = getObject("sys", jObj);
-            java.util.Date sunSetTime = new Date(sysJSON.getLong("sunset") * 1000);
-            java.util.Date sunRiseTime = new Date(sysJSON.getLong("sunrise") * 1000);
+        JSONObject jObj = new JSONObject(info);
 
 
-            Forecast forecast = new Forecast(formatDate(currentDate), tempmin, tempmax, formatSun(sunRiseTime), formatSun(sunSetTime), weathrid);
-            return forecast;
+        JSONObject mainJSON = getObject("main", jObj);
+        int tempmax = getInt("temp_max", mainJSON);
+        int tempmin = getInt("temp_min", mainJSON);
+
+        JSONArray jArr = jObj.getJSONArray("weather");
+        JSONObject weatherJSON = jArr.getJSONObject(0);
+        int weathrid = getInt("id", weatherJSON);
+
+        JSONObject sysJSON = getObject("sys", jObj);
+        java.util.Date sunSetTime = new Date(sysJSON.getLong("sunset") * 1000);
+        java.util.Date sunRiseTime = new Date(sysJSON.getLong("sunrise") * 1000);
+
+
+        Forecast forecast = new Forecast(tempmin, tempmax, formatSun(sunRiseTime), formatSun(sunSetTime), weathrid);
+        return forecast;
 
     }
 
@@ -114,7 +114,7 @@ public class ForecastWrapper {
             JSONArray jArray = jObj.getJSONArray("list");
             JSONObject listJSON = jArray.getJSONObject(count);
 
-            java.util.Date currentDate = new Date(listJSON.getLong("dt") * 1000);
+
 
             JSONObject mainJSON = getObject("temp", listJSON);
             int tempmax = getInt("max", mainJSON);
@@ -124,19 +124,12 @@ public class ForecastWrapper {
             JSONObject weatherJSON = jArr.getJSONObject(0);
             int weathrid = getInt("id", weatherJSON);
 
-            forecastArray[count] = new Forecast(formatDate(currentDate), tempmin, tempmax, "", "", weathrid);
+            forecastArray[count] = new Forecast(tempmin, tempmax, "", "", weathrid);
             count++;
         }
         return forecastArray;
     }
 
-    protected static String formatDate(Date date) {
-        TimeZone timeZone = TimeZone.getTimeZone("EST");
-        DateFormat dateFormat = new SimpleDateFormat("MMM dd");
-        dateFormat.setTimeZone(timeZone);
-        System.out.print(dateFormat.format(date));
-        return dateFormat.format(date);
-    }
 
     protected static String formatSun(Date date) {
         TimeZone timeZone = TimeZone.getTimeZone("EST");
