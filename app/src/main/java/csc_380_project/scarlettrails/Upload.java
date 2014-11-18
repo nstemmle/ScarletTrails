@@ -9,7 +9,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -23,9 +29,18 @@ import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +54,8 @@ public class Upload extends Activity implements ActionBar.OnNavigationListener {
     final int PIC_CROP = 3;
     //captured picture uri
     private Uri picUri;
+
+    InputStream inputStream;
 
     private NavAdapter mAdapter;
     private ArrayList<SpinnerNavItem> navSpinner;
@@ -105,8 +122,18 @@ public class Upload extends Activity implements ActionBar.OnNavigationListener {
                     if (data.getData() != null) {
                         //get the Uri for the captured image
                         picUri = data.getData();
+                        sendToServer(picUri);
+                        ImageView picView = (ImageView)findViewById(R.id.photoFromCamera);
+                        Picasso.with(Upload.this)
+                                .load(picUri)
+                                        //.placeholder(R.raw.pic9)
+                                .noFade()
+                                .resize(600, 600)
+                                .centerCrop()
+                                .error(R.raw.image_not_found)
+                                .into(picView);
                         //carry out the crop operation
-                        performCrop();
+                        //performCrop();
                         break;
                     } else{
                         Toast.makeText(this, "Picture was not uploaded", Toast.LENGTH_SHORT).show();
@@ -118,8 +145,18 @@ public class Upload extends Activity implements ActionBar.OnNavigationListener {
                     if (data.getData() != null) {
                         //get the Uri for the captured image
                         picUri = data.getData();
+                        sendToServer(picUri);
+                        ImageView picView = (ImageView)findViewById(R.id.photoFromCamera);
+                        Picasso.with(Upload.this)
+                                .load(picUri)
+                                        //.placeholder(R.raw.pic9)
+                                .noFade()
+                                .resize(600, 600)
+                                .centerCrop()
+                                .error(R.raw.image_not_found)
+                                .into(picView);
                         //carry out the crop operation
-                        performCrop();
+                        //performCrop();
                         break;
                     } else{
                         Toast.makeText(this, "Picture was not uploaded", Toast.LENGTH_SHORT).show();
@@ -134,30 +171,219 @@ public class Upload extends Activity implements ActionBar.OnNavigationListener {
                     //get the cropped bitmap
                     Bitmap thePic = extras.getParcelable("data");
 
-                    //Database interaction here!!
-                    //Save bitmap to File (or ByteArray)
-                    //and then send it to Server (with the following name: User() + Date/Time() + ".jpg or png")
-                    //Insert Picture field in database passing userID, trailID...
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    thePic.compress(Bitmap.CompressFormat.PNG, 100, stream); //compress to which format you want.
+                    byte [] byte_arr = stream.toByteArray();
+                    String image_str = Base64.encodeBytes(byte_arr);
+                    final ArrayList<NameValuePair> nameValuePairs = new  ArrayList<NameValuePair>();
+
+                    nameValuePairs.add(new BasicNameValuePair("image",image_str));
+
+                    Thread t = new Thread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            try{
+                                HttpClient httpclient = new DefaultHttpClient();
+                                HttpPost httppost = new HttpPost("http://teamscarlet.webuda.com/PICTURES/TRAIL_PICTURES/upload_image.php");
+                                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                                HttpResponse response = httpclient.execute(httppost);
+                                final String the_string_response = convertResponseToString(response);
+                                runOnUiThread(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(Upload.this, "Response " + the_string_response, Toast.LENGTH_LONG).show();
+                                    }
+                                });
+
+                            }catch(final Exception e){
+                                runOnUiThread(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(Upload.this, "ERROR " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                                System.out.println("Error in http connection "+e.toString());
+                            }
+                        }
+                    });
+                    t.start();
 
                     //retrieve a reference to the ImageView
                     ImageView picView = (ImageView)findViewById(R.id.photoFromCamera);
                     Picasso.with(Upload.this)
-                        .load(getImageUri(this, thePic))
-                                //.placeholder(R.raw.pic9)
-                        .noFade()
-                        .resize(600, 600)
-                        .centerCrop()
-                        .error(R.raw.image_not_found)
-                        .into(picView);
+                            .load(getImageUri(this, thePic))
+                                    //.placeholder(R.raw.pic9)
+                            .noFade()
+                            .resize(600, 600)
+                            .centerCrop()
+                            .error(R.raw.image_not_found)
+                            .into(picView);
                     break;
             }
         }
 
     }
 
+    public void sendToServer(Uri uri) {
+        String[] fileColumn = { MediaStore.Images.Media.DATA };
+
+        Cursor imageCursor = getContentResolver().query(uri,
+                fileColumn, null, null, null);
+        imageCursor.moveToFirst();
+
+        int fileColumnIndex = imageCursor.getColumnIndex(fileColumn[0]);
+        String picturePath = imageCursor.getString(fileColumnIndex);
+
+        Bitmap pictureObject = BitmapFactory.decodeFile(picturePath);
+        //Bitmap pictureObject = getResizedBitmap(pictureObject2, 800, 800);
+
+
+        if(pictureObject.getByteCount() < 2000000) {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            pictureObject.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        }
+        else {
+            if(pictureObject.getByteCount() < 5000000) {
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                pictureObject.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+            }
+            else {
+                if(pictureObject.getByteCount() < 10000000) {
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    pictureObject.compress(Bitmap.CompressFormat.JPEG, 25, stream);
+                }
+                else {
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    pictureObject.compress(Bitmap.CompressFormat.JPEG, 10, stream);
+                }
+            }
+        }
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        pictureObject.compress(Bitmap.CompressFormat.JPEG, 50, stream); //compress to which format you want.
+        byte [] byte_arr = stream.toByteArray();
+        String image_str = Base64.encodeBytes(byte_arr);
+        final ArrayList<NameValuePair> nameValuePairs = new  ArrayList<NameValuePair>();
+
+        nameValuePairs.add(new BasicNameValuePair("image",image_str));
+
+        Thread t = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                try{
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost = new HttpPost("http://teamscarlet.webuda.com/PICTURES/TRAIL_PICTURES/upload_image.php");
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                    HttpResponse response = httpclient.execute(httppost);
+                    final String the_string_response = convertResponseToString(response);
+                    runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            Toast.makeText(Upload.this, "Response " + the_string_response, Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                }catch(final Exception e){
+                    runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            Toast.makeText(Upload.this, "ERROR " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    System.out.println("Error in http connection "+e.toString());
+                }
+            }
+        });
+        t.start();
+    }
+
+    public Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
+
+        int width = bm.getWidth();
+
+        int height = bm.getHeight();
+
+        float scaleWidth = ((float) newWidth) / width;
+
+        float scaleHeight = ((float) newHeight) / height;
+
+// CREATE A MATRIX FOR THE MANIPULATION
+
+        Matrix matrix = new Matrix();
+
+// RESIZE THE BIT MAP
+
+        matrix.postScale(scaleWidth, scaleHeight);
+
+// RECREATE THE NEW BITMAP
+
+        Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
+
+        return resizedBitmap;
+
+    }
+
+    public String convertResponseToString(HttpResponse response) throws IllegalStateException, IOException{
+        String res = "";
+        StringBuffer buffer = new StringBuffer();
+        inputStream = response.getEntity().getContent();
+        final int contentLength = (int) response.getEntity().getContentLength(); //getting content length…..
+        runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                Toast.makeText(Upload.this, "contentLength : " + contentLength, Toast.LENGTH_LONG).show();
+            }
+        });
+
+        if (contentLength < 0){
+        }
+        else{
+            byte[] data = new byte[512];
+            int len = 0;
+            try
+            {
+                while (-1 != (len = inputStream.read(data)) )
+                {
+                    buffer.append(new String(data, 0, len)); //converting to string and appending  to stringbuffer…..
+                }
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            try
+            {
+                inputStream.close(); // closing the stream…..
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            res = buffer.toString();
+            final String res2 = res;
+
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    Toast.makeText(Upload.this, "Result : " + res2, Toast.LENGTH_LONG).show();
+                }
+            });
+            //System.out.println("Response => " +  EntityUtils.toString(response.getEntity()));
+        }
+        return res;
+    }
+
     public Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        inImage.compress(Bitmap.CompressFormat.PNG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
     }
@@ -174,10 +400,10 @@ public class Upload extends Activity implements ActionBar.OnNavigationListener {
             cropIntent.putExtra("aspectX", 1);
             cropIntent.putExtra("aspectY", 1);
             //indicate output X and Y
-            cropIntent.putExtra("outputX", 1200);
-            cropIntent.putExtra("outputY", 1200);
+            cropIntent.putExtra("outputX", 10000);
+            cropIntent.putExtra("outputY", 10000);
             //retrieve data on return
-            cropIntent.putExtra("return-data", true);
+            cropIntent.putExtra("return-data", false);
             //start the activity - we handle returning in onActivityResult
             startActivityForResult(cropIntent, PIC_CROP);
         }
