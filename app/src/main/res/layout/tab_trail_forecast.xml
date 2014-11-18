@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,264 +8,273 @@
     android:id="@id/layout_linear_forecast">
 
 
-    <!--android:background="@drawable/border"-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
-
+        android:background="@drawable/border"
         android:layout_weight="0.20">
 
         <TextView style="@style/TextWhiteStyle"
             android:id="@id/forecast_textview_firstday_day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:text="Not"
+            android:textSize="30dp"
+            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:alpha="1.0"
-            android:text="@string/forecast_textview_firstday_day"/>
-        <!--android:background="@drawable/cloudy"-->
+            android:layout_alignParentStart="true" />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@id/forecast_imgview_firstday_clouds"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/cloudy" />
+
         <TextView style="@style/TextWhiteStyle"
-            android:id="@id/forecast_textview_firstday_percipitation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/forecast_textview_firstday_date"
+            android:id="@id/forecast_textview_firstday_date"
+            android:textSize="21dp"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/forecast_imgview_firstday_clouds"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:alpha="1.0"
-            android:text="@string/forecast_textview_firstday_percipitation"/>
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
         <TextView style="@style/TextWhiteStyle"
-            android:id="@id/forecast_textview_firstday_mintemp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/forecast_textview_firstday_maxtemp"
+            android:id="@id/forecast_textview_firstday_maxtemp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:textSize="27dp"/>
+
+        <TextView style="@style/TextWhiteStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/forecast_textview_firstday_mintemp"
+            android:id="@id/forecast_textview_firstday_mintemp"
+            android:textSize="23dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:alpha="1.0"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/forecast_textview_firstday_mintemp"/>
-        <TextView style="@style/TextWhiteStyle"
-            android:id="@id/forecast_textview_firstday_maxtemp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/forecast_textview_firstday_mintemp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:alpha="1.0"
-            android:text="@string/forecast_textview_firstday_maxtemp"/>
+            android:layout_alignParentEnd="true" />
+
     </RelativeLayout>
-    <!--android:background="@drawable/border"-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:background="@drawable/border"
         android:layout_weight="0.20">
+
         <TextView style="@style/TextWhiteStyle"
             android:id="@id/forecast_textview_secondday_day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:text="@string/forecast_textview_secondday_day"
+            android:textSize="30dp"
+            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:alpha="1.0"
-            android:text="@string/forecast_textview_secondday_day"/>
-        <!--android:background="@drawable/partlycloudy"-->
+            android:layout_alignParentStart="true" />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@id/forecast_imgview_secondday_clouds"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/hail" />
+
         <TextView style="@style/TextWhiteStyle"
-            android:id="@id/forecast_textview_secondday_percipitation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/forecast_textview_secondday_date"
+            android:id="@id/forecast_textview_secondday_date"
+            android:textSize="21dp"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/forecast_imgview_secondday_clouds"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:alpha="1.0"
-            android:text="@string/forecast_textview_secondday_percipitation"/>
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
         <TextView style="@style/TextWhiteStyle"
-            android:id="@id/forecast_textview_secondday_mintemp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/forecast_textview_secondday_maxtemp"
+            android:id="@id/forecast_textview_secondday_maxtemp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:textSize="27dp"/>
+
+        <TextView style="@style/TextWhiteStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/forecast_textview_secondday_mintemp"
+            android:id="@id/forecast_textview_secondday_mintemp"
+            android:textSize="23dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:alpha="1.0"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/forecast_textview_secondday_mintemp"/>
-        <TextView style="@style/TextWhiteStyle"
-            android:id="@id/forecast_textview_secondday_maxtemp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/forecast_textview_secondday_mintemp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:alpha="1.0"
-            android:text="@string/forecast_textview_secondday_maxtemp"/>
+            android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
-    <!--android:background="@drawable/border"-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:background="@drawable/border"
         android:layout_weight="0.20">
+
         <TextView style="@style/TextWhiteStyle"
             android:id="@id/forecast_textview_thirdday_day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:text="@string/forecast_textview_thirdday_day"
+            android:textSize="30dp"
+            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:alpha="1.0"
-            android:text="@string/forecast_textview_thirdday_day"/>
-        <!--android:background="@drawable/cloudy" -->
+            android:layout_alignParentStart="true" />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@id/forecast_imgview_thirdday_clouds"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            />
+            android:background="@drawable/partlycloudy" />
+
         <TextView style="@style/TextWhiteStyle"
-            android:id="@id/forecast_textview_thirdday_percipitation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/forecast_textview_thirdday_date"
+            android:id="@id/forecast_textview_thirdday_date"
+            android:textSize="21dp"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/forecast_imgview_thirdday_clouds"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:alpha="1.0"
-            android:text="@string/forecast_textview_thirdday_percipitation"/>
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
         <TextView style="@style/TextWhiteStyle"
-            android:id="@id/forecast_textview_thirdday_mintemp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/forecast_textview_thirdday_maxtemp"
+            android:id="@id/forecast_textview_thirdday_maxtemp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:textSize="27dp"/>
+
+        <TextView style="@style/TextWhiteStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/forecast_textview_thirdday_mintemp"
+            android:id="@id/forecast_textview_thirdday_mintemp"
+            android:textSize="23dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:alpha="1.0"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/forecast_textview_thirdday_mintemp"/>
-        <TextView style="@style/TextWhiteStyle"
-            android:id="@id/forecast_textview_thirdday_maxtemp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/forecast_textview_thirdday_mintemp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:alpha="1.0"
-            android:text="@string/forecast_textview_thirdday_maxtemp"/>
+            android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
-    <!--android:background="@drawable/border"-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:background="@drawable/border"
         android:layout_weight="0.20">
+
         <TextView style="@style/TextWhiteStyle"
             android:id="@id/forecast_textview_fourthday_day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:text="@string/forecast_textview_fourthday_day"
+            android:textSize="30dp"
+            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:alpha="1.0"
-            android:text="@string/forecast_textview_fourthday_day"/>
-        <!--android:background="@drawable/sunny" -->
+            android:layout_alignParentStart="true" />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@id/forecast_imgview_fourthday_clouds"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/storm" />
+
         <TextView style="@style/TextWhiteStyle"
-            android:id="@id/forecast_textview_fourthday_percipitation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/forecast_textview_fourthday_date"
+            android:id="@id/forecast_textview_fourthday_date"
+            android:textSize="21dp"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/forecast_imgview_fourthday_clouds"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:alpha="1.0"
-            android:text="@string/forecast_textview_fourthday_percipitation"/>
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
         <TextView style="@style/TextWhiteStyle"
-            android:id="@id/forecast_textview_fourthday_mintemp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/forecast_textview_fourthday_maxtemp"
+            android:id="@id/forecast_textview_fourthday_maxtemp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:textSize="27dp"/>
+
+        <TextView style="@style/TextWhiteStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/forecast_textview_fourthday_mintemp"
+            android:id="@id/forecast_textview_fourthday_mintemp"
+            android:textSize="23dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:alpha="1.0"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/forecast_textview_fourthday_mintemp"/>
-        <TextView style="@style/TextWhiteStyle"
-            android:id="@id/forecast_textview_fourthday_maxtemp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/forecast_textview_fourthday_mintemp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:alpha="1.0"
-            android:text="@string/forecast_textview_fourthday_maxtemp"/>
+            android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_weight="0.20">
+
         <TextView style="@style/TextWhiteStyle"
             android:id="@id/forecast_textview_fifthday_day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:text="@string/forecast_textview_fifthday_day"
+            android:textSize="30dp"
+            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:alpha="1.0"
-            android:text="@string/forecast_textview_fifthday_day"/>
-        <!--android:background="@drawable/partlycloudy" -->
+            android:layout_alignParentStart="true" />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@id/forecast_imgview_fifthday_clouds"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/sunny" />
+
         <TextView style="@style/TextWhiteStyle"
-            android:id="@id/forecast_textview_fifthday_percipitation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/forecast_textview_fifthday_date"
+            android:id="@id/forecast_textview_fifthday_date"
+            android:textSize="21dp"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/forecast_imgview_fifthday_clouds"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:alpha="1.0"
-            android:text="@string/forecast_textview_fifthday_percipitation"/>
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
         <TextView style="@style/TextWhiteStyle"
-            android:id="@id/forecast_textview_fifthday_mintemp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/forecast_textview_fifthday_maxtemp"
+            android:id="@id/forecast_textview_fifthday_maxtemp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:textSize="27dp"/>
+
+        <TextView style="@style/TextWhiteStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/forecast_textview_fifthday_mintemp"
+            android:id="@id/forecast_textview_fifthday_mintemp"
+            android:textSize="23dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:alpha="1.0"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/forecast_textview_fifthday_mintemp"/>
-        <TextView style="@style/TextWhiteStyle"
-            android:id="@id/forecast_textview_fifthday_maxtemp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/forecast_textview_fifthday_mintemp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:alpha="1.0"
-            android:text="@string/forecast_textview_fifthday_maxtemp"/>
+            android:layout_alignParentEnd="true" />
+
     </RelativeLayout>
 </LinearLayout>
