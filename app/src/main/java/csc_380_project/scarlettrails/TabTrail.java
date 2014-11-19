@@ -150,7 +150,7 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
             //light rain
         } else if (weatherid <= 531){
             //heavy rain
-        } else if (611 <= weatherid || weatherid <= 616){
+        } else if (611 <= weatherid && weatherid <= 616){
             //mix
         } else if (weatherid <= 622){
             //snow
