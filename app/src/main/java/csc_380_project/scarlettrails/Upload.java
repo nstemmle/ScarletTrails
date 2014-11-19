@@ -4,18 +4,12 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -24,12 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
-
-import com.squareup.picasso.Picasso;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -37,12 +27,12 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 
 public class Upload extends Activity implements ActionBar.OnNavigationListener {
@@ -81,11 +71,6 @@ public class Upload extends Activity implements ActionBar.OnNavigationListener {
         });
     }
 
-//    public void onClick(View v) {
-//        if (v.getId() == R.id.upload)
-//            selectImageSource();
-//    }
-
     private void selectImageSource() {
         final CharSequence[] items = { "Take Photo", "Choose from Library",
                 "Cancel" };
@@ -102,7 +87,6 @@ public class Upload extends Activity implements ActionBar.OnNavigationListener {
                     Intent intent = new Intent(
                             Intent.ACTION_PICK,
                             android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    intent.setType("image/*");
                     startActivityForResult(
                             Intent.createChooser(intent, "Select File"),
                             GALLERY_CAPTURE);
@@ -123,16 +107,6 @@ public class Upload extends Activity implements ActionBar.OnNavigationListener {
                         //get the Uri for the captured image
                         picUri = data.getData();
                         sendToServer(picUri);
-                        ImageView picView = (ImageView)findViewById(R.id.photoFromCamera);
-                        Picasso.with(Upload.this)
-                                .load(picUri)
-                                        //.placeholder(R.raw.pic9)
-                                .noFade()
-                                .resize(600, 600)
-                                .centerCrop()
-                                .error(R.raw.image_not_found)
-                                .into(picView);
-                        //carry out the crop operation
                         //performCrop();
                         break;
                     } else{
@@ -146,15 +120,6 @@ public class Upload extends Activity implements ActionBar.OnNavigationListener {
                         //get the Uri for the captured image
                         picUri = data.getData();
                         sendToServer(picUri);
-                        ImageView picView = (ImageView)findViewById(R.id.photoFromCamera);
-                        Picasso.with(Upload.this)
-                                .load(picUri)
-                                        //.placeholder(R.raw.pic9)
-                                .noFade()
-                                .resize(600, 600)
-                                .centerCrop()
-                                .error(R.raw.image_not_found)
-                                .into(picView);
                         //carry out the crop operation
                         //performCrop();
                         break;
@@ -210,18 +175,6 @@ public class Upload extends Activity implements ActionBar.OnNavigationListener {
                         }
                     });
                     t.start();
-
-                    //retrieve a reference to the ImageView
-                    ImageView picView = (ImageView)findViewById(R.id.photoFromCamera);
-                    Picasso.with(Upload.this)
-                            .load(getImageUri(this, thePic))
-                                    //.placeholder(R.raw.pic9)
-                            .noFade()
-                            .resize(600, 600)
-                            .centerCrop()
-                            .error(R.raw.image_not_found)
-                            .into(picView);
-                    break;
             }
         }
 
@@ -238,12 +191,11 @@ public class Upload extends Activity implements ActionBar.OnNavigationListener {
         String picturePath = imageCursor.getString(fileColumnIndex);
 
         Bitmap pictureObject = BitmapFactory.decodeFile(picturePath);
-        //Bitmap pictureObject = getResizedBitmap(pictureObject2, 800, 800);
 
 
         if(pictureObject.getByteCount() < 2000000) {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            pictureObject.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            pictureObject.compress(Bitmap.CompressFormat.JPEG, 50, stream);
         }
         else {
             if(pictureObject.getByteCount() < 5000000) {
@@ -267,8 +219,10 @@ public class Upload extends Activity implements ActionBar.OnNavigationListener {
         byte [] byte_arr = stream.toByteArray();
         String image_str = Base64.encodeBytes(byte_arr);
         final ArrayList<NameValuePair> nameValuePairs = new  ArrayList<NameValuePair>();
+        String fileName = "user " + App.getProfileId() + " - " + DateFormat.getDateTimeInstance().format(new Date()) + ".jpg";
 
         nameValuePairs.add(new BasicNameValuePair("image",image_str));
+        nameValuePairs.add(new BasicNameValuePair("filename",fileName));
 
         Thread t = new Thread(new Runnable() {
 
@@ -303,32 +257,6 @@ public class Upload extends Activity implements ActionBar.OnNavigationListener {
         t.start();
     }
 
-    public Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
-
-        int width = bm.getWidth();
-
-        int height = bm.getHeight();
-
-        float scaleWidth = ((float) newWidth) / width;
-
-        float scaleHeight = ((float) newHeight) / height;
-
-// CREATE A MATRIX FOR THE MANIPULATION
-
-        Matrix matrix = new Matrix();
-
-// RESIZE THE BIT MAP
-
-        matrix.postScale(scaleWidth, scaleHeight);
-
-// RECREATE THE NEW BITMAP
-
-        Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
-
-        return resizedBitmap;
-
-    }
-
     public String convertResponseToString(HttpResponse response) throws IllegalStateException, IOException{
         String res = "";
         StringBuffer buffer = new StringBuffer();
@@ -344,26 +272,21 @@ public class Upload extends Activity implements ActionBar.OnNavigationListener {
 
         if (contentLength < 0){
         }
-        else{
+        else {
             byte[] data = new byte[512];
             int len = 0;
-            try
-            {
-                while (-1 != (len = inputStream.read(data)) )
-                {
+            try {
+                while (-1 != (len = inputStream.read(data)) ) {
                     buffer.append(new String(data, 0, len)); //converting to string and appending  to stringbuffer…..
                 }
             }
-            catch (IOException e)
-            {
+            catch (IOException e) {
                 e.printStackTrace();
             }
-            try
-            {
-                inputStream.close(); // closing the stream…..
+            try {
+                inputStream.close();
             }
-            catch (IOException e)
-            {
+            catch (IOException e) {
                 e.printStackTrace();
             }
             res = buffer.toString();
@@ -399,9 +322,7 @@ public class Upload extends Activity implements ActionBar.OnNavigationListener {
             //indicate aspect of desired crop
             cropIntent.putExtra("aspectX", 1);
             cropIntent.putExtra("aspectY", 1);
-            //indicate output X and Y
-            cropIntent.putExtra("outputX", 10000);
-            cropIntent.putExtra("outputY", 10000);
+            cropIntent.putExtra("scale", true);
             //retrieve data on return
             cropIntent.putExtra("return-data", false);
             //start the activity - we handle returning in onActivityResult
