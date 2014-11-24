@@ -22,14 +22,14 @@
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@id/tab_fragment_map"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
             android:layout_weight="1"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginTop="0dp"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
             android:layout_marginBottom="8dp"
             android:name="com.google.android.gms.maps.MapFragment"
             tools:context=".MapActivity"/>
@@ -41,8 +41,8 @@
             android:stepSize="0.5"
             android:rating="4.5"
             android:isIndicator="true"
-             android:scaleY="0.75"
-             android:scaleX="0.75"
+             android:scaleY="0.25"
+             android:scaleX="0.25"
             android:layout_gravity="center"/>
 
         <LinearLayout
@@ -389,4 +389,41 @@
                     </LinearLayout>
 
         </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/checkin_icon"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/btnCheckIn"
+            android:layout_gravity="center_horizontal" />
+
+        <ImageButton
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/camera_icon"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/btnCamera"
+            android:layout_gravity="center_horizontal" />
+
+        <ImageButton
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/comment_icon"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/btnCommentsPage"
+            android:layout_gravity="center_horizontal" />
+
+        </LinearLayout>
+
 </LinearLayout>
