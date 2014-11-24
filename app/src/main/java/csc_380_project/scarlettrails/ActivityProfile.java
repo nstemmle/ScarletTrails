@@ -9,10 +9,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -28,6 +30,7 @@ public class ActivityProfile extends Activity implements ActionBar.OnNavigationL
     TextView fullName;
     TextView username;
     TextView interests;
+    ImageView profilePicture;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,15 @@ public class ActivityProfile extends Activity implements ActionBar.OnNavigationL
         username.setText(userProfile.getUsername());
         interests = (TextView)findViewById(R.id.interestsProfilePage);
         interests.setText("Interests");
+        profilePicture = (ImageView) findViewById(R.id.profilePicture2);
+        Picasso.with(ActivityProfile.this)
+                .load(userProfile.getPictureURL())
+                        //.placeholder(R.raw.pic9)
+                .noFade()
+                .resize(600, 600)
+                .centerCrop()
+                .error(R.raw.image_not_found)
+                .into(profilePicture);
 
         initializeNavigationBar();
 

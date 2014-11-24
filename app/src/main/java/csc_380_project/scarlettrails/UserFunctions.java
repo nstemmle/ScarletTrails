@@ -68,9 +68,10 @@ public class UserFunctions {
      * @param dob
      * @param username
      * @param password
+     * @param pictureURL
      * */
     public JSONObject registerUser(String first_name, String last_name,String email, String dob
-                                                             , String username, String password){
+                                                             , String username, String password, String pictureURL){
         // Building Parameters
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("tag", register_tag));
@@ -80,6 +81,8 @@ public class UserFunctions {
         params.add(new BasicNameValuePair("dob", dob));
         params.add(new BasicNameValuePair("username", username));
         params.add(new BasicNameValuePair("password", password));
+        params.add(new BasicNameValuePair("picture_url", pictureURL));
+
 
         // getting JSON Object
         JSONObject json = jsonParser.getJSONFromUrl(registerURL, params);

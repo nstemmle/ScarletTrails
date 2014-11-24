@@ -11,15 +11,20 @@ public class Profile implements Parcelable {
     private  String dateOfBirth;
     private  String username;
     private  String password;
+    private  String interests;
+    private  String pictureURL;
 
     public Profile(String profileId, String firstName,
-                   String lastName, String email, String dateOfBirth, String username) {
+                   String lastName, String email, String dateOfBirth, String username,
+                                                  String interests, String pictureURL) {
         this.profileId = profileId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.dateOfBirth = dateOfBirth;
         this.username = username;
+        this.interests = interests;
+        this.pictureURL = pictureURL;
     }
 
     public String getProfileId() { return profileId; }
@@ -35,6 +40,10 @@ public class Profile implements Parcelable {
     public String getUsername() { return username; }
 
     public String getDateOfBirth() { return dateOfBirth; }
+
+    public String getInterests() { return interests; }
+
+    public String getPictureURL() { return pictureURL; }
 
     public void setProfileId(String profileId) {
         this.profileId = profileId;
@@ -67,6 +76,8 @@ public class Profile implements Parcelable {
         email = in.readString();
         dateOfBirth = in.readString();
         username = in.readString();
+        interests = in.readString();
+        pictureURL = in.readString();
     }
 
     /** Static field used to regenerate object, individually or as arrays */
@@ -92,5 +103,7 @@ public class Profile implements Parcelable {
         dest.writeString(email);
         dest.writeString(dateOfBirth);
         dest.writeString(username);
+        dest.writeString(interests);
+        dest.writeString(pictureURL);
     }
 }

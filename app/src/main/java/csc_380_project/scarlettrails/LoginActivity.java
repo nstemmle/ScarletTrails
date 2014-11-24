@@ -30,6 +30,8 @@ public class LoginActivity extends Activity {
     public static String EMAIL = "email";
     public static String DOB = "dob";
     public static String USERNAME = "username";
+    public static String INTERESTS = "interests";
+    public static String PICTURE_URL = "picture_url";
     public static String KEY_ERROR_MSG = "error_msg";
 
     @Override
@@ -69,7 +71,10 @@ public class LoginActivity extends Activity {
                                                       json_user.getString(LAST_NAME),
                                                       json_user.getString(EMAIL),
                                                       json_user.getString(DOB),
-                                                      json_user.getString(USERNAME));
+                                                      json_user.getString(USERNAME),
+                                                      json_user.getString(INTERESTS),
+                                                      json_user.getString(PICTURE_URL));
+
                             App.setUserLoggedIn(true);
                             App.setUserProfile(profile);
 

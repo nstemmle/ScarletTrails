@@ -249,7 +249,9 @@ public class ActivityPicture extends FragmentActivity {// implements ActionBar.O
                                                       json.getString(LoginActivity.LAST_NAME),
                                                       json.getString(LoginActivity.EMAIL),
                                                       json.getString(LoginActivity.DOB),
-                                                      json.getString(LoginActivity.USERNAME));
+                                                      json.getString(LoginActivity.USERNAME),
+                                                      json.getString(LoginActivity.INTERESTS),
+                                                      json.getString(LoginActivity.PICTURE_URL));
 
                         intent.putExtra("user", profile);
 
