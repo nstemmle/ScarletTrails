@@ -15,6 +15,7 @@ public class App extends Application {
     public static final String NAV_TRAILS = "Trails";
     public static final String NAV_PROFILE = "Profile";
     public static final String NAV_UPLOAD_PICTURE = "Upload Picture";
+    public static final String NAV_COMMENTS = "Comments";
 
     static void setUserLoggedIn(boolean loggedIn) {
         logged_in = loggedIn;

@@ -96,7 +96,11 @@
         </activity>
         <activity
             android:name=".ActivityTrailsList"
-            android:label="Trails List" >
+            android:label="Trails List">
+        </activity>
+        <activity
+            android:name=".ActivityCommentsList"
+            android:label="Comments List" >
         </activity>
         <activity
             android:name=".ActivityPicture"

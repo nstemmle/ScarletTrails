@@ -18,4 +18,28 @@ public class Comment {
         this.dateSubmitted = dateSubmitted;
     }
 
+    public String getCommentId() {
+        return commentId;
+    }
+
+    public String getCommentText() {
+        return commentText;
+    }
+
+    public String getProfileOwnerId() {
+        return profileOwnerId;
+    }
+
+    public String getProfileUsername() {
+        return profileUsername;
+    }
+
+    public String getTrailOwnerId() {
+        return trailOwnerId;
+    }
+
+    public String getDateSubmitted() {
+        return dateSubmitted;
+    }
+
 }

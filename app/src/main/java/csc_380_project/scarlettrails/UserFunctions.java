@@ -21,6 +21,8 @@ public class UserFunctions {
     private static String login_tag = "login";
     private static String register_tag = "register";
     private static String getUser_tag = "getUser";
+    private static String getUserHist = "getUserHist";
+    private static String checkInUser = "checkInUser";
 
     // constructor
     public UserFunctions(){
@@ -44,7 +46,6 @@ public class UserFunctions {
         return json;
     }
 
-
     /**
      * function make Login Request
      * @param userId
@@ -54,6 +55,29 @@ public class UserFunctions {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("tag", getUser_tag));
         params.add(new BasicNameValuePair("user_id", userId));
+        JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
+        // return json
+        // Log.e("JSON", json.toString());
+        return json;
+    }
+
+    public JSONObject getUserHistory(String userId){
+        // Building Parameters
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("tag", getUserHist));
+        params.add(new BasicNameValuePair("user_id", userId));
+        JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
+        // return json
+        // Log.e("JSON", json.toString());
+        return json;
+    }
+
+    public JSONObject checkInUser(String userId, String trailId){
+        // Building Parameters
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("tag", checkInUser));
+        params.add(new BasicNameValuePair("user_id", userId));
+        params.add(new BasicNameValuePair("trail_id", trailId));
         JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
         // return json
         // Log.e("JSON", json.toString());

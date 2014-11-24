@@ -11,10 +11,10 @@ class CommentCollection {
     private static String TAG_COMMENTLIST = "commentList";
     public static String COMMENT_ID = "comment_id";
     public static String COMMENT_TEXT = "comment_text";
-    public static String COMMENT_DATE = "comment_date";
     public static String TRAIL_ID ="trail_id";
     public static String USER_ID = "user_id";
     public static String USERNAME = "username";
+    public static String COMMENT_DATE = "comment_date";
 
     private ArrayList<Comment> commentsList;
     CommentCollection() {
@@ -38,13 +38,24 @@ class CommentCollection {
                         , json_comment.getString(TRAIL_ID)
                         , json_comment.getString(COMMENT_DATE));
 
-                // adding each child node to HashMap key => value
                 commentsList.add(comment);
             }
             return commentsList;
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return null;
+        return commentsList;
+    }
+
+    public Comment getCommentAtIndex(int index) {
+        return commentsList.get(index);
+    }
+
+    public int getSize() {
+        return commentsList.size();
+    }
+
+    public void clear () {
+        commentsList.clear();
     }
 }

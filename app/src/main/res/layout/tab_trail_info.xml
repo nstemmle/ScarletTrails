@@ -39,10 +39,12 @@
             android:layout_height="wrap_content"
             android:numStars="5"
             android:stepSize="0.5"
+            android:layout_marginTop="-10dp"
+            android:layout_marginBottom="-10dp"
             android:rating="4.5"
             android:isIndicator="true"
-             android:scaleY="0.25"
-             android:scaleX="0.25"
+             android:scaleY="0.70"
+             android:scaleX="0.70"
             android:layout_gravity="center"/>
 
         <LinearLayout
@@ -400,9 +402,9 @@
         <ImageButton
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/checkin_icon"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:background="@drawable/checkinbtn_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:id="@+id/btnCheckIn"
             android:layout_gravity="center_horizontal" />
 
@@ -410,8 +412,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/camera_icon"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:id="@+id/btnCamera"
             android:layout_gravity="center_horizontal" />
 
@@ -419,8 +421,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/comment_icon"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:id="@+id/btnCommentPage"
             android:layout_gravity="center_horizontal" />
 
