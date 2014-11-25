@@ -10,10 +10,12 @@ import android.widget.TextView;
 
  import com.google.android.gms.maps.GoogleMap;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
   * Created by Nathan on 10/20/2014.
@@ -58,15 +60,43 @@ import java.util.Calendar;
 
      }
 
-     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-     public void populatePageWithForecastInfo(Forecast a, Forecast b, Forecast c, Forecast d, Forecast e) {
-         //first day
-         //Day, for example Monday, R.id.forecast_textview_firstday_day
+    @Override
+    public String toString() {
+        return "TabForecast{" +
+                "mMap=" + mMap +
+                ", mLocWrapper=" + mLocWrapper +
+                ", mAdapter=" + mAdapter +
+                ", navSpinner=" + navSpinner +
+                ", mTrail=" + mTrail +
+                ", first=" + first +
+                ", second=" + second +
+                ", third=" + third +
+                ", fourth=" + fourth +
+                ", fifth=" + fifth +
+                '}';
+    }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+     public void populatePageWithForecastInfo(Forecast a, Forecast b, Forecast c, Forecast d, Forecast e) {
+        DateFormat dateFormat = new SimpleDateFormat("MMM. dd");
+        DateFormat dayFormat = new SimpleDateFormat("EEEE");
+
+        Calendar cal = new GregorianCalendar();
+
+        String day [] = new String[5];
+        String date [] = new String[5];
+
+        for(int i = 0; i < 5; i++){
+            day[i] = dayFormat.format(cal.getTime());
+            date[i] = dateFormat.format(cal.getTime());
+            cal.add(Calendar.DATE, 1);
+        }
+        //first day
+         //Day, for example Monday, R.id.forecast_textview_firstday_day
+        ((TextView)findViewById(R.id.forecast_textview_firstday_day)).setText(day[0]);
 
          //date, for example Nov 16, R.id.forecast_textview_firstday_date
-
-
+        ((TextView)findViewById(R.id.forecast_textview_firstday_date)).setText(date[0]);
 
          //description
          (findViewById(R.id.forecast_imgview_firstday_clouds)).setBackground(setIcon(a.getDescription()));
@@ -79,10 +109,10 @@ import java.util.Calendar;
 
          //second day
          //Day
-
+        ((TextView)findViewById(R.id.forecast_textview_secondday_day)).setText(day[1]);
 
          //date
-
+        ((TextView)findViewById(R.id.forecast_textview_secondday_date)).setText(date[1]);
 
          //description
          (findViewById(R.id.forecast_imgview_secondday_clouds)).setBackground(setIcon(b.getDescription()));
@@ -95,10 +125,10 @@ import java.util.Calendar;
 
          //third day
          //Day
-
+        ((TextView)findViewById(R.id.forecast_textview_thirdday_day)).setText(day[2]);
 
          //date
-
+        ((TextView)findViewById(R.id.forecast_textview_thirdday_date)).setText(date[2]);
 
          //description
          (findViewById(R.id.forecast_imgview_thirdday_clouds)).setBackground(setIcon(c.getDescription()));
@@ -110,10 +140,10 @@ import java.util.Calendar;
          ((TextView) findViewById(R.id.forecast_textview_thirdday_mintemp)).setText(c.getTempMin() + "°F");
          //fourth day
          //Day
-
+        ((TextView)findViewById(R.id.forecast_textview_fourthday_day)).setText(day[3]);
 
          //date
-
+        ((TextView)findViewById(R.id.forecast_textview_fourthday_date)).setText(date[3]);
 
          //description
          (findViewById(R.id.forecast_imgview_fourthday_clouds)).setBackground(setIcon(d.getDescription()));
@@ -125,10 +155,10 @@ import java.util.Calendar;
          ((TextView) findViewById(R.id.forecast_textview_fourthday_mintemp)).setText(d.getTempMin() + "°F");
          //fifth day
          //Day
-
+        ((TextView)findViewById(R.id.forecast_textview_fifthday_day)).setText(day[4]);
 
          //date
-
+        ((TextView)findViewById(R.id.forecast_textview_fifthday_date)).setText(date[4]);
 
          //description
          (findViewById(R.id.forecast_imgview_fifthday_clouds)).setBackground(setIcon(e.getDescription()));
