@@ -59,6 +59,7 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
     private Trail mTrail;
     private static String TAG = "TabTrail.java";
     private Forecast mForecast;
+    private RatingBar rb;
 
     String fileName = "";
     final String trailId = ActivityTrailTabHostTest.mTrail.getTrailId();
@@ -97,6 +98,16 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
             e.printStackTrace();
         }
        populatePageWithTrailInfo();
+       
+       rb = (RatingBar)findViewById(R.id.tab_trail_ratingbar);
+
+        rb.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                DialogFragment newFragment = new RatingDialogFragment();
+                newFragment.show(getFragmentManager(), "ratings");
+                return false;
+            }
+        });
 
         btnCommentPage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
