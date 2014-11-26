@@ -41,4 +41,19 @@ public class App extends Application {
         user_profile = profile;
         setProfileId(profile.getProfileId());
     }
+    
+    //for us of keeping application context on non-activities
+    private static Context sContext;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        sContext = getApplicationContext();
+
+    }
+
+    public static Context getContext() {
+        return sContext;
+    }
 }
