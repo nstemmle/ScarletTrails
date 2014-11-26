@@ -37,8 +37,17 @@ public class RatingDialogFragment extends DialogFragment {
 
         builder.setPositiveButton(R.string.trail_rating_dialog_positive, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // User clicked ok button
+                 // User clicked ok button
                 //this is where we check if user has already made a rating and then add it to the database
+
+                //and this is what we do if user has already rated a trail
+                Context context = App.getContext();
+                CharSequence text = "Already Rated";
+                int duration = Toast.LENGTH_LONG;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
             }
         });
         builder.setNegativeButton(R.string.trail_rating_dialog_negative, new DialogInterface.OnClickListener() {
