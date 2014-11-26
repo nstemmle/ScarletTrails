@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="trail_rating_dialog_title">Rate This Trail</string>
+    <string name="trail_rating_dialog_positive">Rate</string>
+    <string name="trail_rating_dialog_negative">Cancel</string>
+</resources>
