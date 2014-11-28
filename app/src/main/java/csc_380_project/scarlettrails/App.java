@@ -1,6 +1,7 @@
 package csc_380_project.scarlettrails;
 
 import android.app.Application;
+import android.content.Context;
 import android.location.Location;
 
 /**
@@ -38,8 +39,18 @@ public class App extends Application {
     }
 
     static void setUserProfile(Profile profile) {
-        user_profile = profile;
-        setProfileId(profile.getProfileId());
+        if(profile != null) {
+            user_profile = profile;
+            setProfileId(profile.getProfileId());
+        }
+        else {
+            user_profile = null;
+        }
+    }
+
+    static void clear() {
+        setUserProfile(null);
+        setUserLoggedIn(false);
     }
     
     //for us of keeping application context on non-activities

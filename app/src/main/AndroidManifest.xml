@@ -104,11 +104,23 @@
         </activity>
         <activity
             android:name=".ActivityPicture"
-            android:label="Picture" >
+            android:label="Picture"
+            android:parentActivityName=".ActivityPictureCollection">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ActivityPictureCollection" />
         </activity>
         <activity
             android:name=".ActivityPictureCollection"
-            android:label="Picture Collection" >
+            android:label="Picture Collection"
+            android:parentActivityName=".ActivityProfile">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ActivityProfile" />
+        </activity>
+        <activity
+            android:name=".ActivityEditProfile"
+            android:label="Edit Profile" >
         </activity>
 
         <meta-data

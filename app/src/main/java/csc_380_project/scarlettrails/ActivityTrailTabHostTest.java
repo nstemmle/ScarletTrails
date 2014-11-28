@@ -2,8 +2,11 @@ package csc_380_project.scarlettrails;
 
 import android.app.TabActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -161,8 +164,32 @@ public class ActivityTrailTabHostTest extends TabActivity {//implements ActionBa
             startActivity(intent);
             return true;
         }
+        else if(id == R.id.actionbar_logout) {
+            SharedPreferences settings = getSharedPreferences("UserInfo", 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.remove("Username");
+            editor.remove("PassWord");
+            editor.commit();
+            Message myMessage=new Message();
+            myMessage.obj="NOTSUCCESS";
+            handler.sendMessage(myMessage);
+            App.clear();
+            finish();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            String loginmsg = (String)msg.obj;
+            if(loginmsg.equals("NOTSUCCESS")) {
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        }
+    };
 
     /*private void initializeNavigationBar() {
         ActionBar mActionBar = getActionBar();

@@ -9,8 +9,11 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.ListActivity;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -166,6 +169,19 @@ public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavi
             Intent intent = new Intent(getApplicationContext(), ActivitySearchTrail.class);
             startActivity(intent);
         }
+        else if(id == R.id.actionbar_logout) {
+            SharedPreferences settings = getSharedPreferences("UserInfo", 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.remove("Username");
+            editor.remove("PassWord");
+            editor.commit();
+            Message myMessage=new Message();
+            myMessage.obj="NOTSUCCESS";
+            handler.sendMessage(myMessage);
+            App.clear();
+            finish();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
     private void initializeNavigationBar() {
@@ -227,4 +243,15 @@ public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavi
         AlertDialog alertDialog = ad.create();
         alertDialog.show();
     }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            String loginmsg = (String)msg.obj;
+            if(loginmsg.equals("NOTSUCCESS")) {
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        }
+    };
 }

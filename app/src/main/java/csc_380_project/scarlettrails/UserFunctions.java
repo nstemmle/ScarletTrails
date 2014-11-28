@@ -23,6 +23,7 @@ public class UserFunctions {
     private static String getUser_tag = "getUser";
     private static String getUserHist = "getUserHist";
     private static String checkInUser = "checkInUser";
+    private static String getUserEmail_tag = "getUserByEmail";
 
     // constructor
     public UserFunctions(){
@@ -55,6 +56,17 @@ public class UserFunctions {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("tag", getUser_tag));
         params.add(new BasicNameValuePair("user_id", userId));
+        JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
+        // return json
+        // Log.e("JSON", json.toString());
+        return json;
+    }
+
+    public JSONObject getUserByEmail(String email) {
+        // Building Parameters
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("tag", getUserEmail_tag));
+        params.add(new BasicNameValuePair("email", email));
         JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
         // return json
         // Log.e("JSON", json.toString());

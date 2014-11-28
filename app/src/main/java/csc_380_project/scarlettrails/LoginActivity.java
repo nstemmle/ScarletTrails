@@ -2,6 +2,7 @@ package csc_380_project.scarlettrails;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -83,6 +84,13 @@ public class LoginActivity extends Activity {
                             dashboard.putExtra("gpsEnabled", getIntent().getBooleanExtra("gpsEnabled",false));
                             dashboard.putExtra("networkEnabled", getIntent().getBooleanExtra("networkEnabled", false));
 
+                            //Saving credentials
+                            SharedPreferences settings = getSharedPreferences("UserInfo", 0);
+                            SharedPreferences.Editor editor = settings.edit();
+                            editor.putString("Username",username);
+                            editor.putString("Password",password);
+                            editor.commit();
+
                             // Close all views before launching Dashboard
                             dashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(dashboard);
@@ -163,5 +171,10 @@ public class LoginActivity extends Activity {
     protected void onStop() {
         super.onStop();
         this.finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 }

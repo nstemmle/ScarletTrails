@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="searchTrail" type="id"/>
+    <item name="btnSearch" type="id"/>
+    <item name="editProfilePicture" type="id" />
+    <item name="editProfileSelectImage" type="id" />
+    <item name="editProfileFnameField" type="id" />
+    <item name="editProfileLnameField" type="id" />
+    <item name="editProfileEmailField" type="id" />
+    <item name="editProfileUsernameField" type="id" />
+    <item name="editProfileDobField" type="id" />
+    <item name="editProfileInterests" type="id" />
+    <item name="editProfileSaveButton" type="id" />
+</resources>

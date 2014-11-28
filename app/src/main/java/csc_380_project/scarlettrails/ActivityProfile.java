@@ -3,7 +3,10 @@ package csc_380_project.scarlettrails;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +42,8 @@ public class ActivityProfile extends Activity implements ActionBar.OnNavigationL
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_profile);
 
+        initializeNavigationBar();
+
         if (getIntent().getExtras() != null) {
             userProfile = getIntent().getParcelableExtra("user");
         }
@@ -61,8 +66,6 @@ public class ActivityProfile extends Activity implements ActionBar.OnNavigationL
                 .centerCrop()
                 .error(R.raw.image_not_found)
                 .into(profilePicture);
-
-        initializeNavigationBar();
 
         mLocWrapper = LocationWrapper.getInstance();
         //initializeMap();
@@ -93,25 +96,29 @@ public class ActivityProfile extends Activity implements ActionBar.OnNavigationL
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.actionbar_settings) {
-            return true;
-        } else if (id == R.id.actionbar_search){
+        if (id == R.id.actionbar_search) {
             Intent intent = new Intent(getApplicationContext(), ActivitySearchTrail.class);
             startActivity(intent);
+            return true;
+        } else if (id == R.id.actionbar_settings) {
+            Intent intent = new Intent(getApplicationContext(), ActivitySettings.class);
+            startActivity(intent);
+            return true;
+        }
+        else if(id == R.id.actionbar_logout) {
+            SharedPreferences settings = getSharedPreferences("UserInfo", 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.remove("Username");
+            editor.remove("PassWord");
+            editor.commit();
+            Message myMessage=new Message();
+            myMessage.obj="NOTSUCCESS";
+            handler.sendMessage(myMessage);
+            App.clear();
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void initializeMap() {
-        if (mMap == null) {
-            mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.profile_fragment_map)).getMap();
-        }
-
-        //Check to see if successful
-        mLocWrapper.checkMapExists(mMap);
-
-        //This line currently sets map to center on Oswego County
-        mLocWrapper.setUpMapWithDefaults(mMap);
     }
 
     private void initializeNavigationBar() {
@@ -132,17 +139,42 @@ public class ActivityProfile extends Activity implements ActionBar.OnNavigationL
 
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        if (itemPosition == 1) { //Home selected
-            Intent home = new Intent(getApplicationContext(), ActivityHome.class);
-            startActivity(home);
-            return true;
-        }
-
-        else if (itemPosition == 2) { //Trails selected
-            Intent trails = new Intent(getApplicationContext(), ActivityTrailsList.class);
+        ActionBar mActionBar = getActionBar();
+        assert mActionBar != null;
+        if (itemPosition == 1) { //Trails selected
+            Intent trails = new Intent(getApplicationContext(), ActivityHome.class);
             startActivity(trails);
+            mActionBar.setSelectedNavigationItem(0);
+            return true;
+        } else if (itemPosition == 2) { //Profile selected
+            Intent profile = new Intent(getApplicationContext(), ActivityTrailsList.class);
+            startActivity(profile);
+            mActionBar.setSelectedNavigationItem(0);
             return true;
         }
         return false;
     }
+
+    private void initializeMap() {
+        if (mMap == null) {
+            mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.profile_fragment_map)).getMap();
+        }
+
+        //Check to see if successful
+        mLocWrapper.checkMapExists(mMap);
+
+        //This line currently sets map to center on Oswego County
+        mLocWrapper.setUpMapWithDefaults(mMap);
+    }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            String loginmsg = (String)msg.obj;
+            if(loginmsg.equals("NOTSUCCESS")) {
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        }
+    };
 }

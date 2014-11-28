@@ -3,6 +3,7 @@
     <!--ids for actionbar items-->
     <item name="actionbar_settings" type="id"/>
     <item name="actionbar_search" type="id"/>
+    <item name="actionbar_logout" type="id"/>
 
 
     <item name="profile_fragment_map" type="id"/>
@@ -20,8 +21,5 @@
     <item name="signinbutton" type="id"/>
     <item name="emailFieldFP" type="id"/>
     <item name="resetPasswordBtn" type="id"/>
-
-    <item name="searchTrail" type="id"/>
-    <item name="btnSearch" type="id"/>
 
 </resources>

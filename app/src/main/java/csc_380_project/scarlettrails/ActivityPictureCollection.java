@@ -3,10 +3,13 @@ package csc_380_project.scarlettrails;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,7 +33,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.BitSet;
 
-public class ActivityPictureCollection extends FragmentActivity implements ActionBar.OnNavigationListener {
+public class ActivityPictureCollection extends FragmentActivity {
 
     private NavAdapter mAdapter;
     private ArrayList<SpinnerNavItem> navSpinner;
@@ -46,10 +49,8 @@ public class ActivityPictureCollection extends FragmentActivity implements Actio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-        setTheme(R.style.AppTheme);
+        setTheme(R.style.ChildTheme);
         setContentView(R.layout.activity_picture_collection);
-
-        initializeNavigationBar();
 
 
         Bundle extras = getIntent().getExtras();
@@ -171,11 +172,6 @@ public class ActivityPictureCollection extends FragmentActivity implements Actio
         }
     }
 
-    //static Integer[] mThumbIds = {R.raw.pic1, R.raw.pic2, R.raw.pic3, R.raw.pic4,
-            //R.raw.pic5, R.raw.pic6, R.raw.pic7, R.raw.pic8, R.raw.pic9,
-            //R.raw.pic10, R.raw.pic11, R.raw.pic12, R.raw.pic13, R.raw.pic14,
-            //R.raw.pic15, R.raw.pic16, R.raw.pic17, R.raw.pic18, R.drawable.gallery};
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -198,46 +194,30 @@ public class ActivityPictureCollection extends FragmentActivity implements Actio
             startActivity(intent);
             return true;
         }
+        else if(id == R.id.actionbar_logout) {
+            SharedPreferences settings = getSharedPreferences("UserInfo", 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.remove("Username");
+            editor.remove("PassWord");
+            editor.commit();
+            Message myMessage=new Message();
+            myMessage.obj="NOTSUCCESS";
+            handler.sendMessage(myMessage);
+            App.clear();
+            finish();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
-    private void initializeNavigationBar() {
-        ActionBar mActionBar = getActionBar();
-        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-
-        navSpinner = new ArrayList<SpinnerNavItem>();
-        //This is how you enter new navigation items. Please use the format provided on next line.
-        navSpinner.add(new SpinnerNavItem("Gallery"));
-        navSpinner.add(new SpinnerNavItem("Home"));
-        navSpinner.add(new SpinnerNavItem("Trails"));
-        navSpinner.add(new SpinnerNavItem("Profile"));
-        mAdapter = new NavAdapter(getApplicationContext(), navSpinner);
-
-        mActionBar.setListNavigationCallbacks(mAdapter, this);
-        mActionBar.setDisplayShowTitleEnabled(false);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        if (itemPosition == 1) {
-            Intent intent = new Intent(getApplicationContext(), ActivityHome.class);
-            //if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null)
-            startActivity(intent);
-            return true;
-        }
-        else {
-            if (itemPosition == 2) {
-                Intent intent = new Intent(getApplicationContext(), ActivityTrailsList.class);
-                //if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null)
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            String loginmsg = (String)msg.obj;
+            if(loginmsg.equals("NOTSUCCESS")) {
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
-                return true;
-            } else
-                if (itemPosition == 3) {
-                    Intent intent = new Intent(getApplicationContext(), ActivityProfile.class);
-                    //if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null)
-                    startActivity(intent);
-                }
             }
-        return false;
-    }
+        }
+    };
 }

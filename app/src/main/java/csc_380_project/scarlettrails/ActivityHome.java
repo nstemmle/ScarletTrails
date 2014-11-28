@@ -5,9 +5,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -138,6 +141,19 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
             startActivity(intent);
             return true;
         }
+        else if(id == R.id.actionbar_logout) {
+            SharedPreferences settings = getSharedPreferences("UserInfo", 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.remove("Username");
+            editor.remove("PassWord");
+            editor.commit();
+            Message myMessage=new Message();
+            myMessage.obj="NOTSUCCESS";
+            handler.sendMessage(myMessage);
+            App.clear();
+            finish();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -151,7 +167,6 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
         navSpinner.add(new SpinnerNavItem(App.NAV_HOME));
         navSpinner.add(new SpinnerNavItem(App.NAV_TRAILS));
         navSpinner.add(new SpinnerNavItem(App.NAV_PROFILE));
-        navSpinner.add(new SpinnerNavItem(App.NAV_UPLOAD_PICTURE));
         mAdapter = new NavAdapter(getApplicationContext(), navSpinner);
 
         mActionBar.setListNavigationCallbacks(mAdapter, this);
@@ -180,14 +195,19 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
                 mActionBar.setSelectedNavigationItem(0);
             }
         }
-        else if (itemPosition == 3) {
-            Intent upload = new Intent(getApplicationContext(), Upload.class);
-            startActivity(upload);
-            mActionBar.setSelectedNavigationItem(0);
-            return true;
-        }
         return false;
     }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            String loginmsg = (String)msg.obj;
+            if(loginmsg.equals("NOTSUCCESS")) {
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        }
+    };
 
     private void promptUserToLogin() {
         AlertDialog.Builder ad = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_DARK);

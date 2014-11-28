@@ -2,12 +2,16 @@ package csc_380_project.scarlettrails;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -41,14 +45,11 @@ public class ActivityPicture extends FragmentActivity {// implements ActionBar.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-        setTheme(R.style.AppTheme);
+        setTheme(R.style.ChildTheme);
         setContentView(R.layout.activity_picture);
 
         picTrailName = (Button) findViewById(R.id.picTrailName);
         picUsername = (Button) findViewById(R.id.picUsername);
-
-
-        //initializeNavigationBar();
 
         ImageView imageView = (ImageView) findViewById(R.id.picture);
 
@@ -279,7 +280,7 @@ public class ActivityPicture extends FragmentActivity {// implements ActionBar.O
         return true;
     }
 
-    /*@Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -294,46 +295,30 @@ public class ActivityPicture extends FragmentActivity {// implements ActionBar.O
             startActivity(intent);
             return true;
         }
+        else if(id == R.id.actionbar_logout) {
+            SharedPreferences settings = getSharedPreferences("UserInfo", 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.remove("Username");
+            editor.remove("PassWord");
+            editor.commit();
+            Message myMessage=new Message();
+            myMessage.obj="NOTSUCCESS";
+            handler.sendMessage(myMessage);
+            App.clear();
+            finish();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
-    private void initializeNavigationBar() {
-        ActionBar mActionBar = getActionBar();
-        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-
-        navSpinner = new ArrayList<SpinnerNavItem>();
-        //This is how you enter new navigation items. Please use the format provided on next line.
-        navSpinner.add(new SpinnerNavItem("Picture"));
-        navSpinner.add(new SpinnerNavItem("Home"));
-        navSpinner.add(new SpinnerNavItem("Trails"));
-        navSpinner.add(new SpinnerNavItem("Profile"));
-        mAdapter = new NavAdapter(getApplicationContext(), navSpinner);
-
-        mActionBar.setListNavigationCallbacks(mAdapter, this);
-        mActionBar.setDisplayShowTitleEnabled(false);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        if (itemPosition == 1) {
-            Intent intent = new Intent(getApplicationContext(), ActivityHome.class);
-            //if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null)
-            startActivity(intent);
-            return true;
-        }
-        else {
-            if (itemPosition == 2) {
-                Intent intent = new Intent(getApplicationContext(), ActivityTrailsList.class);
-                //if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null)
-                startActivity(intent);
-                return true;
-            } else
-            if (itemPosition == 3) {
-                Intent intent = new Intent(getApplicationContext(), ActivityProfile.class);
-                //if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null)
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            String loginmsg = (String)msg.obj;
+            if(loginmsg.equals("NOTSUCCESS")) {
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
             }
         }
-        return false;
-    }*/
+    };
 }
