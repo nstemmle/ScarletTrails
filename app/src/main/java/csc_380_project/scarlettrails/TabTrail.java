@@ -201,8 +201,9 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
         //((ImageView)findViewById(R.id.trailImgViewTrail)).setImageURI();
 
         //Trail rating
+        RatingTrail ratingTrail = new RatingTrail();
         RatingBar rb = ((RatingBar)findViewById(R.id.tab_trail_ratingbar));
-        rb.setRating(mTrail.getRating().floatValue());
+        rb.setRating(ratingTrail.getTrailRating(trailId));
         rb.setStepSize(0.5f);
 
         //Change colors
