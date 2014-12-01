@@ -169,7 +169,7 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
             ((TextView) findViewById(R.id.tab_trail_textview_length_value)).setText(String.valueOf(mTrail.getLength()) + " ft");
         }
         // Trail type
-        ((TextView) findViewById(R.id.tab_trail_textview_type_value)).setText(mTrail.getTtype());
+        ((TextView) findViewById(R.id.tab_trail_textview_type_value)).setText(mTrail.getType());
 
         // Trail park
         ((TextView) findViewById(R.id.tab_trail_textview_park_value)).setText(mTrail.getPark());
