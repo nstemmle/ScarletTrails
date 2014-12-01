@@ -1,33 +1,5 @@
 package csc_380_project.scarlettrails;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.maps.GoogleMap;
-import com.squareup.picasso.Picasso;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -38,6 +10,27 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,7 +39,15 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class ActivityEditProfile extends Activity {
-
+    Button btnSave;
+    Button btnPictureUpload;
+    EditText inputFName;
+    EditText inputLName;
+    EditText inputDob;
+    EditText inputEmail;
+    EditText inputInterests;
+    TextView registerErrorMsg;
+    ImageView profilePicture;
     String fileName = "";
     public static final int MAX_IMAGE_DIMENSION = 750;
     //keep track of camera capture intent
@@ -57,84 +58,117 @@ public class ActivityEditProfile extends Activity {
     private Uri picUri;
     InputStream inputStream;
 
+    Profile user = App.getUserProfile();
+
     // JSON Response node names
     private static String USER_ID = "user_id";
     private static String FIRST_NAME = "first_name";
     private static String LAST_NAME = "last_name";
     private static String EMAIL = "email";
     private static String DOB = "dob";
-    private static String USERNAME = "username";
     private static String INTERESTS = "interests";
     private static String PICTURE_URL = "picture_url";
     private static String KEY_SUCCESS = "success";
     private static String KEY_ERROR_MSG = "error_msg";
-
-    ImageView profilePicture;
-    Button changePicture;
-    EditText firstName;
-    EditText lastName;
-    EditText email;
-    EditText nickname;
-    EditText dob;
-    EditText interests;
-    Button saveChanges;
-
-    Profile user = App.getUserProfile();
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        profilePicture = (ImageView) findViewById(R.id.editProfilePicture);
-        changePicture = (Button) findViewById(R.id.editProfileSelectImage);
-        firstName = (EditText) findViewById(R.id.editProfileFnameField);
-        lastName = (EditText) findViewById(R.id.editProfileLnameField);
-        email = (EditText) findViewById(R.id.editProfileEmailField);
-        nickname = (EditText) findViewById(R.id.editProfileUsernameField);
-        dob = (EditText) findViewById(R.id.editProfileDobField);
-        interests = (EditText) findViewById(R.id.editProfileInterests);
-        saveChanges = (Button) findViewById(R.id.editProfileSaveButton);
+        // Importing all assets like buttons, text fields
+        inputFName = (EditText) findViewById(R.id.fnameField_edit);
+        inputLName = (EditText) findViewById(R.id.lnameField_edit);
+        inputEmail = (EditText) findViewById(R.id.emailField_edit);
+        inputDob = (EditText) findViewById(R.id.dobField_edit);
+        inputInterests = (EditText) findViewById(R.id.interests_edit);
+        btnSave = (Button) findViewById(R.id.save_edit);
+        registerErrorMsg = (TextView) findViewById(R.id.registerErrorMsg_edit);
+        btnPictureUpload = (Button) findViewById(R.id.selectImage_edit);
+        profilePicture = (ImageView) findViewById(R.id.profilePicture_edit);
 
+        inputFName.setText(user.getFirstName());
+        inputLName.setText(user.getLastName());
+        inputEmail.setText(user.getEmail());
+        inputDob.setText(user.getDateOfBirth());
+        inputInterests.setText(user.getInterests());
         Picasso.with(ActivityEditProfile.this)
                 .load(user.getPictureURL())
                         //.placeholder(R.raw.pic9)
                 .noFade()
-                .resize(600, 600)
+                .resize(400, 400)
                 .centerCrop()
                 .error(R.raw.image_not_found)
                 .into(profilePicture);
 
-        firstName.setText(user.getFirstName());
-        lastName.setText(user.getLastName());
-        email.setText(user.getEmail());
-        nickname.setText(user.getUsername());
-        dob.setText(user.getDateOfBirth());
-        if(user.getInterests() != null)
-            interests.setText(user.getInterests());
 
-        changePicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectImageSource();
+        // Save Button Click event
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                String first_name = inputFName.getText().toString();
+                String last_name = inputLName.getText().toString();
+                String email = inputEmail.getText().toString();
+                String dob = inputDob.getText().toString();
+                String interests = inputInterests.getText().toString();
+
+                String pictureURL = "";
+                if(picUri != null) {
+                    fileName = App.getUserProfile().getUsername() + "-" +
+                         DateFormat.getDateTimeInstance().format(new Date()).replaceAll("\\p{Z}","") + ".jpg";
+                    pictureURL = "http://teamscarlet.webuda.com/PICTURES/USER_PICTURES/" + fileName.trim();
+                }
+                else
+                    pictureURL = user.getPictureURL();
+
+                JSONObject json = new JSONObject();
+                UserFunctions userFunction = new UserFunctions();
+                json = userFunction.updateUser(App.getProfileId(), first_name, last_name, email, dob,
+                                          App.getUserProfile().getUsername(), interests, pictureURL);
+
+                // check for login response
+                try {
+                    if (json.getString(KEY_SUCCESS) != null) {
+                        String res = json.getString(KEY_SUCCESS);
+                        if(Integer.parseInt(res) == 1){
+
+                            JSONObject json_user = json.getJSONObject("user");
+                            user.setFirstName(json_user.getString(FIRST_NAME));
+                            user.setLastName(json_user.getString(LAST_NAME));
+                            user.setEmail(json_user.getString(EMAIL));
+                            user.setDateOfBirth(json_user.getString(DOB));
+                            user.setInterests(json_user.getString(INTERESTS));
+                            user.setPictureURL(json_user.getString(PICTURE_URL));
+
+                            App.setUserLoggedIn(true);
+                            App.setUserProfile(user);
+                            if(picUri != null)
+                                sendToServer(picUri);
+
+                            // user successfully updated
+                            // Launch Dashboard Screen
+                            Intent dashboard = new Intent(getApplicationContext(), ActivityHome.class);
+                            // Close all views before launching Dashboard
+                            dashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(dashboard);
+                            // Close Registration Screen
+                            finish();
+                        }else{
+                            // Error in registration
+                            registerErrorMsg.setText(json.getString(KEY_ERROR_MSG));
+                        }
+                    } else {
+                        registerErrorMsg.setText(json.getString(KEY_ERROR_MSG));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
-        saveChanges.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                String first_name = firstName.getText().toString();
-                String last_name = lastName.getText().toString();
-                String email2 = email.getText().toString();
-                String username = nickname.getText().toString();
-                String dob2 = dob.getText().toString();
-                String interest = interests.getText().toString();
-                String pictureURL = "";
-                if (picUri != null) {
-                    fileName = username + "-" + DateFormat.getDateTimeInstance().format(new Date()).replaceAll("\\p{Z}", "") + ".jpg";
-                    pictureURL = "http://teamscarlet.webuda.com/PICTURES/USER_PICTURES/" + fileName.trim();
-                } else
-                    pictureURL = "http://teamscarlet.webuda.com/PICTURES/USER_PICTURES/default_profile.jpg";
+        btnPictureUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectImageSource();
             }
         });
     }
@@ -174,7 +208,6 @@ public class ActivityEditProfile extends Activity {
                     if (data.getData() != null) {
                         //get the Uri for the captured image
                         picUri = data.getData();
-                        ImageView profilePicture = (ImageView) findViewById(R.id.profilePicture);
                         Picasso.with(ActivityEditProfile.this)
                                 .load(picUri)
                                         //.placeholder(R.raw.pic9)
@@ -194,7 +227,6 @@ public class ActivityEditProfile extends Activity {
                     if (data.getData() != null) {
                         //get the Uri for the captured image
                         picUri = data.getData();
-                        ImageView profilePicture = (ImageView) findViewById(R.id.profilePicture);
                         Picasso.with(ActivityEditProfile.this)
                                 .load(picUri)
                                         //.placeholder(R.raw.pic9)
@@ -270,7 +302,7 @@ public class ActivityEditProfile extends Activity {
 
                         @Override
                         public void run() {
-                            Toast.makeText(ActivityEditProfile.this, "Account created", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ActivityEditProfile.this, "Changes saved", Toast.LENGTH_LONG).show();
                         }
                     });
 

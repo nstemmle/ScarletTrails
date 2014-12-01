@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by nstemmle on 11/11/14.
@@ -176,6 +177,15 @@ public class ActivityTrailTabHostTest extends TabActivity {//implements ActionBa
             App.clear();
             finish();
             return true;
+        }
+        else if (id == R.id.actionbar_edit_profile) {
+            if(App.isUserLoggedIn()) {
+                Intent intent = new Intent(getApplicationContext(), ActivityEditProfile.class);
+                startActivity(intent);
+                return true;
+            }
+            else
+                Toast.makeText(this, "You are not logged in. Please, login in to edit your profile", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }

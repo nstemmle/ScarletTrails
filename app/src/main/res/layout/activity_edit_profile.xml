@@ -11,7 +11,7 @@
     tools:context=".ActivityEditProfile"
     android:background="@drawable/splash_pic">
 
-    <ImageView android:id="@id/editProfilePicture"
+    <ImageView android:id="@id/profilePicture_edit"
         android:layout_marginTop="40dp"
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -19,17 +19,17 @@
         android:background="@drawable/default_profile"
         android:layout_centerHorizontal="true" />
 
-    <Button android:id="@id/editProfileSelectImage"
+    <Button android:id="@id/selectImage_edit"
         android:layout_width="175dp"
         android:layout_height="20dp"
         android:textSize="6pt"
         android:background="#00ffffff"
         android:layout_marginTop="2dp"
         android:text="Select Profile Picture"
-        android:layout_below="@id/editProfilePicture"
+        android:layout_below="@id/profilePicture_edit"
         android:layout_centerHorizontal="true" />
 
-    <EditText android:id="@id/editProfileFnameField"
+    <EditText android:id="@id/fnameField_edit"
         android:layout_width="350dp"
         android:layout_height="30dp"
         android:inputType="textPersonName|textCapWords"
@@ -37,10 +37,10 @@
         android:ems="10"
         android:background="#CCFAFAFA"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/editProfileSelectImage"
+        android:layout_below="@id/selectImage_edit"
         android:layout_marginTop="30dp" />
 
-    <EditText android:id="@id/editProfileLnameField"
+    <EditText android:id="@id/lnameField_edit"
         android:layout_width="350dp"
         android:layout_height="30dp"
         android:inputType="textPersonName|textCapWords"
@@ -48,10 +48,10 @@
         android:ems="10"
         android:background="#CCFAFAFA"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/editProfileFnameField"
+        android:layout_below="@id/fnameField_edit"
         android:layout_marginTop="5dp" />
 
-    <EditText android:id="@id/editProfileEmailField"
+    <EditText android:id="@id/emailField_edit"
         android:layout_width="350dp"
         android:layout_height="30dp"
         android:inputType="textPersonName"
@@ -59,45 +59,32 @@
         android:ems="10"
         android:background="#CCFAFAFA"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/editProfileLnameField"
+        android:layout_below="@id/lnameField_edit"
         android:layout_marginTop="5dp" />
 
-    <EditText android:id="@id/editProfileUsernameField"
-        android:layout_width="350dp"
-        android:layout_height="30dp"
-        android:inputType="textPersonName"
-        android:hint="Nickname"
-        android:ems="10"
-        android:background="#CCFAFAFA"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/editProfileEmailField"
-        android:layout_marginTop="5dp" />
-
-    <EditText android:id="@id/editProfileDobField"
+    <EditText android:id="@id/dobField_edit"
         android:layout_width="350dp"
         android:layout_height="30dp"
         android:inputType="date"
         android:hint="Date of Birth (YYYY-MM-DD)"
         android:ems="10"
         android:background="#CCFAFAFA"
-        android:layout_below="@id/editProfileUsernameField"
+        android:layout_below="@id/emailField_edit"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp" />
 
-    <EditText android:id="@id/editProfileInterests"
-        android:lines="4"
-        android:minLines="2"
+    <EditText android:id="@id/interests_edit"
+        android:maxLength="55"
+        android:minLines="1"
+        android:maxLines="3"
         android:layout_width="350dp"
         android:layout_height="30dp"
-        android:inputType="textPersonName"
+        android:inputType="textMultiLine|textCapSentences"
         android:hint="Interests"
         android:ems="10"
         android:background="#CCFAFAFA"
-        android:layout_below="@id/editProfileDobField"
         android:layout_centerHorizontal="true"
-        android:scrollHorizontally="false"
-        android:scrollbars="vertical"
-        android:singleLine="false"
+        android:layout_below="@id/dobField_edit"
         android:layout_marginTop="5dp" />
 
     <Button
@@ -106,8 +93,18 @@
         android:background="#BF9C0606"
         android:layout_marginTop="20dp"
         android:text="Save Changes"
-        android:id="@id/editProfileSaveButton"
-        android:layout_below="@id/editProfileInterests"
+        android:id="@id/save_edit"
+        android:layout_below="@id/interests_edit"
         android:layout_centerHorizontal="true" />
+
+    <!--  Error message -->
+    <TextView android:id="@+id/registerErrorMsg_edit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@+id/signinbutton"
+        android:textColor="#e30000"
+        android:padding="5dip"
+        android:textStyle="bold"/>
 
 </RelativeLayout>

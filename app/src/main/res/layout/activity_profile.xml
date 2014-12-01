@@ -45,27 +45,24 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textStyle="bold"
                     android:textColor="#FFFFFF"
-                    android:text="Vinicius Ito Nagura"
                     android:gravity="center"
                     android:id="@+id/nameProfilePage"
                     android:layout_gravity="center_horizontal" />
 
                 <TextView
-                    android:layout_marginTop="2dp"
+                    android:paddingTop="2dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="viniciusnagura"
                     android:id="@+id/nicknameProfilePage"
                     android:layout_gravity="center_horizontal" />
 
                 <TextView
-                    android:layout_marginTop="2dp"
+                    android:paddingTop="2dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
-                    android:text="Interest"
                     android:id="@+id/interestsProfilePage"
                     android:layout_gravity="center_horizontal" />
 

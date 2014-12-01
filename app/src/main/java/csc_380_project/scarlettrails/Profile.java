@@ -69,6 +69,10 @@ public class Profile implements Parcelable {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public void setInterests(String interests) { this.interests = interests; }
+
+    public void setPictureURL(String pictureURL) { this.pictureURL = pictureURL; }
+
     Profile(Parcel in) {
         profileId = in.readString();
         firstName = in.readString();

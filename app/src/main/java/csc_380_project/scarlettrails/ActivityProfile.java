@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -56,7 +58,8 @@ public class ActivityProfile extends Activity implements ActionBar.OnNavigationL
         username = (TextView)findViewById(R.id.nicknameProfilePage);
         username.setText(userProfile.getUsername());
         interests = (TextView)findViewById(R.id.interestsProfilePage);
-        interests.setText("Interests");
+        interests.setText(userProfile.getInterests());
+        interests.setGravity(Gravity.CENTER);
         profilePicture = (ImageView) findViewById(R.id.profilePicture2);
         Picasso.with(ActivityProfile.this)
                 .load(userProfile.getPictureURL())
@@ -117,6 +120,15 @@ public class ActivityProfile extends Activity implements ActionBar.OnNavigationL
             App.clear();
             finish();
             return true;
+        }
+        else if (id == R.id.actionbar_edit_profile) {
+            if(App.isUserLoggedIn()) {
+                Intent intent = new Intent(getApplicationContext(), ActivityEditProfile.class);
+                startActivity(intent);
+                return true;
+            }
+            else
+                Toast.makeText(this, "You are not logged in. Please, login in to edit your profile", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }

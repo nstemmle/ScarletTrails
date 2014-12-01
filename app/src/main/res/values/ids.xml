@@ -3,6 +3,7 @@
     <!--ids for actionbar items-->
     <item name="actionbar_settings" type="id"/>
     <item name="actionbar_search" type="id"/>
+    <item name="actionbar_edit_profile" type="id"/>
     <item name="actionbar_logout" type="id"/>
 
 
@@ -21,5 +22,21 @@
     <item name="signinbutton" type="id"/>
     <item name="emailFieldFP" type="id"/>
     <item name="resetPasswordBtn" type="id"/>
+
+    <!--ides for activity_edit_profile.xml -->
+    <item name="profilePicture_edit" type="id"/>
+    <item name="selectImage_edit" type="id"/>
+    <item name="fnameField_edit" type="id"/>
+    <item name="lnameField_edit" type="id"/>
+    <item name="emailField_edit" type="id"/>
+    <item name="usernameField_edit" type="id"/>
+    <item name="dobField_edit" type="id"/>
+    <item name="interests_edit" type="id"/>
+    <item name="save_edit" type="id"/>
+
+
+    <!--ides for search -->
+    <item name="searchTrail" type="id" />
+    <item name="btnSearch" type="id" />
 
 </resources>

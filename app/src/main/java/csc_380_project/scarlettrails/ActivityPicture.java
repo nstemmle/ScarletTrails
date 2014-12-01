@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import java.io.ByteArrayOutputStream;
 
 import com.squareup.picasso.Picasso;
@@ -45,7 +47,7 @@ public class ActivityPicture extends FragmentActivity {// implements ActionBar.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-        setTheme(R.style.ChildTheme);
+        setTheme(R.style.ActionBarTheme);
         setContentView(R.layout.activity_picture);
 
         picTrailName = (Button) findViewById(R.id.picTrailName);
@@ -307,6 +309,15 @@ public class ActivityPicture extends FragmentActivity {// implements ActionBar.O
             App.clear();
             finish();
             return true;
+        }
+        else if (id == R.id.actionbar_edit_profile) {
+            if(App.isUserLoggedIn()) {
+                Intent intent = new Intent(getApplicationContext(), ActivityEditProfile.class);
+                startActivity(intent);
+                return true;
+            }
+            else
+                Toast.makeText(this, "You are not logged in. Please, login in to edit your profile", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }

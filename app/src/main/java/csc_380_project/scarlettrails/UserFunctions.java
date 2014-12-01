@@ -23,6 +23,7 @@ public class UserFunctions {
     private static String getUser_tag = "getUser";
     private static String getUserHist = "getUserHist";
     private static String checkInUser = "checkInUser";
+    private static String updateUser = "updateUser";
     private static String getUserEmail_tag = "getUserByEmail";
 
     // constructor
@@ -119,6 +120,37 @@ public class UserFunctions {
         params.add(new BasicNameValuePair("password", password));
         params.add(new BasicNameValuePair("picture_url", pictureURL));
 
+
+        // getting JSON Object
+        JSONObject json = jsonParser.getJSONFromUrl(registerURL, params);
+        // return json
+        return json;
+    }
+
+    /**
+     * function make Login Request
+     * @param userId
+     * @param firstName
+     * @param lastName
+     * @param email
+     * @param dob
+     * @param username
+     * @param interests
+     * @param pictureURL
+     * */
+    public JSONObject updateUser(String userId, String firstName, String lastName,String email, String dob
+            , String username, String interests, String pictureURL){
+        // Building Parameters
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("tag", updateUser));
+        params.add(new BasicNameValuePair("user_id", userId));
+        params.add(new BasicNameValuePair("first_name", firstName));
+        params.add(new BasicNameValuePair("last_name", lastName));
+        params.add(new BasicNameValuePair("email", email));
+        params.add(new BasicNameValuePair("dob", dob));
+        params.add(new BasicNameValuePair("username", username));
+        params.add(new BasicNameValuePair("interests", interests));
+        params.add(new BasicNameValuePair("picture_url", pictureURL));
 
         // getting JSON Object
         JSONObject json = jsonParser.getJSONFromUrl(registerURL, params);
