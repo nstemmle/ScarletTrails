@@ -162,10 +162,10 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
 
        // over 2,200 ft displayed as mi, under 2,200 displayed as ft
 
-        if(mTrail.getDistance() >= 2200) {
+        if(mTrail.getLength() >= 2200) {
             ((TextView) findViewById(R.id.tab_trail_textview_length_value)).setText(String.valueOf(mTrail.getLength()/5280) + " mi");
         }
-        else if(mTrail.getDistance() < 2200){
+        else if(mTrail.getLength() < 2200){
             ((TextView) findViewById(R.id.tab_trail_textview_length_value)).setText(String.valueOf(mTrail.getLength()) + " ft");
         }
         // Trail type
