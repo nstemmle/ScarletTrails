@@ -26,7 +26,7 @@ public class LoginActivity extends Activity {
     EditText inputPassword;
     TextView loginErrorMsg;
 
-    // JSON Response node names
+    // JSON Response nodenames
     public static String KEY_SUCCESS = "success";
     public static String USER_ID = "user_id";
     public static String FIRST_NAME = "first_name";

@@ -17,7 +17,7 @@ import org.json.JSONObject;
  */
 public class ActivitySplashScreen extends Activity {
 
-    // JSON Response node names
+    // JSON Response nodenames
     public static String KEY_SUCCESS = "success";
     public static String USER_ID = "user_id";
     public static String FIRST_NAME = "first_name";
