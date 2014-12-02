@@ -191,9 +191,9 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
         ((TextView)findViewById(R.id.tab_trail_textview_sunset_value)).setText(mForecast.getSunset());
 
         //Trail rating
+        RatingTrail ratingTrail = new RatingTrail();
         RatingBar rb = ((RatingBar)findViewById(R.id.tab_trail_ratingbar));
-        rb.setRating(mTrail.getRating().floatValue());
-        rb.setStepSize(0.5f);
+        rb.setRating(ratingTrail.getTrailRating(mTrail.getTrailId()));
 
         //Change colors
         LayerDrawable stars = (LayerDrawable) rb.getProgressDrawable();

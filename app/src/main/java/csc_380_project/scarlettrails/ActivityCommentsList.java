@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
