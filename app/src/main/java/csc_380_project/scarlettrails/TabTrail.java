@@ -158,14 +158,29 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
         Log.e(TAG, "mTrail != null: " + String.valueOf(mTrail != null));
         Log.e(TAG,"mTrail.getName() " + mTrail.getName());
 
+       // over 2,200 ft displayed as mi, under 2,200 displayed as ft
+
+        if(mTrail.getLength() >= 2200) {
+            ((TextView) findViewById(R.id.tab_trail_textview_length_value)).setText(String.valueOf(mTrail.getLength()/5280) + " mi");
+        }
+        else if(mTrail.getLength() < 2200){
+            ((TextView) findViewById(R.id.tab_trail_textview_length_value)).setText(String.valueOf(mTrail.getLength()) + " ft");
+        }
+        // Trail type
+        ((TextView) findViewById(R.id.tab_trail_textview_type_value)).setText(mTrail.getType());
+
+        // Trail park
+        ((TextView) findViewById(R.id.tab_trail_textview_park_value)).setText(mTrail.getPark());
+
+
+        // Trail description
+        ((TextView) findViewById(R.id.tab_trail_textview_description_value)).setText(mTrail.getDescription());
+
         //Trail temp max
         ((TextView)findViewById(R.id.tab_trail_textview_tempmax_value)).setText(String.valueOf(mForecast.getTempMax() + "°F"));
 
         //Trail temp min
         ((TextView)findViewById(R.id.tab_trail_textview_tempmin_value)).setText(String.valueOf(mForecast.getTempMin()) + "°F");
-
-        //Trail clouds/precipitation picture
-        setIcon(mForecast.getDescription());
 
         //Trail sunrise
         ((TextView)findViewById(R.id.tab_trail_textview_sunrise_value)).setText(mForecast.getSunrise());
@@ -173,15 +188,10 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
         //Trail sunset
         ((TextView)findViewById(R.id.tab_trail_textview_sunset_value)).setText(mForecast.getSunset());
 
-
-        //Trail image
-        //((ImageView)findViewById(R.id.trailImgViewTrail)).setImageURI();
-
         //Trail rating
         RatingTrail ratingTrail = new RatingTrail();
         RatingBar rb = ((RatingBar)findViewById(R.id.tab_trail_ratingbar));
-        rb.setRating(ratingTrail.getTrailRating(trailId));
-        rb.setStepSize(0.5f);
+        rb.setRating(ratingTrail.getTrailRating(mTrail.getTrailId()));
 
         //Change colors
         LayerDrawable stars = (LayerDrawable) rb.getProgressDrawable();

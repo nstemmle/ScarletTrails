@@ -25,7 +25,7 @@ public class RatingTrail {
             for (int i = 0; i < jsonRating.length(); i++) {
                 JSONObject json_rating = jsonRating.getJSONObject(i);
 
-                ratingTrail = (float) json_rating.getLong(RATING);
+                ratingTrail = Float.parseFloat(json_rating.getString(RATING));
 
             }
             return ratingTrail;

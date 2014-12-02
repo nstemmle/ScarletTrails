@@ -20,15 +20,18 @@ import android.widget.Toast;
  */
 public class RatingDialogFragment extends DialogFragment {
 
+    private Double rating;
+
+    private RatingBar rb;
+
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_ratings, null);
         builder.setView(dialogView);
 
-
         //create ratings bar
-        RatingBar rb = ((RatingBar)dialogView.findViewById(R.id.trail_rating_dialog_bar));
+        rb = ((RatingBar)dialogView.findViewById(R.id.trail_rating_dialog_bar));
         //Change colors
         LayerDrawable stars = (LayerDrawable) rb.getProgressDrawable();
         //Fully shaded color (4/5 rating = 4 stars shaded)
@@ -44,8 +47,12 @@ public class RatingDialogFragment extends DialogFragment {
                 //this is where we check if user has already made a rating and then add it to the database
 
                 //and this is what we do if user has already rated a trail
+                RatingFunctions ratingFunctions = new RatingFunctions();
+                ratingFunctions.setRating(App.getProfileId()
+                                        , ActivityTrailTabHostTest.mTrail.getTrailId()
+                                        , Double.toString(rb.getRating()));
                 Context context = App.getContext();
-                CharSequence text = "Already Rated";
+                CharSequence text = "Rated Sucessfully!";
                 int duration = Toast.LENGTH_LONG;
 
                 Toast toast = Toast.makeText(context, text, duration);
@@ -60,8 +67,5 @@ public class RatingDialogFragment extends DialogFragment {
         });
 
         return builder.create();
-
     }
-
-
 }

@@ -1,11 +1,15 @@
 package csc_380_project.scarlettrails;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,7 +27,7 @@ import java.io.InputStream;
  */
 public class ActivitySplashScreen extends Activity {
 
-    // JSON Response node names
+    // JSON Response nodenames
     public static String KEY_SUCCESS = "success";
     public static String USER_ID = "user_id";
     public static String FIRST_NAME = "first_name";
@@ -50,33 +54,34 @@ public class ActivitySplashScreen extends Activity {
             UserFunctions userFunction = new UserFunctions();
             JSONObject json = userFunction.loginUser(username, password);
 
-            // check for login response
-            try {
-                if (json.getString(KEY_SUCCESS) != null) {
-                    String res = json.getString(KEY_SUCCESS);
-                    if(Integer.parseInt(res) == 1){
-                        // user successfully logged in
-                        JSONObject json_user = json.getJSONObject("user");
-                        Profile profile = new Profile(json.getString(USER_ID),
-                                json_user.getString(FIRST_NAME),
-                                json_user.getString(LAST_NAME),
-                                json_user.getString(EMAIL),
-                                json_user.getString(DOB),
-                                json_user.getString(USERNAME),
-                                json_user.getString(INTERESTS),
-                                json_user.getString(PICTURE_URL));
+            if(isNetworkAvailable()) {
+                // check for login response
+                try {
+                    if (json.getString(KEY_SUCCESS) != null) {
+                        String res = json.getString(KEY_SUCCESS);
+                        if(Integer.parseInt(res) == 1){
+                            // user successfully logged in
+                            JSONObject json_user = json.getJSONObject("user");
+                            Profile profile = new Profile(json.getString(USER_ID),
+                                    json_user.getString(FIRST_NAME),
+                                    json_user.getString(LAST_NAME),
+                                    json_user.getString(EMAIL),
+                                    json_user.getString(DOB),
+                                    json_user.getString(USERNAME),
+                                    json_user.getString(INTERESTS),
+                                    json_user.getString(PICTURE_URL));
 
-                        App.setUserLoggedIn(true);
-                        App.setUserProfile(profile);
+                            App.setUserLoggedIn(true);
+                            App.setUserProfile(profile);
 
-                        // Launch Dashboard Screen
-                        Intent dashboard = new Intent(getApplicationContext(), ActivityHome.class);
-                        dashboard.putExtra("gpsEnabled", getIntent().getBooleanExtra("gpsEnabled",false));
-                        dashboard.putExtra("networkEnabled", getIntent().getBooleanExtra("networkEnabled", false));
+                            // Launch Dashboard Screen
+                            Intent dashboard = new Intent(getApplicationContext(), ActivityHome.class);
+                            dashboard.putExtra("gpsEnabled", getIntent().getBooleanExtra("gpsEnabled",false));
+                            dashboard.putExtra("networkEnabled", getIntent().getBooleanExtra("networkEnabled", false));
 
-                        // Close all views before launching Dashboard
-                        dashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(dashboard);
+                            // Close all views before launching Dashboard
+                            dashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(dashboard);
 
                         // Close Login Screen
                         finish();
@@ -92,7 +97,7 @@ public class ActivitySplashScreen extends Activity {
                             intent.putExtra("networkEnabled", true);
                         startActivity(intent);
                     }
-                } else {
+                } catch (JSONException e) {
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     if (!gps_enabled)
                         intent.putExtra("gpsEnabled", false);
@@ -104,16 +109,14 @@ public class ActivitySplashScreen extends Activity {
                         intent.putExtra("networkEnabled", true);
                     startActivity(intent);
                 }
-            } catch (JSONException e) {
+            }
+            else {
+                settings = getSharedPreferences("UserInfo", 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.remove("Username");
+                editor.remove("PassWord");
+                editor.commit();
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                if (!gps_enabled)
-                    intent.putExtra("gpsEnabled", false);
-                else
-                    intent.putExtra("gpsEnabled", true);
-                if (!network_enabled)
-                    intent.putExtra("networkEnabled", false);
-                else
-                    intent.putExtra("networkEnabled", true);
                 startActivity(intent);
             }
         }
@@ -148,6 +151,13 @@ public class ActivitySplashScreen extends Activity {
             e.printStackTrace();
         }
 
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     @Override

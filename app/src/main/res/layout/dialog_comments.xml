@@ -10,17 +10,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@id/trail_rating_dialog_title"
-        android:text="@string/trail_rating_dialog_title"
+        android:text="Insert Comment Here"
         android:layout_gravity="center"
         android:textSize="24dp"/>
-    <RatingBar android:id="@id/trail_rating_dialog_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:numStars="5"
-        android:stepSize="1"
-        android:rating="0"
-        android:scaleY="0.75"
-        android:scaleX="0.75"
-        android:layout_gravity="center"/>
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:id="@id/commentField"
+        android:hint="insert comment here"/>
 
 </LinearLayout>

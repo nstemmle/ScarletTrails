@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -42,6 +43,9 @@ public class ActivityCommentsList extends ListActivity implements ActionBar.OnNa
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setTheme(R.style.AppTheme);
         initializeNavigationBar();
+        
+        DialogFragment dialog = new CommentDialogFragment();
+        dialog.show(getFragmentManager(), "NoticeDialogFragment");
 
         Bundle extras = getIntent().getExtras();
         String searchKey = "";

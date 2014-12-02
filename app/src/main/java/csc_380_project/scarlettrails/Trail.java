@@ -165,6 +165,8 @@ public class Trail implements Parcelable {
     @Override
     public int describeContents() {
         return 0;
+    public void setRating(Double d) {
+        this.rating = d;
     }
 
     @Override

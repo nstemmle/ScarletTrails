@@ -2,8 +2,11 @@
 <resources>
     <!--Tab elements-->
     <item name="home_framelayout_content" type="id"/>
+
     <item name="home_framelayout_dummy" type="id"/>
+
     <item name="home_tab_text" type="id"/>
+
     <item name="tab_fragment_map" type="id"/>
 
     <item name="tab_trail_gallery_gridview" type="id"/>
@@ -12,40 +15,39 @@
     <item name="tab_layout_linear_main" type="id"/>
 
     <item name="tab_trail_textview_trailname_value" type="id"/>
+
     <item name="tab_trail_imgview_trail_pic" type="id"/>
+
     <item name="tab_trail_fragment_map" type="id"/>
+
     <item name="tab_trail_ratingbar" type="id"/>
 
-    <item name="tab_trail_relativelayout_difficulty" type ="id"/>
-    <item name="tab_trail_textview_difficulty_label" type="id"/>
-    <item name="tab_trail_textview_difficulty_value" type="id"/>
+    <item name="tab_trail_relativelayout_type" type="id"/>
 
-    <item name="tab_trail_relativelayout_distance" type="id"/>
-    <item name="tab_trail_textview_distance_label" type="id"/>
-    <item name="tab_trail_textview_distance_value" type="id"/>
+    <item name="tab_trail_textview_type_label" type="id"/>
 
-    <item name="tab_trail_relativelayout_duration" type="id"/>
-    <item name="tab_trail_textview_duration_label" type="id"/>
-    <item name="tab_trail_textview_duration_value" type="id"/>
+    <item name="tab_trail_textview_type_value" type="id"/>
 
-    <item name="tab_trail_relativelayout_elevation" type="id"/>
-    <item name="tab_trailTxtViewElevation" type="id"/>
-    <item name="tab_trailTxtViewElevationValue" type="id"/>
+    <item name="tab_trail_relativelayout_park" type="id"/>
+    <item name="tab_trail_textview_park_label" type="id"/>
+    <item name="tab_trail_textview_park_value" type="id"/>
 
-    <item name="tab_trail_relativelayout_gear" type="id"/>
-    <item name="tab_trail_textview_gear_label" type="id"/>
-    <item name="tab_trail_textview_gear_value" type="id"/>
+    <item name="tab_trail_relativelayout_description" type="id"/>
+    <item name="tab_trail_textview_description_label" type="id"/>
+    <item name="tab_trail_textview_description_value" type="id"/>
 
-    <item name="tab_trail_relativelayout_conditions" type="id"/>
-    <item name="tab_trail_textview_conditions_label" type="id"/>
-    <item name="tab_trail_textview_conditions_value" type="id"/>
-
-    <item name="tab_trail_relativelayout_petfriendly" type="id"/>
-    <item name="tab_trail_textview_petfriendly_label" type="id"/>
-    <item name="tab_trail_textview_petfriendly_value" type="id"/>
+    <item name="tab_trail_relativelayout_length" type="id"/>
+    <item name="tab_trail_textview_length_label" type="id"/>
+    <item name="tab_trail_textview_length_value" type="id"/>
 
     <item name="tab_trail_relativelayout_weather" type="id"/>
     <item name="tab_trail_textview_weather_label" type="id"/>
+
+    <item name="tab_trail_relativelayout_weatherIcon" type="id"/>
+    <item name="tab_trail_imgview_currentWeather" type="id"/>
+
+    <item name="tab_trail_relativelayout_trailinfo" type="id"/>
+    <item name="tab_trail_textview_trailinfo_label" type="id"/>
 
     <item name="tab_trail_relativelayout_tempmax" type="id"/>
     <item name="tab_trail_textview_tempmax_label" type="id"/>
@@ -54,10 +56,6 @@
     <item name="tab_trail_relativelayout_tempmin" type="id"/>
     <item name="tab_trail_textview_tempmin_label" type="id"/>
     <item name="tab_trail_textview_tempmin_value" type="id"/>
-
-    <item name="tab_trail_relativelayout_precipitation" type="id"/>
-    <item name="tab_trail_textview_precipitation_label" type="id"/>
-    <item name="tab_trail_textview_precipitation_value" type="id"/>
 
     <item name="tab_trail_relativelayout_sunrise" type="id"/>
     <item name="tab_trail_textview_sunrise_label" type="id"/>
