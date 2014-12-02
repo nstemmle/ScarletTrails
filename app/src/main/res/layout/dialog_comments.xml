@@ -16,6 +16,7 @@
     <EditText
         android:layout_width="300dp"
         android:layout_height="300dp"
+        android:id="@id/commentField"
         android:hint="insert comment here"/>
 
 </LinearLayout>

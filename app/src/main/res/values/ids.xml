@@ -39,4 +39,6 @@
     <item name="searchTrail" type="id" />
     <item name="btnSearch" type="id" />
 
+    <item name="commentField" type="id" />
+
 </resources>
