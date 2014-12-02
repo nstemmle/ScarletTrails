@@ -24,25 +24,24 @@
 
 
 
-    <string name="trail_textview_length_value"> </string>
+    <string name="trail_textview_length_value"> 2.3 mi</string>
 
-    <string name="trail_textview_description_value"> </string>
+    <string name="trail_textview_description_value"> A trail </string>
 
-    <string name="trail_textview_type_value"></string>
+    <string name="trail_textview_type_value"> Rocky </string>
 
-    <string name="trail_textview_park_value"> </string>
+    <string name="trail_textview_park_value"> Oswego Park</string>
 
-    <string name="trail_textview_weather_value"> </string>
+    <string name="trail_textview_trail_value"> A Trail</string>
 
-    <string name="trail_textview_trail_value"> </string>
+    <string name="trail_textview_tempmin_value"> 32°F </string>
 
-    <string name="trail_textview_tempmin_value"> </string>
+    <string name="trail_textview_tempmax_value"> 23°F </string>
 
-    <string name="trail_textview_tempmax_value"> </string>
+    <string name="trail_textview_sunrise_value">6:30am </string>
 
-    <string name="trail_textview_sunrise_value"> </string>
+    <string name="trail_textview_sunset_value">5:01pm </string>
 
-    <string name="trail_textview_sunset_value"> </string>
 
 
 </resources>
