@@ -101,7 +101,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha="1.0"
-                        android:text="@id/tab_trail_textview_length_value"/>
+                        android:text="@string/trail_textview_length_value"></TextView>
                 </RelativeLayout>
 
                 <!--TextViews for Trail type-->
@@ -127,7 +127,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha="1.0"
-                        android:text="@id/tab_trail_textview_type_value"/>
+                        android:text="@string/trail_textview_type_value"/>
                 </RelativeLayout>
 
                 <!--TextViews for Trail description label-->
@@ -160,7 +160,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha="1.0"
-                        android:text="@id/tab_trail_textview_park_value"/>
+                        android:text="@string/trail_textview_park_value"/>
                 </RelativeLayout>
 
                 <!--TextViews for Trail description label-->
@@ -194,7 +194,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha="1.0"
-                        android:text="@id/tab_trail_textview_description_value"/>
+                        android:text="@string/trail_textview_description_value"/>
                 </RelativeLayout>
 
 
@@ -282,7 +282,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@id/tab_trail_textview_sunrise_value"
+                            android:text="@string/trail_textview_sunrise_value"
                             />
                     </RelativeLayout>
 
@@ -306,7 +306,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@id/tab_trail_textview_sunset_value"
+                            android:text="@string/trail_textview_sunset_value"
                             />
                     </RelativeLayout>
 
