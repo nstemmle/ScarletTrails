@@ -245,7 +245,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@id/tab_trail_textview_tempmax_value"
+                            android:text="@string/trail_textview_tempmax_value"
 
                             />
 
@@ -256,7 +256,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@id/tab_trail_textview_tempmin_value"
+                            android:text="@string/trail_textview_tempmin_value"
 
                             />
 
