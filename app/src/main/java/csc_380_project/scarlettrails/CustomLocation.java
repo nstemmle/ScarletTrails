@@ -4,100 +4,77 @@ import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.android.gms.maps.model.LatLng;
-
+import java.util.List;
 /**
  * Created by Nathan on 10/16/2014.
  */
-@SuppressLint("ParcelCreator")
 public class CustomLocation implements Parcelable {
-    private String locationId;
-    private final Double latitude;
-    private final Double longitude;
-    private String streetAddress;
-    private String postalCode;
-    private String city;
-    private String state;
-    private String country; //From the database design picture - is this supposed to be county?
+    //Constants for distance and unit conversions
+    private static final int RADIUS_EARTH_FEET = 20902253;
 
-    public CustomLocation(Double latitude, Double longitude) {
+    private static final int CM_PER_M = 100;
+    private static final int M_PER_KM = 1000;
+    private static final double CM_PER_INCH = 2.54;
+    private static final int INCH_PER_FOOT = 12;
+    private static final int FT_PER_MILE = 5280;
+
+    private final String locationId;
+    private final String trailId;
+    private final double latitude;
+    private final double longitude;
+
+    public CustomLocation(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
+
+        this.locationId = "";
+        this.trailId = "";
     }
 
-    public CustomLocation(String locationId, Double latitude, Double longitude,
-                          String postalCode, String city, String state, String country) {
+    public CustomLocation(String trailId, double latitude, double longitude) {
+        this.trailId = trailId;
+        this.latitude = latitude;
+        this.longitude = longitude;
+
+        this.locationId = "";
+    }
+
+    public CustomLocation(String trailId, String locationId, double latitude, double longitude) {
+        this.trailId = trailId;
         this.locationId = locationId;
         this.latitude = latitude;
         this.longitude = longitude;
-        //this.streetAddress = streetAddress;
-        this.postalCode = postalCode;
-        this.city = city;
-        this.state = state;
-        this.country = country;
-    }
-    /*
-        Double latitude
-        Double longitude
-        String locationId
-        String streetAddress
-        String postalCode
-        String city
-        String state
-        String country
-     */
-
-    public CustomLocation(Parcel in) {
-        latitude = in.readDouble();
-        longitude = in.readDouble();
-        if (in.dataAvail() > 0) {
-            locationId = in.readString();
-            streetAddress = in.readString();
-            postalCode = in.readString();
-            city = in.readString();
-            state = in.readString();
-            country = in.readString();
-        }
     }
 
-    public Double getLatitude() {
+    public String getLocationId() {
+        return locationId;
+    }
+
+    public String getTrailId() {
+        return trailId;
+    }
+
+    public double getLatitude() {
         return latitude;
     }
 
-    public Double getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public LatLng getLatLng() {
-        return new LatLng(latitude, longitude);
+    public CustomLocation(Parcel in) {
+        locationId = in.readString();
+        trailId = in.readString();
+        latitude = in.readDouble();
+        longitude = in.readDouble();
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    private void setAddressStrings(String[] addressArray) {
-        //addressArray[] indices
-        /*addressArray[0] = streetAddress || null;
-        addressArray[1] = postalCode || null;
-        addressArray[2] = city || null;
-        addressArray[3] = state || null;
-        addressArray[4] = country || null;*/
-
-        if (addressArray[0] != null)
-            streetAddress = addressArray[0];
-        if (addressArray[1] != null)
-            postalCode = addressArray[1];
-        if (addressArray[2] != null)
-            city = addressArray[2];
-        if (addressArray[3] != null)
-            state = addressArray[3];
-        if (addressArray[4] != null)
-            country = addressArray[4];
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(locationId);
+        dest.writeString(trailId);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
     }
 
     @Override
@@ -105,47 +82,73 @@ public class CustomLocation implements Parcelable {
         return 0;
     }
 
-    /*
-    private String locationId;
-    private final Double latitude;
-    private final Double longitude;
-    private String streetAddress;
-    private String postalCode;
-    private String city;
-    private String state;
-    private String country;
-     */
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeDouble(latitude);
-        dest.writeDouble(longitude);
-        if (locationId != null && !locationId.isEmpty()) {
-            dest.writeString(locationId);
+    public String toString() {
+        return "LocationId: " + locationId + ", trailId: " + trailId + "; latitude: " + latitude + ", longitude: " + longitude;
+    }
 
-            if (streetAddress != null)
-                dest.writeString(streetAddress);
-            else
-                dest.writeString("");
+    //The formulas/methods taken from the following site:
+    //http://www.movable-type.co.uk/scripts/latlong.html
+    //Takes GPS coords in complete decimal format (not HH MM SS)
+    //Returns distance between coords in Feet
+    public static double distanceBetweenCoordsQuick(double latOrigin, double lngOrigin, double latDest, double lngDest) {
+        double phi1 = Math.toRadians(latOrigin);
+        double phi2 = Math.toRadians(latDest);
+        double deltalambda = Math.toRadians(lngDest - lngOrigin);
+        return ((Math.acos(Math.sin(phi1)*Math.sin(phi2))) + (Math.cos(phi1) * Math.cos(phi2) * Math.cos(deltalambda))) * RADIUS_EARTH_FEET;
+    }
 
-            if (postalCode != null)
-                dest.writeString(postalCode);
-            else
-                dest.writeString("");
+    public static double distanceBetweenCoordsQuick(CustomLocation origin, CustomLocation dest) {
+        return distanceBetweenCoordsQuick(origin.latitude, origin.longitude, dest.latitude, dest.longitude);
+    }
 
-            if (city != null)
-                dest.writeString(city);
-            else
-                dest.writeString("");
+    public static double distanceBetweenGPSCoords(double latOrigin, double lngOrigin, double latDest, double lngDest) {
+        double phi1 = Math.toRadians(latOrigin);
+        double phi2 = Math.toRadians(latDest);
+        double deltaphi = Math.toRadians(latDest - latOrigin);
+        double deltalambda = Math.toRadians(lngDest - lngOrigin);
 
-            if (state != null)
-                dest.writeString(state);
-            else
-                dest.writeString("");
+        double a = Math.sin(deltaphi/2) * Math.sin(deltaphi/2) + Math.cos(phi1) * Math.cos(phi2) * Math.sin(deltalambda/2) * Math.sin(deltalambda/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return RADIUS_EARTH_FEET * c;
+    }
 
-            if (country != null)
-                dest.writeString(country);
-            else
-                dest.writeString("");
+    public static double distanceBetweenGPSCoords(CustomLocation origin, CustomLocation dest) {
+        return distanceBetweenGPSCoords(origin.latitude, origin.longitude, dest.latitude, dest.longitude);
+    }
+
+    public static double calculateTraversalDistance(List<CustomLocation> coords) {
+        if (coords.size() == 0) return -1d;
+        double distance = 0d;
+        CustomLocation last = coords.get(0);
+        for (int i = 1; i < coords.size(); i++) {
+            distance += distanceBetweenGPSCoords(last, coords.get(i));
+            last = coords.get(i);
         }
+        return distance;
+    }
+
+    public static double convertFeetToMiles(double feet) {
+        return feet / FT_PER_MILE;
+    }
+
+    public static double convertMilesToFeet(double miles) {
+        return miles * FT_PER_MILE;
+    }
+
+    public static double convertMetersToFeet(double meters) {
+        return ((meters * CM_PER_M) / CM_PER_INCH) / INCH_PER_FOOT;
+    }
+
+    public static double convertFeetToMeters(double feet) {
+        return (feet * INCH_PER_FOOT * CM_PER_INCH) / CM_PER_M;
+    }
+
+    public static double convertMetersToKM(double meters) {
+        return meters * M_PER_KM;
+    }
+
+    public static double convertKMToMeters(double km) {
+        return km / M_PER_KM;
     }
 }

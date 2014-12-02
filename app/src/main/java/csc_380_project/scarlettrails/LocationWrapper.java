@@ -11,7 +11,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.provider.Settings;
-import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -47,9 +46,6 @@ public class LocationWrapper {
     public static final float STREET_ZOOM = 14.0f;
     public static final float TRAIL_ZOOM = 15.0f; //Might need to be adjusted
 
-    //TODO
-    //Implement constructor for best criteria or remove
-    private static Criteria criteriaBest;
     private static LocationWrapper instance;
 
     private LocationWrapper(){}
@@ -154,18 +150,18 @@ public class LocationWrapper {
     }
 
     public void displayTrailOnMapInstant(GoogleMap map, Trail trail, float zoom) {
-        centerCameraOnCustomLocation(map, trail.getLocation(), zoom);
-        addMarkerAtCustomLocation(map, trail.getLocation(), trail.getName(), true);
+        centerCameraOnLocation(map, trail.getLocation(), zoom);
+        addMarkerAtLocation(map, trail.getLocation(), trail.getName(), true);
     }
 
     public void displayTrailOnMapAnimated(GoogleMap map, Trail trail, float zoom) {
-        moveCameraAnimatedZoomToCustomLocation(map, trail.getLocation(), zoom);
-        addMarkerAtCustomLocation(map, trail.getLocation(), trail.getName(), true);
+        moveCameraAnimated(map, trail.getLocation(), zoom);
+        addMarkerAtLocation(map, trail.getLocation(), trail.getName(), true);
     }
 
     //Launches a new system activity to get directions from startCoords to endCoords
     //Typically with Google Maps/Navigation but user has choice if they haven't selected a default
-    public void launchDirectionsFromCoords(Context context, Double latStart, Double lngStart, Double latEnd, Double lngEnd) {
+    public void launchDirectionsFromLocation(Context context, Double latStart, Double lngStart, Double latEnd, Double lngEnd) {
         String uri = "http://maps.google.com/maps?saddr=" + latStart + "," + lngStart + "&daddr=" + latEnd + "," + lngEnd;
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -174,7 +170,7 @@ public class LocationWrapper {
 
     //Launches a new system activity to get directions from locStart to locEnd
     //Typically with Google Maps/Navigation but user has choice if they haven't selected a default
-    public void launchDirectionsFromCustomLocation(Context context, CustomLocation customLocStart, CustomLocation customLocEnd) {
+    public void launchDirectionsFromLocation(Context context, CustomLocation customLocStart, CustomLocation customLocEnd) {
         String uri = "http://maps.google.com/maps?saddr=" + customLocStart.getLatitude() + "," + customLocStart.getLongitude() + "&daddr=" + customLocEnd.getLatitude() + "," + customLocEnd.getLongitude();
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -183,7 +179,7 @@ public class LocationWrapper {
 
     //Launches a new system activity to get directions from locStart to locEnd
     //Typically with Google Maps/Navigation but user has choice if they haven't selected a default
-    public void launchDirectionsFromGoogleLocation(Context context, Location locStart, Location locEnd) {
+    public void launchDirectionsFromLocation(Context context, Location locStart, Location locEnd) {
         String uri = "http://maps.google.com/maps?saddr=" + locStart.getLatitude() + "," + locStart.getLongitude() + "&daddr=" + locEnd.getLatitude() + "," + locEnd.getLongitude();
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -194,7 +190,7 @@ public class LocationWrapper {
     //Lat and Lng must be bounded between
     //latitude < -90 || latitude > 90
     //longitude < -180.0 || longitude > 180.0
-    public void centerCameraOnGoogleLocation(GoogleMap map, Location location, float zoom) {
+    public void centerCameraOnLocation(GoogleMap map, Location location, float zoom) {
         checkMapExists(map);
         LatLng tempLatLng = new LatLng(location.getLatitude(),location.getLongitude());
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng, zoom));
@@ -204,7 +200,7 @@ public class LocationWrapper {
     //Lat and Lng must be bounded between
     //latitude < -90 || latitude > 90
     //longitude < -180.0 || longitude > 180.0
-    public void centerCameraOnCustomLocation(GoogleMap map, CustomLocation customLoc, float zoom) {
+    public void centerCameraOnLocation(GoogleMap map, CustomLocation customLoc, float zoom) {
         LatLng tempLatLng = new LatLng(customLoc.getLatitude(), customLoc.getLongitude());
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng, zoom));
     }
@@ -213,14 +209,14 @@ public class LocationWrapper {
     //Lat and Lng must be bounded between
     //latitude < -90 || latitude > 90
     //longitude < -180.0 || longitude > 180.0
-    public void centerCameraOnCoords(GoogleMap map, Double lat, Double lon, float zoom) {
+    public void centerCameraOnLocation(GoogleMap map, Double lat, Double lon, float zoom) {
         LatLng tempLatLng = new LatLng(lat,lon);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng, zoom));
     }
 
     //Move the camera view of the google map to a certain Location
     //Call this method when the change in distance is small i.e. from one part of Oswego county to another
-    public void moveCameraAnimatedToGoogleLocation(GoogleMap map, Location location) {
+    public void moveCameraAnimated(GoogleMap map, Location location) {
         LatLng tempLatLng = new LatLng(location.getLatitude(),location.getLongitude());
         //A duration value can also be passed to determine how long the animation should take; see android documentation
         map.animateCamera(CameraUpdateFactory.newLatLng(tempLatLng));
@@ -228,7 +224,7 @@ public class LocationWrapper {
 
     //Move the camera view of the google map to a certain Location
     //Call this method when the change in distance is small i.e. from one part of Oswego county to another
-    public void moveCameraAnimatedToCustomLocation(GoogleMap map, CustomLocation customLoc) {
+    public void moveCameraAnimated(GoogleMap map, CustomLocation customLoc) {
         LatLng tempLatLng = new LatLng(customLoc.getLatitude(),customLoc.getLongitude());
         //A duration value can also be passed to determine how long the animation should take; see android documentation
         map.animateCamera(CameraUpdateFactory.newLatLng(tempLatLng));
@@ -237,7 +233,7 @@ public class LocationWrapper {
     //Move the camera view of the google map to a certain Location at a specified Zoom level
     //Call this method when the change in distance is small i.e. from one part of Oswego county to another
     //Specify a zoom level to be used - static constants have been declared for your use
-    public void moveCameraAnimatedZoomToGoogleLocation(GoogleMap map, Location location, float zoom) {
+    public void moveCameraAnimated(GoogleMap map, Location location, float zoom) {
         LatLng tempLatLng = new LatLng(location.getLatitude(),location.getLongitude());
         //A duration value can also be passed to determine how long the animation should take; see android documentation
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng, zoom));
@@ -246,7 +242,7 @@ public class LocationWrapper {
     //Move the camera view of the google map to a certain Location at a specified Zoom level
     //Call this method when the change in distance is small i.e. from one part of Oswego county to another
     //Specify a zoom level to be used - static constants have been declared for your use
-    public void moveCameraAnimatedZoomToCustomLocation(GoogleMap map, CustomLocation customLoc, float zoom) {
+    public void moveCameraAnimated(GoogleMap map, CustomLocation customLoc, float zoom) {
         LatLng tempLatLng = new LatLng(customLoc.getLatitude(), customLoc.getLongitude());
         //A duration value can also be passed to determine how long the animation should take; see android documentation
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(tempLatLng, zoom));
@@ -254,7 +250,7 @@ public class LocationWrapper {
 
     //Relevant examples/documentation
     //https://developers.google.com/maps/documentation/android/marker
-    public Marker addMarkerAtGoogleLocation(GoogleMap map, Location location, String title, boolean showTitleByDefault) {
+    public Marker addMarkerAtLocation(GoogleMap map, Location location, String title, boolean showTitleByDefault) {
         LatLng currentMarkerLatLng = new LatLng(location.getLatitude(), location.getLongitude());
         Marker current;
         if (title != null) {
@@ -270,7 +266,7 @@ public class LocationWrapper {
         return current;
     }
 
-    public Marker addMarkerAtCustomLocation(GoogleMap map, CustomLocation customLoc, String title, boolean showTitleByDefault) {
+    public Marker addMarkerAtLocation(GoogleMap map, CustomLocation customLoc, String title, boolean showTitleByDefault) {
         LatLng currentMarkerLatLng = new LatLng(customLoc.getLatitude(), customLoc.getLongitude());
         Marker current;
         if (title != null) {
@@ -286,7 +282,7 @@ public class LocationWrapper {
         return current;
     }
 
-    public Marker addMarkerAtCoords(GoogleMap map, Double latitude, Double longitude, String title, boolean showTitleByDefault) {
+    public Marker addMarkerAtLocation(GoogleMap map, Double latitude, Double longitude, String title, boolean showTitleByDefault) {
         LatLng currentMarkerLatLng = new LatLng(latitude, longitude);
         Marker current;
         if (title != null) {
@@ -302,7 +298,7 @@ public class LocationWrapper {
         return current;
     }
 
-    public Marker addMarkerAtLatLng(GoogleMap map, LatLng markerLatLng, String title, boolean showTitleByDefault) {
+    public Marker addMarkerAtLocation(GoogleMap map, LatLng markerLatLng, String title, boolean showTitleByDefault) {
         Marker current;
         if (title != null) {
             current = map.addMarker(new MarkerOptions()
@@ -318,7 +314,7 @@ public class LocationWrapper {
     }
 
     public Marker addTrailMarker(GoogleMap map, Trail trail, boolean showTitleByDefault) {
-        Marker trailMarker = addMarkerAtCustomLocation(map, trail.getLocation(),trail.getName(),showTitleByDefault);
+        Marker trailMarker = addMarkerAtLocation(map, trail.getLocation(), trail.getName(), showTitleByDefault);
         trailMarker.setSnippet("Click me to see trail info.");
         return trailMarker;
     }

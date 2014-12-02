@@ -3,10 +3,20 @@ package csc_380_project.scarlettrails;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by Nathan on 10/19/2014.
@@ -120,6 +130,24 @@ public class ActivitySplashScreen extends Activity {
                 intent.putExtra("networkEnabled", true);
             startActivity(intent);
         }
+
+        try {
+            SAXParserFactory mSAXParserFactory = SAXParserFactory.newInstance();
+            SAXParser mSAXPaser = mSAXParserFactory.newSAXParser();
+
+            TrailXMLHandler handler = new TrailXMLHandler();
+
+            AssetManager mngr = getAssets();
+            InputStream xml = mngr.open("trails.xml");
+
+            mSAXPaser.parse(xml, handler);
+
+            App.setTrailCollection(handler.returnTrails());
+        } catch (ParserConfigurationException|SAXException|IOException e){
+            Log.e("ActivitySplashScreen - XML Parsing","Alex said never to do this but it's happening.");
+            e.printStackTrace();
+        }
+
     }
 
     @Override

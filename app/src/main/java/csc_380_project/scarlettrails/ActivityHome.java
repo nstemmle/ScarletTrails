@@ -21,11 +21,9 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by Nathan on 10/19/2014.
@@ -41,7 +39,6 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
     private boolean network_enabled;
 
     private boolean gps_ignored = false;
-    private Marker mLocMarker;
 
     private static final String KEY_BOOLEAN_GPS_IGNORED = "gps_ignored";
 
@@ -67,12 +64,14 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
         initializeMap();
 
         //Create dummy trails
-        Random r = new Random();
+        /*Random r = new Random();
         trailCollection = new TrailCollection();
         for (int i = 0; i < 5; i++) {
             CustomLocation tempLoc = new CustomLocation(generateRandomLatitude(r), generateRandomLongitude(r));
             trailCollection.addTrail(new Trail(String.valueOf(i), String.valueOf("Trail " + i), (r.nextInt(9000) + 1000.0), (r.nextInt(950) + 50.0), Trail.DURATION_MEDIUM, Trail.DIFFICULTY_MEDIUM, tempLoc, "gear", "conds", true));
-        }
+        }*/
+
+        trailCollection = App.getTrailCollection();
 
         addTrailCollectionMarkersToMap(trailCollection);
 
@@ -93,31 +92,9 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
         }
     }
 
-    public Double generateRandomLatitude(Random r) {
-        Double baseLat = LocationWrapper.OSWEGO_COUNTY.latitude;
-        int pos_neg = r.nextInt(2);
-        if (pos_neg == 0) { //Add
-            return baseLat + (r.nextDouble() / 3);
-        } else { //Subtract
-            return baseLat - (r.nextDouble() / 3);
-        }
-    }
-
-    public Double generateRandomLongitude(Random r) {
-        Double baseLng = LocationWrapper.OSWEGO_COUNTY.longitude;
-        int pos_neg = r.nextInt(2);
-        if (pos_neg == 0) { //Add
-            return baseLng + (r.nextDouble() / 3);
-        } else { //Subtract
-            return baseLng - (r.nextDouble() / 3);
-        }
-    }
-
     public void addTrailCollectionMarkersToMap(TrailCollection tc) {
         mLocWrapper.clearMap(mMap);
-        for (int i = 0; i < tc.getSize(); i++) {
-            Marker temp = mLocWrapper.addTrailMarker(mMap, tc.getTrailAtIndex(i),false);
-        }
+        //tc.addTrailMarkersToMap(mMap, mLocWrapper);
     }
 
     @Override
@@ -270,31 +247,10 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
             mLoc = mLocWrapper.getCurrentLocation(getApplicationContext(), LocationManager.GPS_PROVIDER);
         }
 
-
-        if (mLoc != null) {
-            mLocMarker = mLocWrapper.addMarkerAtGoogleLocation(mMap, mLoc, "My Location", true);
-            mLocMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-        } else {
-            mLocMarker = mLocWrapper.addMarkerAtLatLng(mMap, LocationWrapper.OSWEGO_COUNTY, null, false);
-            mLocMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-        }
-
-
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                if (marker.getId().equals(mLocMarker.getId())){
-                    return true;
-                }
-                lastMarkerClicked = marker;
-                return false;
-            }
-        });
-
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                if (marker.getId().equals(lastMarkerClicked.getId()) && !marker.getId().equals(mLocMarker.getId()))  {
+                if (marker.getId().equals(lastMarkerClicked.getId()))  {
                     Trail temp = trailCollection.getTrailbyName(marker.getTitle());
                     if (temp != null) {
                         Intent activityTrail = new Intent(getApplicationContext(), ActivityTrailTabHostTest.class);
@@ -304,8 +260,6 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
                 }
             }
         });
-
-        mLocMarker.showInfoWindow();
     }
 
     public void buttonOpenLocationSettingsOnClick(View view) {

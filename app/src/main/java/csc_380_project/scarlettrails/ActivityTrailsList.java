@@ -32,20 +32,25 @@ public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavi
     public static String TAG_TRAILLIST = "trailList";
     public static String TRAIL_ID = "trail_id";
     public static String NAME = "name";
-    public static String DISTANCE = "distance";
-    public static String ELEVATION = "elevation";
-    public static String DURATION = "duration";
-    public static String DIFFICULTY = "difficulty";
     public static String LOCATION_ID = "location_id";
     public static String X = "x";
     public static String Y = "y";
-    public static String ZIPCODE = "zipcode";
-    public static String CITY = "city";
-    public static String STATE = "state";
-    public static String COUNTRY = "country";
-    public static String GEAR = "gear";
-    public static String CONDITIONS = "conditions";
-    public static String PET_FRIENDLY = "pet_friendly";
+    public static String LENGTH = "distance";
+    public static String PARK = "park";
+    public static String TYPE = "type";
+    public static String DESCRIPTOR = "descriptor";
+    public static String RATING = "rating";
+    //public static String DISTANCE = "distance";
+    //public static String ELEVATION = "elevation";
+    //public static String DURATION = "duration";
+    //public static String DIFFICULTY = "difficulty";
+    //public static String ZIPCODE = "zipcode";
+    //public static String CITY = "city";
+    //public static String STATE = "state";
+    //public static String COUNTRY = "country";
+    //public static String GEAR = "gear";
+    //public static String CONDITIONS = "conditions";
+    //public static String PET_FRIENDLY = "pet_friendly";
 
     private ArrayList<SpinnerNavItem> navSpinner;
     private NavAdapter mAdapter;
@@ -98,24 +103,16 @@ public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavi
                         // Storing each json item in variable
 
                         Trail trail = new Trail(
-                                  json_trail.getString(TRAIL_ID)
-                                , json_trail.getString(NAME)
-                                , json_trail.getDouble(DISTANCE)
-                                , json_trail.getDouble(ELEVATION)
-                                , json_trail.getString(DURATION)
-                                , json_trail.getString(DIFFICULTY)
-                                , new CustomLocation(
-                                               json_trail.getString(LOCATION_ID)
-                                             , json_trail.getDouble(X)
-                                             , json_trail.getDouble(Y)
-                                             , json_trail.getString(ZIPCODE)
-                                             , json_trail.getString(CITY)
-                                             , json_trail.getString(STATE)
-                                             , json_trail.getString(COUNTRY))
-                                , json_trail.getString(GEAR)
-                                , json_trail.getString(CONDITIONS)
-                                , json_trail.getBoolean(PET_FRIENDLY));
-
+                                json_trail.getString(TRAIL_ID),
+                                json_trail.getString(NAME),
+                                json_trail.getInt(LENGTH),
+                                json_trail.getString(TYPE),
+                                json_trail.getString(PARK),
+                                json_trail.getString(DESCRIPTOR),
+                                json_trail.getDouble(RATING), null,
+                                new CustomLocation( json_trail.getString(LOCATION_ID),
+                                              json_trail.getDouble(X),
+                                              json_trail.getDouble(Y)));
 
                         // adding each child node to HashMap key => value
                         trailsList.add(trail);

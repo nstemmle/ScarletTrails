@@ -11,6 +11,7 @@ public class App extends Application {
     private static boolean logged_in = false;
     private static String profile_id;
     private static Profile user_profile;
+    private static TrailCollection trails;
 
     public static final String NAV_HOME = "Home";
     public static final String NAV_TRAILS = "Trails";
@@ -60,10 +61,17 @@ public class App extends Application {
         super.onCreate();
 
         sContext = getApplicationContext();
-
     }
 
     public static Context getContext() {
         return sContext;
+    }
+
+    public static void setTrailCollection (TrailCollection trailCollection) {
+        trails = trailCollection;
+    }
+
+    public static TrailCollection getTrailCollection() {
+        return trails;
     }
 }

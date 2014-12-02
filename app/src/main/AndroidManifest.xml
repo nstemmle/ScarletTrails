@@ -36,11 +36,7 @@
 
         <activity
             android:name=".ActivityTrailTabHostTest"
-            android:label="Tab_Test"
-            android:parentActivityName=".ActivityHome">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ActivityHome" />
+            android:label="Tab_Test">
         </activity>
 
         <activity
@@ -65,14 +61,6 @@
         <activity
             android:name=".ActivityHome"
             android:label="@string/title_activity_home" >
-        </activity>
-        <activity
-            android:name=".ActivityTrail"
-            android:label="@string/title_activity_trail" >
-        </activity>
-        <activity
-            android:name=".ActivitySettings"
-            android:label="@string/title_activity_settings" >
         </activity>
         <activity
             android:name=".ActivityMap"
@@ -104,19 +92,11 @@
         </activity>
         <activity
             android:name=".ActivityPicture"
-            android:label="Picture"
-            android:parentActivityName=".ActivityPictureCollection">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ActivityPictureCollection" />
+            android:label="Picture">
         </activity>
         <activity
             android:name=".ActivityPictureCollection"
-            android:label="Picture Collection"
-            android:parentActivityName=".ActivityProfile">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ActivityProfile" />
+            android:label="Picture Collection">
         </activity>
         <activity
             android:name=".ActivityEditProfile"

@@ -201,25 +201,21 @@ public class ActivityPicture extends FragmentActivity {// implements ActionBar.O
                 jsonObject = trailFunctions.getTrailById(trailId);
                 try {
                     JSONArray trails = jsonObject.getJSONArray(ActivityTrailsList.TAG_TRAILLIST);
-                    JSONObject json = trails.getJSONObject(0);
+                    //JSONObject json = trails.getJSONObject(0);
+                    JSONObject json_trail = trails.getJSONObject(0);
+                    // Storing each json item in variable
+
                     Trail trail = new Trail(
-                              json.getString(ActivityTrailsList.TRAIL_ID)
-                            , json.getString(ActivityTrailsList.NAME)
-                            , json.getDouble(ActivityTrailsList.DISTANCE)
-                            , json.getDouble(ActivityTrailsList.ELEVATION)
-                            , json.getString(ActivityTrailsList.DURATION)
-                            , json.getString(ActivityTrailsList.DIFFICULTY)
-                            , new CustomLocation(
-                                                 json.getString(ActivityTrailsList.LOCATION_ID)
-                                               , json.getDouble(ActivityTrailsList.X)
-                                               , json.getDouble(ActivityTrailsList.Y)
-                                               , json.getString(ActivityTrailsList.ZIPCODE)
-                                               , json.getString(ActivityTrailsList.CITY)
-                                               , json.getString(ActivityTrailsList.STATE)
-                                               , json.getString(ActivityTrailsList.COUNTRY))
-                            , json.getString(ActivityTrailsList.GEAR)
-                            , json.getString(ActivityTrailsList.CONDITIONS)
-                            , json.getBoolean(ActivityTrailsList.PET_FRIENDLY));
+                            json_trail.getString(ActivityTrailsList.TRAIL_ID),
+                            json_trail.getString(ActivityTrailsList.NAME),
+                            json_trail.getInt(ActivityTrailsList.LENGTH),
+                            json_trail.getString(ActivityTrailsList.TYPE),
+                            json_trail.getString(ActivityTrailsList.PARK),
+                            json_trail.getString(ActivityTrailsList.DESCRIPTOR),
+                            json_trail.getDouble(ActivityTrailsList.RATING), null,
+                            new CustomLocation( json_trail.getString(ActivityTrailsList.LOCATION_ID),
+                                    json_trail.getDouble(ActivityTrailsList.X),
+                                    json_trail.getDouble(ActivityTrailsList.Y)));
 
                     Intent intent = new Intent(getApplicationContext(), ActivityTrailTabHostTest.class);
                     intent.putExtra("trail", trail);

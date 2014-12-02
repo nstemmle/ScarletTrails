@@ -1,239 +1,156 @@
 package csc_380_project.scarlettrails;
 
+import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
-import org.json.JSONException;
+import com.google.android.gms.maps.GoogleMap;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Random;
-
 /**
  * Created by Nathan on 10/16/2014.
  */
-class Trail implements Parcelable {
-    public static final String DURATION_SHORT = "Short";
-    public static final String DURATION_MEDIUM = "Medium";
-    public static final String DURATION_LONG = "Long";
-    public static final String DURATION_MARATHON = "Marathon";
-
-    public static final String DIFFICULTY_EASY = "Easy";
-    public static final String DIFFICULTY_MEDIUM = "Normal";
-    public static final String DIFFICULTY_CHALLENGING = "Challenging";
-    public static final String DIFFICULTY_EXTREME = "Extreme";
-
+import java.util.Comparator;
+import java.util.List;
+import java.util.ArrayList;
+/**
+ * Created by Nathan on 10/16/2014.
+ */
+public class Trail implements Parcelable {
     private final String trailId;
     private final String name;
-    private final Double distance; //Distance in yards, feet, or meters? Should units be changeable?
-    private final Double elevation;
-    private final String duration;
-    private final String difficulty;
-    private final CustomLocation mCustomLocation;
-    private final String gear;
-    private final String trailConditions;
-    private final boolean petFriendly;
-    private PictureCollection pictures;
-    private PointOfInterestCollection POIs;
-    private Double rating;
-    private Forecast mForecast;
+    private final int length; //Distance in feet
 
-    Trail(String trailId, String name, Double distance, Double elevation, String duration, String difficulty,
-                CustomLocation mCustomLocation, String gear, String trailConditions, boolean petFriendly) {
+    private final String type;
+    private final String park;
+    private final String descriptor;
+
+    private final CustomLocation start;
+
+    private List<TrailSegment> segments;
+
+    private Double rating;
+
+    public Trail(String trailId, String name, int length, String type, String park, String descriptor, double rating, List<List<CustomLocation>> coordinateLists, CustomLocation start) {
         this.trailId = trailId;
         this.name = name;
-        this.distance = distance;
-        this.elevation = elevation;
-        this.duration = duration;
-        this.difficulty = difficulty;
-        this.mCustomLocation = mCustomLocation;
-        this.gear = gear;
-        this.trailConditions = trailConditions;
-        this.petFriendly = petFriendly;
+        this.length = length;
+        this.type = type;
+        this.park = park;
+        this.descriptor = descriptor;
+        this.rating = rating;
+        this.start = start;
 
-        //Random rating for now
-        Random r = new Random();
-        setRating(r.nextDouble() + 4);
+        if (coordinateLists == null)
+            segments = new ArrayList<TrailSegment>();
+        else
+            segments = new ArrayList<TrailSegment>(coordinateLists.size());
+        if (coordinateLists != null) {
+            for (List<CustomLocation> coords : coordinateLists) {
+                segments.add(new TrailSegment(coords));
+            }
+        }
+
+        //start = segments.get(0).getLocation(0);
     }
 
-    //Parcels must be retrieved FIFO - retrieve things first that were put in first
-    /*
-        dest.writeString(trailId);
-        dest.writeString(name);
-        dest.writeDouble(distance);
-        dest.writeDouble(elevation);
-        dest.writeString(duration);
-        dest.writeString(difficulty);
-        dest.writeString(gear);
-        dest.writeString(trailConditions);
-        dest.writeInt((petFriendly) ? 1 : 0);
-        dest.writeDouble((rating != null) ? rating : -1.0);
-        if (mCustomLocation != null)
-            mCustomLocation.writeToParcel(dest, flags);
-     */
     Trail(Parcel in) {
         trailId = in.readString();
         name = in.readString();
-        distance = in.readDouble();
-        elevation = in.readDouble();
-        duration = in.readString();
-        difficulty = in.readString();
-        gear = in.readString();
-        trailConditions = in.readString();
-        petFriendly = in.readInt() == 1;
-        Double tempRating = in.readDouble();
-        rating = tempRating >= 0 ? tempRating : null;
+        length = in.readInt();
+        type = in.readString();
+        park = in.readString();
+        descriptor = in.readString();
+        rating = in.readDouble();
+        start = new CustomLocation(in);
 
-        //Next values should be CustomLocation values if values exist
-        if (in.dataAvail() > 0)
-            mCustomLocation = new CustomLocation(in);
-        else {
-            mCustomLocation = null;
-            Log.e("Trail.java","Custom Location in Trail(Parcel in) was null; debug");
+        segments = new ArrayList<TrailSegment>(in.readInt());
+
+        while (in.dataAvail() > 0) {
+            segments.add(new TrailSegment(in));
         }
     }
 
-    public Double getRating() {
-        return rating;
+    //@nstemmle
+    @SuppressLint("ParcelCreator")
+    private class TrailSegment implements Parcelable {
+        private List<CustomLocation> coordinates;
+
+        public TrailSegment(List<CustomLocation> coordinates) {
+            this.coordinates = coordinates;
+        }
+
+        /*public void printSelf() {
+            for (CustomLocation loc : coordinates) {
+                System.out.println(loc.toString());
+            }
+        }*/
+
+        public CustomLocation getLocation(int index) {
+            return coordinates.get(index);
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        TrailSegment(Parcel in) {
+            coordinates = new ArrayList<CustomLocation>(in.readInt());
+
+            while (in.dataAvail() > 0) {
+                coordinates.add(new CustomLocation(in));
+            }
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(coordinates.size());
+
+            for (CustomLocation loc : coordinates)
+                loc.writeToParcel(dest, flags);
+        }
+
+        private void addTrailMarkersToMap(GoogleMap map, LocationWrapper locWrapper) {
+            for (CustomLocation loc : coordinates) {
+                locWrapper.addMarkerAtLocation(map, loc, "", false);
+            }
+        }
+
+        /*public drawOnMap(GoogleMap map) {
+
+        }*/
     }
 
-    public Forecast getForecast() {
-        return mForecast;
-    }
+    public String getTrailId() { return trailId; }
 
-    public boolean isPetFriendly() {
-        return petFriendly;
-    }
+    public String getName() { return name; }
 
-    public String getTrailId() {
-        return trailId;
-    }
+    public int getLength() { return length; }
 
-    public String getName() {
-        return name;
-    }
+    public String getType() { return type; }
 
-    public Double getDistance() {
-        return distance;
-    }
+    public String getPark() { return park; }
 
-    public Double getElevation() {
-        return elevation;
-    }
+    public Double getRating() { return rating; }
 
-    public String getDuration() {
-        return duration;
-    }
-
-    public String getDifficulty() {
-        return difficulty;
-    }
+    public String getDescriptor() { return descriptor; }
 
     public CustomLocation getLocation() {
-        return mCustomLocation;
+        return start;
     }
 
-    public String getGear() {
-        return gear;
+    public void addTrailMarkersToMap(GoogleMap map, LocationWrapper locWrapper) {
+        for (TrailSegment seg : segments) {
+            seg.addTrailMarkersToMap(map, locWrapper);
+        }
     }
 
-    public String getTrailConditions() {
-        return trailConditions;
+    @Override
+    public String toString() {
+        return "trailId: " + trailId + ", name: " + name + ", segments: " + segments.size() + ", length: " + length + ", type: " + type + ", park: " + park + ", descriptor: " + descriptor + ", rating: " + rating;
     }
-
-    public void setRating(Double d) {
-        this.rating = d;
-    }
-    
-
-
-    //Creates a comparator object that can be used to sort a collection of trails (TrailCollection) by the specified criteria
-    //e.g. Collections.Sort(TrailCollectionInstance, Trail.getTrailIdComparator());
-    static Comparator<Trail> getTrailIdComaparator() {
-        return new Comparator<Trail>() {
-            @Override
-            public int compare(Trail lhs, Trail rhs) {
-                return lhs.trailId.compareTo(rhs.trailId);
-            }
-        };
-    }
-    //Creates a comparator object that can be used to sort a collection of trails (TrailCollection) by the specified criteria
-    //e.g. Collections.Sort(TrailCollectionInstance, Trail.getTrailIdComparator());
-    static Comparator<Trail> getTrailNameComaparator() {
-        return new Comparator<Trail>() {
-            @Override
-            public int compare(Trail lhs, Trail rhs) {
-                return lhs.name.compareTo(rhs.name);
-            }
-        };
-    }
-
-    //Creates a comparator object that can be used to sort a collection of trails (TrailCollection) by the specified criteria
-    //e.g. Collections.Sort(TrailCollectionInstance, Trail.getTrailIdComparator());
-    static Comparator<Trail> getTrailRatingComaparator() {
-        return new Comparator<Trail>() {
-            @Override
-            public int compare(Trail lhs, Trail rhs) {
-                return lhs.rating.compareTo(rhs.rating);
-            }
-        };
-    }
-
-    static Comparator<Trail> getTrailRatingDescendingComaparator() {
-        return new Comparator<Trail>() {
-            @Override
-            public int compare(Trail lhs, Trail rhs) {
-                return rhs.rating.compareTo(lhs.rating);
-            }
-        };
-    }
-
-    //Creates a comparator object that can be used to sort a collection of trails (TrailCollection) by the specified criteria
-    //e.g. Collections.Sort(TrailCollectionInstance, Trail.getTrailIdComparator());
-    static Comparator<Trail> getTrailDistanceComaparator() {
-        return new Comparator<Trail>() {
-            @Override
-            public int compare(Trail lhs, Trail rhs) {
-                return lhs.distance.compareTo(rhs.distance);
-            }
-        };
-    }
-
-    //Creates a comparator object that can be used to sort a collection of trails (TrailCollection) by the specified criteria
-    //e.g. Collections.Sort(TrailCollectionInstance, Trail.getTrailIdComparator());
-    static Comparator<Trail> getTrailElevationComaparator() {
-        return new Comparator<Trail>() {
-            @Override
-            public int compare(Trail lhs, Trail rhs) {
-                return lhs.elevation.compareTo(rhs.elevation);
-            }
-        };
-    }
-
-    //Creates a comparator object that can be used to sort a collection of trails (TrailCollection) by the specified criteria
-    //e.g. Collections.Sort(TrailCollectionInstance, Trail.getTrailIdComparator());
-    /*static Comparator<Trail> getTrailDifficultyComaparator() {
-        return new Comparator<Trail>() {
-            @Override
-            public int compare(Trail lhs, Trail rhs) {
-                return lhs.difficulty - rhs.difficulty;
-            }
-        };
-    }*/
-
-    //Creates a comparator object that can be used to sort a collection of trails (TrailCollection) by the specified criteria
-    //e.g. Collections.Sort(TrailCollectionInstance, Trail.getTrailIdComparator());
-    /*static Comparator<Trail> getTrailDurationComaparator() {
-        return new Comparator<Trail>() {
-            @Override
-            public int compare(Trail lhs, Trail rhs) {
-                return lhs.duration - rhs.duration;
-            }
-        };
-    }*/
 
     /** Static field used to regenerate object, individually or as arrays */
     public static final Parcelable.Creator<Trail> CREATOR = new Parcelable.Creator<Trail>() {
@@ -254,15 +171,87 @@ class Trail implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(trailId);
         dest.writeString(name);
-        dest.writeDouble(distance);
-        dest.writeDouble(elevation);
-        dest.writeString(duration);
-        dest.writeString(difficulty);
-        dest.writeString(gear);
-        dest.writeString(trailConditions);
-        dest.writeInt((petFriendly) ? 1 : 0);
-        dest.writeDouble((rating != null) ? rating : -1.0);
-        if (mCustomLocation != null)
-            mCustomLocation.writeToParcel(dest, flags);
+        dest.writeInt(length);
+        dest.writeString(type);
+        dest.writeString(park);
+        dest.writeString(descriptor);
+        dest.writeDouble(rating);
+        start.writeToParcel(dest, flags);
+        //Number of segments
+        dest.writeInt(segments.size());
+        start.writeToParcel(dest,flags);
+        for (TrailSegment segment : segments)
+            segment.writeToParcel(dest, flags);
+    }
+
+    /*public void printSelf() {
+        System.out.println(toString());
+        for (TrailSegment segment : segments) {
+            segment.printSelf();
+        }
+    }*/
+
+    //Creates a comparator object that can be used to sort a collection of trails (TrailCollection) by the specified criteria
+    //e.g. Collections.Sort(TrailCollectionInstance, Trail.getTrailIdComparator());
+    static Comparator<Trail> getTrailIdComparator() {
+        return new Comparator<Trail>() {
+            @Override
+            public int compare(Trail lhs, Trail rhs) {
+                //return lhs.trailId.compareTo(rhs.trailId);
+                return Integer.valueOf(lhs.trailId) - Integer.valueOf(rhs.trailId);
+            }
+        };
+    }
+    //Creates a comparator object that can be used to sort a collection of trails (TrailCollection) by the specified criteria
+    //e.g. Collections.Sort(TrailCollectionInstance, Trail.getTrailIdComparator());
+    static Comparator<Trail> getTrailNameComparator() {
+        return new Comparator<Trail>() {
+            @Override
+            public int compare(Trail lhs, Trail rhs) {
+                return lhs.name.compareToIgnoreCase(rhs.name);
+            }
+        };
+    }
+
+    //Creates a comparator object that can be used to sort a collection of trails (TrailCollection) by the specified criteria
+    //e.g. Collections.Sort(TrailCollectionInstance, Trail.getTrailIdComparator());
+    static Comparator<Trail> getTrailParkComparator() {
+        return new Comparator<Trail>() {
+            @Override
+            public int compare(Trail lhs, Trail rhs) {
+                return lhs.park.compareToIgnoreCase(rhs.park);
+            }
+        };
+    }
+
+    //Creates a comparator object that can be used to sort a collection of trails (TrailCollection) by the specified criteria
+    //e.g. Collections.Sort(TrailCollectionInstance, Trail.getTrailIdComparator());
+    static Comparator<Trail> getTrailRatingComparator() {
+        return new Comparator<Trail>() {
+            @Override
+            public int compare(Trail lhs, Trail rhs) {
+                return lhs.rating.compareTo(rhs.rating);
+            }
+        };
+    }
+
+    static Comparator<Trail> getTrailRatingDescendingComparator() {
+        return new Comparator<Trail>() {
+            @Override
+            public int compare(Trail lhs, Trail rhs) {
+                return rhs.rating.compareTo(lhs.rating);
+            }
+        };
+    }
+
+    //Creates a comparator object that can be used to sort a collection of trails (TrailCollection) by the specified criteria
+    //e.g. Collections.Sort(TrailCollectionInstance, Trail.getTrailIdComparator());
+    static Comparator<Trail> getTrailLengthComparator() {
+        return new Comparator<Trail>() {
+            @Override
+            public int compare(Trail lhs, Trail rhs) {
+                return lhs.length - rhs.length;
+            }
+        };
     }
 }

@@ -1,13 +1,19 @@
 package csc_380_project.scarlettrails;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.google.android.gms.maps.GoogleMap;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Nathan on 10/17/2014.
  */
-class TrailCollection {
-    private ArrayList<Trail> trails;
+public class TrailCollection implements Parcelable {
+    private List<Trail> trails;
 
     TrailCollection() {
         trails = new ArrayList<Trail>();
@@ -34,43 +40,36 @@ class TrailCollection {
         trails.remove(getTrailById(id));
     }
 
-    public void sortByIds() {
-        Collections.sort(trails, Trail.getTrailIdComaparator());
+    public void sortById() {
+        Collections.sort(trails, Trail.getTrailIdComparator());
     }
 
     public void sortByName() {
-        Collections.sort(trails, Trail.getTrailNameComaparator());
+        Collections.sort(trails, Trail.getTrailNameComparator());
     }
 
     public void sortByRating() {
-        Collections.sort(trails, Trail.getTrailRatingComaparator());
+        Collections.sort(trails, Trail.getTrailRatingComparator());
     }
 
     public void sortByRatingDescending() {
-        Collections.sort(trails, Trail.getTrailRatingDescendingComaparator());
+        Collections.sort(trails, Trail.getTrailRatingDescendingComparator());
     }
 
-    public void sortByDistance() {
-        Collections.sort(trails, Trail.getTrailDistanceComaparator());
+    public void sortByLength() {
+        Collections.sort(trails, Trail.getTrailLengthComparator());
     }
 
-    public void sortByElevation() {
-        Collections.sort(trails, Trail.getTrailElevationComaparator());
+    public void sortByPark() {
+        Collections.sort(trails, Trail.getTrailParkComparator());
     }
 
-    /*public void sortByDifficulty() {
-        Collections.sort(trails, Trail.getTrailDifficultyComaparator());
-    }*/
-
-    /*public void sortByDuration() {
-        Collections.sort(trails, Trail.getTrailDurationComaparator());
-    }*/
 
     Trail getTrailbyName(String name) {
         sortByName();
-        Trail dummytrail = new Trail("0",name,null,null,"","",null,"","",false);
+        Trail dummytrail = new Trail(null,name,0,null,null,null,0d,null, null);
 
-        int index = Collections.binarySearch(trails, dummytrail, Trail.getTrailNameComaparator());
+        int index = Collections.binarySearch(trails, dummytrail, Trail.getTrailNameComparator());
 
         if (index >= 0)
             return trails.get(index);
@@ -79,12 +78,12 @@ class TrailCollection {
     }
 
     Trail getTrailById(String trailId) {
-        sortByIds();
-        Trail dummyTrail = new Trail(trailId, null, null, null, "", "", null, null, null, false);
+        sortById();
+        Trail dummyTrail = new Trail(trailId,null,0,null,null,null,0d,null, null);
         //Collections framework requires searching the list for an object so a dummy object
         //is created in this scope with the trailID initialized
 
-        int index = Collections.binarySearch(trails, dummyTrail, Trail.getTrailIdComaparator());
+        int index = Collections.binarySearch(trails, dummyTrail, Trail.getTrailIdComparator());
         //index will be positive if the trail is found in the list
         //If the trail represented by the given id is not found in the list,
         // a negative value will be returned indicating where it would be inserted into the list
@@ -108,4 +107,49 @@ class TrailCollection {
         return subCollection;
     }
 
+    public TrailCollection createSubCollectionByPark(String park) {
+        TrailCollection subCollection = new TrailCollection();
+        sortByPark();
+        for (Trail t : trails) {
+            if (t.getPark().compareToIgnoreCase(park) > 0)
+                break;
+            subCollection.trails.add(t);
+        }
+        return subCollection;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(trails.size());
+
+        for (Trail t : trails) {
+            t.writeToParcel(dest,flags);
+        }
+    }
+
+    TrailCollection(Parcel in) {
+        trails = new ArrayList<Trail>(in.readInt());
+
+        while (in.dataAvail() > 0) {
+            trails.add(new Trail(in));
+        }
+    }
+
+    public void addTrailMarkersToMap(GoogleMap map, LocationWrapper locWrapper) {
+        for (Trail t : trails) {
+            t.addTrailMarkersToMap(map, locWrapper);
+        }
+    }
+
+    /*public void printSelf() {
+        sortById();
+        for (Trail t : trails) {
+            t.printSelf();
+        }
+    }*/
 }

@@ -14,14 +14,12 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -160,27 +158,6 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
         Log.e(TAG, "mTrail != null: " + String.valueOf(mTrail != null));
         Log.e(TAG,"mTrail.getName() " + mTrail.getName());
 
-        //Trail difficulty
-        ((TextView)findViewById(R.id.tab_trail_textview_difficulty_value)).setText(mTrail.getDifficulty());
-
-        //Trail distance
-        ((TextView)findViewById(R.id.tab_trail_textview_distance_value)).setText(String.valueOf(mTrail.getDistance()) + " mi");
-
-        //Trail duration
-        ((TextView)findViewById(R.id.tab_trail_textview_duration_value)).setText(mTrail.getDuration());
-
-        //Trail elevation
-        ((TextView)findViewById(R.id.tab_trailTxtViewElevationValue)).setText(String.valueOf(mTrail.getElevation()) + " ft");
-
-        //Trail gear
-        ((TextView)findViewById(R.id.tab_trail_textview_gear_value)).setText(mTrail.getGear());
-
-        //Trail conditions
-        ((TextView)findViewById(R.id.tab_trail_textview_conditions_value)).setText(mTrail.getTrailConditions());
-
-        //Trail pet friendly
-        ((TextView)findViewById(R.id.tab_trail_textview_petfriendly_value)).setText(mTrail.isPetFriendly() ? "Yes" : "No");
-
         //Trail temp max
         ((TextView)findViewById(R.id.tab_trail_textview_tempmax_value)).setText(String.valueOf(mForecast.getTempMax() + "°F"));
 
@@ -216,8 +193,8 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
         stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
 
         mLocWrapper.clearMap(mMap);
-        mLocWrapper.centerCameraOnCustomLocation(mMap, mTrail.getLocation(), LocationWrapper.STREET_ZOOM);
-        Marker marker = mLocWrapper.addMarkerAtCustomLocation(mMap, mTrail.getLocation(), mTrail.getName(), true);
+        mLocWrapper.centerCameraOnLocation(mMap, mTrail.getLocation(), LocationWrapper.STREET_ZOOM);
+        Marker marker = mLocWrapper.addMarkerAtLocation(mMap, mTrail.getLocation(), mTrail.getName(), true);
         marker.setSnippet("Click me for directions.");
         marker.showInfoWindow();
 
