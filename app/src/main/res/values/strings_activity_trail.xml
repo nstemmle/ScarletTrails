@@ -23,4 +23,26 @@
     <string name="trail_textview_sunset_label">Sunset: </string>
 
 
+
+    <string name="trail_textview_length_value"> </string>
+
+    <string name="trail_textview_description_value"> </string>
+
+    <string name="trail_textview_type_value"></string>
+
+    <string name="trail_textview_park_value"> </string>
+
+    <string name="trail_textview_weather_value"> </string>
+
+    <string name="trail_textview_trail_value"> </string>
+
+    <string name="trail_textview_tempmin_value"> </string>
+
+    <string name="trail_textview_tempmax_value"> </string>
+
+    <string name="trail_textview_sunrise_value"> </string>
+
+    <string name="trail_textview_sunset_value"> </string>
+
+
 </resources>
