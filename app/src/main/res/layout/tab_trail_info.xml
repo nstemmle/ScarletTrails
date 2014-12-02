@@ -78,6 +78,73 @@
                         android:layout_centerHorizontal="true" />
                 </RelativeLayout>
 
+                <!--TextViews for Trail park label-->
+                <RelativeLayout
+                    android:id="@id/tab_trail_relativelayout_park"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView style="@style/TextWhiteStyle"
+                        android:id="@id/tab_trail_textview_park_label"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="1.0"
+                        android:text="@string/trail_textview_park_label"/>
+                </RelativeLayout>
+
+                <!--TextViews for Trail park value-->
+                <RelativeLayout
+                    android:id="@id/tab_trail_relativelayout_park"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView style="@style/TextWhiteStyle"
+                        android:id="@id/tab_trail_textview_park_value"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="1.0"
+                        android:text="@string/trail_textview_park_value"/>
+                </RelativeLayout>
+
+                <!--TextViews for Trail description label-->
+                <RelativeLayout
+                    android:id="@id/tab_trail_relativelayout_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView style="@style/TextWhiteStyle"
+                        android:id="@id/tab_trail_textview_description_label"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="1.0"
+                        android:text="@string/trail_textview_description_label"/>
+
+                </RelativeLayout>
+
+                <!--TextViews for Trail description value-->
+                <RelativeLayout
+                    android:id="@id/tab_trail_relativelayout_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView style="@style/TextWhiteStyle"
+                        android:id="@id/tab_trail_textview_description_value"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="1.0"
+                        android:text="@string/trail_textview_description_value"/>
+                </RelativeLayout>
+
                 <!--TextViews for Trail length-->
                 <RelativeLayout
                     android:id="@id/tab_trail_relativelayout_length"
@@ -128,73 +195,6 @@
                         android:layout_height="wrap_content"
                         android:alpha="1.0"
                         android:text="@string/trail_textview_type_value"/>
-                </RelativeLayout>
-
-                <!--TextViews for Trail description label-->
-                <RelativeLayout
-                    android:id="@id/tab_trail_relativelayout_park"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView style="@style/TextWhiteStyle"
-                        android:id="@id/tab_trail_textview_park_label"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha="1.0"
-                        android:text="@string/trail_textview_park_label"/>
-                </RelativeLayout>
-
-                <!--TextViews for Trail description value-->
-                <RelativeLayout
-                    android:id="@id/tab_trail_relativelayout_park"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView style="@style/TextWhiteStyle"
-                        android:id="@id/tab_trail_textview_park_value"
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha="1.0"
-                        android:text="@string/trail_textview_park_value"/>
-                </RelativeLayout>
-
-                <!--TextViews for Trail description label-->
-                <RelativeLayout
-                    android:id="@id/tab_trail_relativelayout_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView style="@style/TextWhiteStyle"
-                        android:id="@id/tab_trail_textview_description_label"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha="1.0"
-                        android:text="@string/trail_textview_description_label"/>
-
-                </RelativeLayout>
-
-                <!--TextViews for Trail description value-->
-                <RelativeLayout
-                    android:id="@id/tab_trail_relativelayout_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView style="@style/TextWhiteStyle"
-                        android:id="@id/tab_trail_textview_description_value"
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha="1.0"
-                        android:text="@string/trail_textview_description_value"/>
                 </RelativeLayout>
 
 
