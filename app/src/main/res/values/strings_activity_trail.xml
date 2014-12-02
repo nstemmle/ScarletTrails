@@ -34,9 +34,9 @@
 
     <string name="trail_textview_trail_value"> A Trail</string>
 
-    <string name="trail_textview_tempmin_value"> 32°F </string>
+    <string name="trail_textview_tempmin_value"> 23°F </string>
 
-    <string name="trail_textview_tempmax_value"> 23°F </string>
+    <string name="trail_textview_tempmax_value"> 32°F </string>
 
     <string name="trail_textview_sunrise_value">6:30am </string>
 
