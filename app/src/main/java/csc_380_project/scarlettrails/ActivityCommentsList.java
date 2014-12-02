@@ -42,6 +42,9 @@ public class ActivityCommentsList extends ListActivity implements ActionBar.OnNa
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setTheme(R.style.AppTheme);
         initializeNavigationBar();
+        
+        DialogFragment dialog = new CommentDialogFragment();
+        dialog.show(getFragmentManager(), "NoticeDialogFragment");
 
         Bundle extras = getIntent().getExtras();
         String searchKey = "";
