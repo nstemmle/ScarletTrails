@@ -28,31 +28,27 @@ class Trail implements Parcelable {
 
     private final String trailId;
     private final String name;
-    private final Double distance; //Distance in yards, feet, or meters? Should units be changeable?
-    private final Double elevation;
-    private final String duration;
-    private final String difficulty;
+    private final String type;
+    private final String park;
+    private final Double length; //Distance in yards, feet, or meters? Should units be changeable?
+    private final String description;
     private final CustomLocation mCustomLocation;
-    private final String gear;
-    private final String trailConditions;
-    private final boolean petFriendly;
+
     private PictureCollection pictures;
     private PointOfInterestCollection POIs;
     private Double rating;
     private Forecast mForecast;
 
-    Trail(String trailId, String name, Double distance, Double elevation, String duration, String difficulty,
-                CustomLocation mCustomLocation, String gear, String trailConditions, boolean petFriendly) {
+    Trail(String trailId, String name, Double length, Double elevation, String park, String duration, String description, String type, String difficulty,
+                CustomLocation mCustomLocation, String gear,  boolean petFriendly) {
         this.trailId = trailId;
         this.name = name;
-        this.distance = distance;
-        this.elevation = elevation;
-        this.duration = duration;
-        this.difficulty = difficulty;
+        this.length = length;
+        this.description = description;
+        this.park = park;
+        this.type = type;
         this.mCustomLocation = mCustomLocation;
-        this.gear = gear;
-        this.trailConditions = trailConditions;
-        this.petFriendly = petFriendly;
+
 
         //Random rating for now
         Random r = new Random();
@@ -77,13 +73,10 @@ class Trail implements Parcelable {
     Trail(Parcel in) {
         trailId = in.readString();
         name = in.readString();
-        distance = in.readDouble();
-        elevation = in.readDouble();
-        duration = in.readString();
-        difficulty = in.readString();
-        gear = in.readString();
-        trailConditions = in.readString();
-        petFriendly = in.readInt() == 1;
+        length = in.readDouble();
+        description = in.readString();
+        type = in.readString();
+        park = in.readString();
         Double tempRating = in.readDouble();
         rating = tempRating >= 0 ? tempRating : null;
 
@@ -100,14 +93,6 @@ class Trail implements Parcelable {
         return rating;
     }
 
-    public Forecast getForecast() {
-        return mForecast;
-    }
-
-    public boolean isPetFriendly() {
-        return petFriendly;
-    }
-
     public String getTrailId() {
         return trailId;
     }
@@ -116,38 +101,24 @@ class Trail implements Parcelable {
         return name;
     }
 
-    public Double getDistance() {
-        return distance;
+    public Double getLength() {
+        return length;
     }
 
-    public Double getElevation() {
-        return elevation;
-    }
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public String getDifficulty() {
-        return difficulty;
-    }
+    public String getDescription(){ return description; }
 
     public CustomLocation getLocation() {
         return mCustomLocation;
     }
 
-    public String getGear() {
-        return gear;
-    }
-
-    public String getTrailConditions() {
-        return trailConditions;
-    }
-
     public void setRating(Double d) {
         this.rating = d;
     }
-    
+
+    public String getType(){ return type; }
+
+    public String getPark() { return park; }
+
 
 
     //Creates a comparator object that can be used to sort a collection of trails (TrailCollection) by the specified criteria
@@ -197,43 +168,12 @@ class Trail implements Parcelable {
         return new Comparator<Trail>() {
             @Override
             public int compare(Trail lhs, Trail rhs) {
-                return lhs.distance.compareTo(rhs.distance);
+                return lhs.length.compareTo(rhs.length);
             }
         };
     }
 
-    //Creates a comparator object that can be used to sort a collection of trails (TrailCollection) by the specified criteria
-    //e.g. Collections.Sort(TrailCollectionInstance, Trail.getTrailIdComparator());
-    static Comparator<Trail> getTrailElevationComaparator() {
-        return new Comparator<Trail>() {
-            @Override
-            public int compare(Trail lhs, Trail rhs) {
-                return lhs.elevation.compareTo(rhs.elevation);
-            }
-        };
-    }
 
-    //Creates a comparator object that can be used to sort a collection of trails (TrailCollection) by the specified criteria
-    //e.g. Collections.Sort(TrailCollectionInstance, Trail.getTrailIdComparator());
-    /*static Comparator<Trail> getTrailDifficultyComaparator() {
-        return new Comparator<Trail>() {
-            @Override
-            public int compare(Trail lhs, Trail rhs) {
-                return lhs.difficulty - rhs.difficulty;
-            }
-        };
-    }*/
-
-    //Creates a comparator object that can be used to sort a collection of trails (TrailCollection) by the specified criteria
-    //e.g. Collections.Sort(TrailCollectionInstance, Trail.getTrailIdComparator());
-    /*static Comparator<Trail> getTrailDurationComaparator() {
-        return new Comparator<Trail>() {
-            @Override
-            public int compare(Trail lhs, Trail rhs) {
-                return lhs.duration - rhs.duration;
-            }
-        };
-    }*/
 
     /** Static field used to regenerate object, individually or as arrays */
     public static final Parcelable.Creator<Trail> CREATOR = new Parcelable.Creator<Trail>() {
@@ -254,13 +194,11 @@ class Trail implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(trailId);
         dest.writeString(name);
-        dest.writeDouble(distance);
-        dest.writeDouble(elevation);
-        dest.writeString(duration);
-        dest.writeString(difficulty);
-        dest.writeString(gear);
-        dest.writeString(trailConditions);
-        dest.writeInt((petFriendly) ? 1 : 0);
+        dest.writeDouble(length);
+        dest.writeString(type);
+        dest.writeString(park);
+
+        dest.writeString(type);
         dest.writeDouble((rating != null) ? rating : -1.0);
         if (mCustomLocation != null)
             mCustomLocation.writeToParcel(dest, flags);
