@@ -35,20 +35,6 @@ public class ActivityTrailTabHostTest extends TabActivity {//implements ActionBa
     public static final String TAB_GALLERY = "TAB_GALLERY";
     public static final String TAB_FORECAST = "TAB_FORECAST";
 
-    /*public static enum Tabs {
-        TAB_TRAIL ("TAB_TRAIL", new Intent(ActivityTrail.class)),
-        TAB_GALLERY ("TAB_GALLERY", new Intent(ActivityPictureCollection.class)),
-        TAB_FORECAST ("TAB_FORECAST", new Intent(ActivityForecast.class));
-
-        private final String label;
-        private final Intent intent;
-        Tabs(String tagKey, Intent intent) {
-            this.tagKey = tagkey;
-            this.Intent = intent;
-        }
-        private String getLabel() { return label; }
-    }*/
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
@@ -62,17 +48,11 @@ public class ActivityTrailTabHostTest extends TabActivity {//implements ActionBa
         mTabHost.setup();
 
         initializeTabs();
-        //mTabHost.setOnTabChangedListener(new TabChangeListener());
 
-        if (savedInstanceState == null) {
-            //gps_enabled = getIntent().getBooleanExtra("gpsEnabled", false);
-            //network_enabled = getIntent().getBooleanExtra("networkEnabled", false);
-        } else {
+        if (savedInstanceState != null) {
             mCurrentTab = savedInstanceState.getString(M_CURRENT_TAB);
             mTabHost.setCurrentTabByTag(mCurrentTab);
         }
-
-        //initializeNavigationBar();
     }
 
     private void initializeTabs() {
@@ -99,44 +79,19 @@ public class ActivityTrailTabHostTest extends TabActivity {//implements ActionBa
         mTabHost.addTab(tabSpec);
         textView = (TextView) mTabHost.getTabWidget().getChildAt(2).findViewById(android.R.id.title);
         textView.setTextColor(Color.parseColor("#FFFFFF"));
-
-
-        /*for (int i = 0; i < NUM_TABS; i++) {
-            tabSpec = mTabHost.newTabSpec(TABS_ARRAY[i]);
-            tabSpec.setContent(new TabHost.TabContentFactory() {
-                public View createTabContent(String tag) {
-                    return findViewById(R.id.home_framelayout_content);
-                }
-            });
-            tabSpec.setIndicator(TABS_ARRAY[i]);
-            mTabHost.addTab(tabSpec);
-        }*/
     }
-
-    /*private class TabChangeListener implements TabHost.OnTabChangeListener {
-        @Override
-        public void onTabChanged(String tabId) {
-            mCurrentTab = tabId;
-
-            if (tabId.equals(TAB_TRAIL)) {
-
-            } else if (tabId.equals(TAB_GALLERY)) {
-
-            } else if (tabId.equals(TAB_FORECAST)) {
-
-            }
-        }
-    }*/
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(M_CURRENT_TAB, mCurrentTab);
+        outState.putParcelable("trail", mTrail);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle inState) {
         super.onRestoreInstanceState(inState);
+        mTrail = inState.getParcelable("trail");
         if (inState.containsKey(M_CURRENT_TAB)) {
             mCurrentTab = inState.getString(M_CURRENT_TAB);
             mTabHost.setCurrentTabByTag(mCurrentTab);
@@ -199,63 +154,4 @@ public class ActivityTrailTabHostTest extends TabActivity {//implements ActionBa
             }
         }
     };
-
-    /*private void initializeNavigationBar() {
-        ActionBar mActionBar = getActionBar();
-        assert mActionBar != null;
-        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-
-        navSpinner = new ArrayList<SpinnerNavItem>();
-        //This is how you enter new navigation items. Please use the format provided on next line.
-        navSpinner.add(new SpinnerNavItem(App.NAV_HOME));
-        navSpinner.add(new SpinnerNavItem(App.NAV_TRAILS));
-        navSpinner.add(new SpinnerNavItem(App.NAV_PROFILE));
-        mAdapter = new NavAdapter(getApplicationContext(), navSpinner);
-
-        mActionBar.setListNavigationCallbacks(mAdapter, this);
-        mActionBar.setDisplayShowTitleEnabled(false);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        if (itemPosition == 1) { //Trails selected
-            Intent trails = new Intent(getApplicationContext(), ActivityTrailsList.class);
-            startActivity(trails);
-            return true;
-
-        } else if (itemPosition == 2) { //Profile selected
-            if (App.isUserLoggedIn()) {
-                Intent profile = new Intent(getApplicationContext(), ActivityProfile.class);
-                startActivity(profile);
-                return true;
-            }
-
-            //Prompt the user to log in
-            else {
-                promptUserToLogin();
-            }
-        }
-        return false;
-    }
-
-    private void promptUserToLogin() {
-        AlertDialog.Builder ad = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_DARK);
-        ad.setMessage(R.string.dialog_login_message)
-                .setTitle(R.string.dialog_login_title)
-                .setPositiveButton(R.string.dialog_login_positive_button, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent login = new Intent(getApplicationContext(), LoginActivity.class);
-                        login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        getApplicationContext().startActivity(login);
-                    }
-                })
-                .setNegativeButton(R.string.dialog_login_negative_button, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-        AlertDialog alertDialog = ad.create();
-        alertDialog.show();
-    }*/
 }

@@ -49,10 +49,6 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
     private boolean gps_enabled;
     private boolean network_enabled;
 
-    private boolean gps_ignored = false;
-
-    private static final String KEY_BOOLEAN_GPS_IGNORED = "gps_ignored";
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
@@ -97,8 +93,6 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
                         break;
                      }
                 }
-                //if (markersForMap.contains(lastClicked))
-                //    lastClicked.showInfoWindow();
             }
         });
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -194,15 +188,6 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
 
     public void findClosestMarkersToLocation(int numMarkers, CustomLocation loc) {
         findClosestMarkersToLocation(numMarkers, loc.getLatitude(), loc.getLongitude());
-    }
-
-    public void addTrailCollectionMarkersToMap(TrailCollection tc) {
-        mLocWrapper.clearMap(mMap);
-        for (int i = 0; i < tc.getSize(); i++) {
-            Trail temp = tc.getTrailAtIndex(i);
-            Marker marker = mLocWrapper.addMarkerAtLocation(mMap, temp.getLocation(), temp.getName(), false);
-        }
-        //tc.addTrailMarkersToMap(mMap, mLocWrapper);
     }
 
     @Override
@@ -386,8 +371,10 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
 
     private void removeExtraViews() {
         ViewGroup viewGroup = (ViewGroup) findViewById(R.id.home_relativelayout_extras);
-        viewGroup.removeAllViewsInLayout();
-        ViewGroup viewGroupRoot = (ViewGroup) findViewById(R.id.home_linearlayout_root);
-        viewGroupRoot.removeView(viewGroup);
+        if (viewGroup != null) {
+            viewGroup.removeAllViewsInLayout();
+            ViewGroup viewGroupRoot = (ViewGroup) findViewById(R.id.home_linearlayout_root);
+            viewGroupRoot.removeView(viewGroup);
+        }
     }
 }
