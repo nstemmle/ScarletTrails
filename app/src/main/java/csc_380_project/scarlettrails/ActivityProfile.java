@@ -84,8 +84,6 @@ public class ActivityProfile extends Activity implements ActionBar.OnNavigationL
         });
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -101,10 +99,6 @@ public class ActivityProfile extends Activity implements ActionBar.OnNavigationL
         int id = item.getItemId();
         if (id == R.id.actionbar_search) {
             Intent intent = new Intent(getApplicationContext(), ActivitySearchTrail.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.actionbar_settings) {
-            Intent intent = new Intent(getApplicationContext(), ActivitySettings.class);
             startActivity(intent);
             return true;
         }

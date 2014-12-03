@@ -63,17 +63,9 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
         mLocWrapper = LocationWrapper.getInstance();
         initializeMap();
 
-        //Create dummy trails
-        /*Random r = new Random();
-        trailCollection = new TrailCollection();
-        for (int i = 0; i < 5; i++) {
-            CustomLocation tempLoc = new CustomLocation(generateRandomLatitude(r), generateRandomLongitude(r));
-            trailCollection.addTrail(new Trail(String.valueOf(i), String.valueOf("Trail " + i), (r.nextInt(9000) + 1000.0), (r.nextInt(950) + 50.0), Trail.DURATION_MEDIUM, Trail.DIFFICULTY_MEDIUM, tempLoc, "gear", "conds", true));
-        }*/
-
         trailCollection = App.getTrailCollection();
 
-        addTrailCollectionMarkersToMap(trailCollection);
+        //addTrailCollectionMarkersToMap(trailCollection);
 
         updateMap();
     }
@@ -94,7 +86,7 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
 
     public void addTrailCollectionMarkersToMap(TrailCollection tc) {
         mLocWrapper.clearMap(mMap);
-        //tc.addTrailMarkersToMap(mMap, mLocWrapper);
+        tc.addTrailMarkersToMap(mMap, mLocWrapper);
     }
 
     @Override
@@ -114,12 +106,7 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
             Intent intent = new Intent(getApplicationContext(), ActivitySearchTrail.class);
             startActivity(intent);
             return true;
-        } else if (id == R.id.actionbar_settings) {
-            Intent intent = new Intent(getApplicationContext(), ActivitySettings.class);
-            startActivity(intent);
-            return true;
-        }
-        else if(id == R.id.actionbar_logout) {
+        } else if(id == R.id.actionbar_logout) {
             SharedPreferences settings = getSharedPreferences("UserInfo", 0);
             SharedPreferences.Editor editor = settings.edit();
             editor.remove("Username");
@@ -144,6 +131,17 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
 
         return super.onOptionsItemSelected(item);
     }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            String loginmsg = (String)msg.obj;
+            if(loginmsg.equals("NOTSUCCESS")) {
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        }
+    };
 
     private void initializeNavigationBar() {
         ActionBar mActionBar = getActionBar();
@@ -185,17 +183,6 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
         }
         return false;
     }
-
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            String loginmsg = (String)msg.obj;
-            if(loginmsg.equals("NOTSUCCESS")) {
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
-            }
-        }
-    };
 
     private void promptUserToLogin() {
         AlertDialog.Builder ad = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_DARK);

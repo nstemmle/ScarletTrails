@@ -12,14 +12,18 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.ListActivity;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -141,16 +145,47 @@ public class ActivityCommentsList extends ListActivity implements ActionBar.OnNa
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.actionbar_settings) {
-            Intent settings = new Intent(getApplicationContext(), ActivitySettings.class);
-            startActivity(settings);
-            return true;
-        } else if (id == R.id.actionbar_search){
+        if (id == R.id.actionbar_search) {
             Intent intent = new Intent(getApplicationContext(), ActivitySearchTrail.class);
             startActivity(intent);
+            return true;
+        } else if(id == R.id.actionbar_logout) {
+            SharedPreferences settings = getSharedPreferences("UserInfo", 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.remove("Username");
+            editor.remove("PassWord");
+            editor.commit();
+            Message myMessage=new Message();
+            myMessage.obj="NOTSUCCESS";
+            handler.sendMessage(myMessage);
+            App.clear();
+            finish();
+            return true;
         }
+        else if (id == R.id.actionbar_edit_profile) {
+            if(App.isUserLoggedIn()) {
+                Intent intent = new Intent(getApplicationContext(), ActivityEditProfile.class);
+                startActivity(intent);
+                return true;
+            }
+            else
+                Toast.makeText(this, "You are not logged in. Please, login in to edit your profile", Toast.LENGTH_SHORT).show();
+        }
+
         return super.onOptionsItemSelected(item);
     }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            String loginmsg = (String)msg.obj;
+            if(loginmsg.equals("NOTSUCCESS")) {
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        }
+    };
+
     private void initializeNavigationBar() {
         ActionBar mActionBar = getActionBar();
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);

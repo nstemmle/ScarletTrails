@@ -288,12 +288,7 @@ public class ActivityPicture extends FragmentActivity {// implements ActionBar.O
             Intent intent = new Intent(getApplicationContext(), ActivitySearchTrail.class);
             startActivity(intent);
             return true;
-        } else if (id == R.id.actionbar_settings) {
-            Intent intent = new Intent(getApplicationContext(), ActivitySettings.class);
-            startActivity(intent);
-            return true;
-        }
-        else if(id == R.id.actionbar_logout) {
+        } else if(id == R.id.actionbar_logout) {
             SharedPreferences settings = getSharedPreferences("UserInfo", 0);
             SharedPreferences.Editor editor = settings.edit();
             editor.remove("Username");

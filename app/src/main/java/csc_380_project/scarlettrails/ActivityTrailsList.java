@@ -159,11 +159,7 @@ public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavi
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.actionbar_settings) {
-            Intent settings = new Intent(getApplicationContext(), ActivitySettings.class);
-            startActivity(settings);
-            return true;
-        } else if (id == R.id.actionbar_search){
+        if (id == R.id.actionbar_search){
             Intent intent = new Intent(getApplicationContext(), ActivitySearchTrail.class);
             startActivity(intent);
         }
