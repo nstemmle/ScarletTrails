@@ -142,6 +142,8 @@ public class Trail implements Parcelable {
     }
 
     public void addTrailMarkersToMap(GoogleMap map, LocationWrapper locWrapper) {
+        locWrapper.addMarkerAtLocation(map, start, name, true);
+        locWrapper.centerCameraOnLocation(map, start, locWrapper.COUNTY_ZOOM);
         for (TrailSegment seg : segments) {
             seg.addTrailMarkersToMap(map, locWrapper);
         }

@@ -4,7 +4,6 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,8 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,27 +19,24 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.squareup.picasso.Picasso;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class ActivityProfile extends Activity implements ActionBar.OnNavigationListener {
-
+    private HashMap<String, String> trailMarkers;
+    private Marker lastMarkerClicked;
     private GoogleMap mMap;
     private LocationWrapper mLocWrapper;
     private NavAdapter mAdapter;
     private ArrayList<SpinnerNavItem> navSpinner;
     private ImageButton galleryIcon;
-    private Marker mLocMarker;
-    private Marker lastMarkerClicked;
-    private boolean gps_enabled;
-    private boolean network_enabled;
     private static String KEY_SUCCESS = "success";
     static TrailCollection trailCollection = new TrailCollection();
     Profile userProfile;
@@ -108,12 +102,29 @@ public class ActivityProfile extends Activity implements ActionBar.OnNavigationL
             if (json.getString(KEY_SUCCESS) != null) {
                 String res = json.getString(KEY_SUCCESS);
                 if (Integer.parseInt(res) == 1) {
-
+                    trailMarkers = new HashMap<String, String>();
                     trailCollection.clear();
-                    trailCollection.getTrailCollection(json);
-                    //addTrailCollectionMarkersToMap(trailCollection);
 
-                    //updateMap();
+                    trailCollection.getTrailCollection(json);
+                    for (int i = 0; i < trailCollection.getSize(); i++) {
+                        Trail temp = trailCollection.getTrailAtIndex(i);
+                        Marker marker = mLocWrapper.addMarkerAtLocation(mMap, temp.getLocation(),temp.getName(),true);
+                        trailMarkers.put(marker.getId(), temp.getTrailId());
+                    }
+
+                    mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                        @Override
+                        public void onInfoWindowClick(Marker marker) {
+                            if (trailMarkers.containsKey(marker.getId()))  {
+                                Trail temp = trailCollection.getTrailById(trailMarkers.get(marker.getId()));
+                                if (temp != null) {
+                                    Intent activityTrail = new Intent(getApplicationContext(), ActivityTrailTabHostTest.class);
+                                    activityTrail.putExtra("trail", temp);
+                                    startActivity(activityTrail);
+                                }
+                            }
+                        }
+                    });
 
                 } else {
                     // No Trails Found
@@ -187,68 +198,7 @@ public class ActivityProfile extends Activity implements ActionBar.OnNavigationL
         mActionBar.setListNavigationCallbacks(mAdapter, this);
         mActionBar.setDisplayShowTitleEnabled(false);
     }
-/*
-    private void updateMap() {
-        CustomLocation mLoc;
-        if (!gps_enabled) {
-            if (!network_enabled) {
-                mLoc = mLocWrapper.getCurrentLocation(getApplicationContext());
-            } else {
-                mLoc = mLocWrapper.getCurrentLocation(getApplicationContext(), LocationManager.NETWORK_PROVIDER);
-                if (mLoc == null)
-                    mLoc = mLocWrapper.getCurrentLocation(getApplicationContext());
-                Log.e("ActivityHome:updateMap()", "Retrieving location from network provider failed in updateMap()");
-            }
 
-        } else {
-            mLoc = mLocWrapper.getCurrentLocation(getApplicationContext(), LocationManager.GPS_PROVIDER);
-        }
-
-
-        if (mLoc != null) {
-            mLocMarker = mLocWrapper.addMarkerAtGoogleLocation(mMap, mLoc, "My Location", true);
-            mLocMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-        } else {
-            mLocMarker = mLocWrapper.addMarkerAtLatLng(mMap, LocationWrapper.OSWEGO_COUNTY, null, false);
-            mLocMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-        }
-
-
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                if (marker.getId().equals(mLocMarker.getId())){
-                    return true;
-                }
-                lastMarkerClicked = marker;
-                return false;
-            }
-        });
-
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                if (marker.getId().equals(lastMarkerClicked.getId()) && !marker.getId().equals(mLocMarker.getId()))  {
-                    Trail temp = trailCollection.getTrailbyName(marker.getTitle());
-                    if (temp != null) {
-                        Intent activityTrail = new Intent(getApplicationContext(), ActivityTrailTabHostTest.class);
-                        activityTrail.putExtra("trail", temp);
-                        startActivity(activityTrail);
-                    }
-                }
-            }
-        });
-
-        mLocMarker.showInfoWindow();
-    }
-
-    public void addTrailCollectionMarkersToMap(TrailCollection tc) {
-        mLocWrapper.clearMap(mMap);
-        for (int i = 0; i < tc.getSize(); i++) {
-            Marker temp = mLocWrapper.addTrailMarker(mMap, tc.getTrailAtIndex(i),false);
-        }
-    }
-*/
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         ActionBar mActionBar = getActionBar();
