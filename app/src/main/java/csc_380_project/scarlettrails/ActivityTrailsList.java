@@ -40,6 +40,7 @@ public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavi
     public static String TYPE = "type";
     public static String DESCRIPTOR = "descriptor";
     public static String RATING = "rating";
+    public static String UNNAMED = "Unnamed";
     //public static String DISTANCE = "distance";
     //public static String ELEVATION = "elevation";
     //public static String DURATION = "duration";
@@ -115,7 +116,9 @@ public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavi
                                               json_trail.getDouble(Y)));
 
                         // adding each child node to HashMap key => value
-                        trailsList.add(trail);
+                        if(!trail.getName().equals(UNNAMED)) {
+                            trailsList.add(trail);
+                        }
                     }
 
                     return trailsList;
