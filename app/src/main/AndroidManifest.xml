@@ -36,101 +36,92 @@
 
         <activity
             android:name=".ActivityTrailTabHostTest"
-            android:label="Tab_Test">
+            android:label="Tab_Test"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name=".TabTrail"
             android:label="Trail Info"
-            android:screenOrientation="Portrait">
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name=".TabGallery"
             android:label="Trail Gallery"
-            android:screenOrientation="Portrait">
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name=".TabForecast"
             android:label="Trail Forecast"
-            android:screenOrientation="Portrait">
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name=".LoginActivity"
-            android:label="Login" 
-            android:screenOrientation="Portrait">
+            android:label="Login"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ActivityHome"
-            android:label="@string/title_activity_home" 
-            android:screenOrientation="Portrait">
+            android:label="@string/title_activity_home"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ActivitySettings"
-            android:label="@string/title_activity_settings" 
-            android:screenOrientation="Portrait">
+            android:label="@string/title_activity_settings"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ActivityMap"
-            android:label="@string/title_activity_map" 
-            android:screenOrientation="Portrait">
+            android:label="@string/title_activity_map"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ActivityProfile"
-            android:label="Profile" 
-            android:screenOrientation="Portrait">
+            android:label="Profile"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:label="Register User" 
-            android:screenOrientation="Portrait">
+            android:label="Register User"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ForgotPasswordActivity"
-            android:label="Forgot Password" 
-            android:screenOrientation="Portrait">
+            android:label="Forgot Password"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ActivitySearchTrail"
-            android:label="Search Trail" 
-            android:screenOrientation="Portrait">
+            android:label="Search Trail"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ActivityTrailsList"
             android:label="Trails List"
-            android:screenOrientation="Portrait">
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ActivityCommentsList"
-            android:label="Comments List" 
-            android:screenOrientation="Portrait">
+            android:label="Comments List"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ActivityPicture"
-            android:label="Picture">
             android:label="Picture"
-            android:parentActivityName=".ActivityPictureCollection"
-            android:screenOrientation="Portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ActivityPictureCollection" />
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ActivityPictureCollection"
-            android:label="Picture Collection">
             android:label="Picture Collection"
-            android:parentActivityName=".ActivityProfile"
-            android:screenOrientation="Portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ActivityProfile" />
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ActivityEditProfile"
-            android:label="Edit Profile" 
-            android:screenOrientation="Portrait">
+            android:label="Edit Profile"
+            android:screenOrientation="portrait">
         </activity>
 
         <meta-data
@@ -142,8 +133,8 @@
 
         <activity
             android:name=".Upload"
-            android:label="@string/title_activity_upload" 
-            android:screenOrientation="Portrait">
+            android:label="@string/title_activity_upload"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

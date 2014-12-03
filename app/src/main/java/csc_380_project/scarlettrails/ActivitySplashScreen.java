@@ -59,7 +59,7 @@ public class ActivitySplashScreen extends Activity {
                 try {
                     if (json.getString(KEY_SUCCESS) != null) {
                         String res = json.getString(KEY_SUCCESS);
-                        if(Integer.parseInt(res) == 1){
+                        if (Integer.parseInt(res) == 1) {
                             // user successfully logged in
                             JSONObject json_user = json.getJSONObject("user");
                             Profile profile = new Profile(json.getString(USER_ID),
@@ -76,26 +76,27 @@ public class ActivitySplashScreen extends Activity {
 
                             // Launch Dashboard Screen
                             Intent dashboard = new Intent(getApplicationContext(), ActivityHome.class);
-                            dashboard.putExtra("gpsEnabled", getIntent().getBooleanExtra("gpsEnabled",false));
+                            dashboard.putExtra("gpsEnabled", getIntent().getBooleanExtra("gpsEnabled", false));
                             dashboard.putExtra("networkEnabled", getIntent().getBooleanExtra("networkEnabled", false));
 
                             // Close all views before launching Dashboard
                             dashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(dashboard);
 
-                        // Close Login Screen
-                        finish();
-                    } else {
-                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                        if (!gps_enabled)
-                            intent.putExtra("gpsEnabled", false);
-                        else
-                            intent.putExtra("gpsEnabled", true);
-                        if (!network_enabled)
-                            intent.putExtra("networkEnabled", false);
-                        else
-                            intent.putExtra("networkEnabled", true);
-                        startActivity(intent);
+                            // Close Login Screen
+                            finish();
+                        } else {
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            if (!gps_enabled)
+                                intent.putExtra("gpsEnabled", false);
+                            else
+                                intent.putExtra("gpsEnabled", true);
+                            if (!network_enabled)
+                                intent.putExtra("networkEnabled", false);
+                            else
+                                intent.putExtra("networkEnabled", true);
+                            startActivity(intent);
+                        }
                     }
                 } catch (JSONException e) {
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);

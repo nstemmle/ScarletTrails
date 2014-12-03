@@ -174,7 +174,7 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
 
 
         // Trail description
-        ((TextView) findViewById(R.id.tab_trail_textview_description_value)).setText(mTrail.getDescription());
+        ((TextView) findViewById(R.id.tab_trail_textview_description_value)).setText(mTrail.getDescriptor());
 
         //Trail temp max
         ((TextView)findViewById(R.id.tab_trail_textview_tempmax_value)).setText(String.valueOf(mForecast.getTempMax() + "°F"));
