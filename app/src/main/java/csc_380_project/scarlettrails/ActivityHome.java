@@ -21,20 +21,31 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Nathan on 10/19/2014.
  */
 public class ActivityHome extends Activity implements ActionBar.OnNavigationListener {
+    private Marker lastClicked;
+    private TrailCollection trails;
+    private MarkerCollection markers;
+    private List<Marker> markersForMap;
+    LatLng mapCenter;
+    private Location userLocation;
     private GoogleMap mMap;
     private LocationWrapper mLocWrapper;
     private NavAdapter mAdapter;
     private ArrayList<SpinnerNavItem> navSpinner;
-    private TrailCollection trailCollection;
-    private Marker lastMarkerClicked;
+    private static int numMarkersDisplayed = 10;
+    private static int maxDistance = CustomLocation.FT_PER_MILE * 12;
+
     private boolean gps_enabled;
     private boolean network_enabled;
 
@@ -50,7 +61,11 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
         if (savedInstanceState == null) {
             gps_enabled = getIntent().getBooleanExtra("gpsEnabled", false);
             network_enabled = getIntent().getBooleanExtra("networkEnabled", false);
-            if (!gps_enabled)
+            if (gps_enabled || network_enabled) {
+                App.setGpsIgnored(true);
+                removeExtraViews();
+            }
+            if (!gps_enabled && !App.getGpsIgnored())
                 setContentView(R.layout.activity_home_location_disabled);
             else
                 setContentView(R.layout.activity_home);
@@ -63,30 +78,131 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
         mLocWrapper = LocationWrapper.getInstance();
         initializeMap();
 
-        trailCollection = App.getTrailCollection();
+        trails = App.getTrailCollection();
+        markers = new MarkerCollection();
+        markersForMap = new ArrayList<Marker>(numMarkersDisplayed);
 
-        //addTrailCollectionMarkersToMap(trailCollection);
+        updateDisplayedMarkers();
 
         updateMap();
-    }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean(KEY_BOOLEAN_GPS_IGNORED, gps_ignored);
-    }
+        mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(CameraPosition cameraPosition) {
+                if (CustomLocation.distanceBetweenGPSCoords(cameraPosition.target.latitude, cameraPosition.target.longitude, mapCenter.latitude, mapCenter.longitude) >= 500)
+                    updateDisplayedMarkers();
+                for (Marker m : markersForMap) {
+                    if (m != null && lastClicked != null && m.getPosition().equals(lastClicked.getPosition())) {
+                        m.showInfoWindow();
+                        break;
+                     }
+                }
+                //if (markersForMap.contains(lastClicked))
+                //    lastClicked.showInfoWindow();
+            }
+        });
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                lastClicked  = marker;
+                marker.showInfoWindow();
+                return false;
+            }
+        });
 
-    @Override
-    protected void onRestoreInstanceState(Bundle inState) {
-        super.onRestoreInstanceState(inState);
-        if (inState.containsKey(KEY_BOOLEAN_GPS_IGNORED)) {
-            gps_ignored = inState.getBoolean(KEY_BOOLEAN_GPS_IGNORED);
+        getUserlocation();
+
+        gps_enabled = mLocWrapper.isGPSProviderEnabled(this);
+        network_enabled = mLocWrapper.isNetworkProviderEnabled(this);
+        if (gps_enabled || network_enabled) {
+            removeExtraViews();
+            App.setGpsIgnored(true);
         }
+
+    }
+
+    private void setFilterDistance(int miles) {
+        maxDistance = CustomLocation.FT_PER_MILE * miles;
+    }
+
+    private void updateMap() {
+        if (!gps_enabled) {
+            if (!network_enabled) {
+                userLocation = mLocWrapper.getCurrentLocation(this);
+            } else {
+                userLocation = mLocWrapper.getCurrentLocation(this, LocationManager.NETWORK_PROVIDER);
+                if (userLocation == null)
+                    userLocation = mLocWrapper.getCurrentLocation(this);
+                Log.e("ActivityHome:updateMap()", "Retrieving location from network provider failed in updateMap()");
+            }
+
+        } else {
+            userLocation = mLocWrapper.getCurrentLocation(this, LocationManager.GPS_PROVIDER);
+        }
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                MarkerWrapper temp = markers.getMarkerById(marker.getId());
+                Trail t = null;
+                if (temp != null)
+                        t = trails.getTrailById(temp.getTrailId());
+                if (t != null) {
+                    Intent activityTrail = new Intent(getApplicationContext(), ActivityTrailTabHostTest.class);
+                    activityTrail.putExtra("trail", t);
+                    startActivity(activityTrail);
+                }
+            }
+        });
+    }
+
+    public void updateDisplayedMarkers() {
+        for (Marker m : markersForMap) {
+            m.remove();
+        }
+        markersForMap.clear();
+        mapCenter = mMap.getCameraPosition().target;
+        findClosestMarkersToLocation(numMarkersDisplayed, mapCenter);
+
+        for (int i = 0; i < markers.getSize(); i++) {
+            if (markers.getMarkerAtIndex(i) != null) {
+                markersForMap.add(markers.getMarkerAtIndex(i).createMarker(mMap, mLocWrapper));
+            }
+        }
+    }
+
+    public void findClosestMarkersToLocation(int numMarkers, double lat, double lng) {
+        markers.clear();
+        CustomLocation center = new CustomLocation(lat, lng);
+        int count = 0;
+        for (int i = 0; i < trails.getSize(); i++) {
+            Trail temp = trails.getTrailAtIndex(i);
+            if (CustomLocation.distanceBetweenGPSCoords(temp.getLocation(), center) <= maxDistance && count < numMarkers) {
+                markers.addMarker(new MarkerWrapper(temp.getLocation().getLatitude(), temp.getLocation().getLongitude(), String.valueOf(i), temp.getTrailId(), temp.getName()));
+                count++;
+            }
+        }
+    }
+
+    public void findClosestMarkersToLocation(int numMarkers, LatLng loc) {
+        findClosestMarkersToLocation(numMarkers, loc.latitude, loc.longitude);
+    }
+
+    public void findClosestMarkersToLocation(int numMarkers, Location loc) {
+        findClosestMarkersToLocation(numMarkers, loc.getLatitude(), loc.getLongitude());
+    }
+
+    public void findClosestMarkersToLocation(int numMarkers, CustomLocation loc) {
+        findClosestMarkersToLocation(numMarkers, loc.getLatitude(), loc.getLongitude());
     }
 
     public void addTrailCollectionMarkersToMap(TrailCollection tc) {
         mLocWrapper.clearMap(mMap);
-        tc.addTrailMarkersToMap(mMap, mLocWrapper);
+        for (int i = 0; i < tc.getSize(); i++) {
+            Trail temp = tc.getTrailAtIndex(i);
+            Marker marker = mLocWrapper.addMarkerAtLocation(mMap, temp.getLocation(), temp.getName(), false);
+        }
+        //tc.addTrailMarkersToMap(mMap, mLocWrapper);
     }
 
     @Override
@@ -221,47 +337,50 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
         mLocWrapper.setUpMapWithDefaults(mMap);
     }
 
-    private void updateMap() {
-        Location mLoc;
-        if (!gps_enabled) {
-            if (!network_enabled) {
-                mLoc = mLocWrapper.getCurrentLocation(getApplicationContext());
-            } else {
-                mLoc = mLocWrapper.getCurrentLocation(getApplicationContext(), LocationManager.NETWORK_PROVIDER);
-                if (mLoc == null)
-                    mLoc = mLocWrapper.getCurrentLocation(getApplicationContext());
-                    Log.e("ActivityHome:updateMap()", "Retrieving location from network provider failed in updateMap()");
-            }
+    private void getUserlocation() {
+        Location passiveLoc = mLocWrapper.getCurrentLocation(this, LocationManager.PASSIVE_PROVIDER);
+        double passiveAcc = 0;
+        if (passiveLoc != null) passiveAcc = passiveLoc.getAccuracy();
+        Location gpsLoc = mLocWrapper.getCurrentLocation(this, LocationManager.GPS_PROVIDER);
+        double gpsAcc = 0;
+        if (gpsLoc != null) gpsAcc = gpsLoc.getAccuracy();
+        Location networkLoc = mLocWrapper.getCurrentLocation(this, LocationManager.NETWORK_PROVIDER);
+        double networkAcc = 0;
+        if (networkLoc != null) networkAcc = networkLoc.getAccuracy();
 
+        double bestAcc;
+        Location bestLoc;
+        if (passiveAcc > gpsAcc)  {
+            bestAcc = passiveAcc;
+            bestLoc = passiveLoc;
         } else {
-            mLoc = mLocWrapper.getCurrentLocation(getApplicationContext(), LocationManager.GPS_PROVIDER);
+            bestAcc = gpsAcc;
+            bestLoc = gpsLoc;
         }
 
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                if (marker.getId().equals(lastMarkerClicked.getId()))  {
-                    Trail temp = trailCollection.getTrailbyName(marker.getTitle());
-                    if (temp != null) {
-                        Intent activityTrail = new Intent(getApplicationContext(), ActivityTrailTabHostTest.class);
-                        activityTrail.putExtra("trail", temp);
-                        startActivity(activityTrail);
-                    }
-                }
-            }
-        });
+        if (networkAcc > bestAcc) {
+            bestLoc = networkLoc;
+        }
+        userLocation = mLocWrapper.getCurrentLocation(this);
+        if (bestLoc != null)
+            userLocation = (userLocation.getAccuracy() > bestLoc.getAccuracy()) ? userLocation: bestLoc;
+        if (userLocation != null) {
+            mLocWrapper.centerCameraOnLocation(mMap, userLocation, LocationWrapper.INBETWEEN_ZOOM);
+        }
     }
 
     public void buttonOpenLocationSettingsOnClick(View view) {
+
         mLocWrapper.openLocationSettings(this, true);
         if (mLocWrapper.isGPSProviderEnabled(getApplicationContext())) {
             removeExtraViews();
         }
+
     }
 
     public void buttonIngoreGPSDisabledOnClick(View view) {
         removeExtraViews();
-        gps_ignored = true;
+        App.setGpsIgnored(true);
     }
 
 

@@ -14,6 +14,8 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -49,7 +51,7 @@ import java.util.Date;
  * Created by Nathan on 10/20/2014.
  */
 public class TabTrail extends Activity { //implements ActionBar.OnNavigationListener {
-
+    private static Location userLocation;
     ImageButton btnCommentPage;
     ImageButton btnCheckIn;
     private GoogleMap mMap;
@@ -203,20 +205,55 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
         stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
 
         mLocWrapper.clearMap(mMap);
-        mLocWrapper.centerCameraOnLocation(mMap, mTrail.getLocation(), LocationWrapper.STREET_ZOOM);
+        mLocWrapper.centerCameraOnLocation(mMap, mTrail.getLocation(), LocationWrapper.CITY_ZOOM);
         Marker marker = mLocWrapper.addMarkerAtLocation(mMap, mTrail.getLocation(), mTrail.getName(), true);
         marker.setSnippet("Click me for directions.");
         marker.showInfoWindow();
 
-        /*Location loc = mLocWrapper.getCurrentLocation(getApplicationContext());
-        final CustomLocation mCusLoc = new CustomLocation(loc.getLatitude(), loc.getLongitude());
+        //Location loc = mLocWrapper.getCurrentLocation(getApplicationContext());
+        //final
         final Context context = getApplicationContext();
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                mLocWrapper.launchDirectionsFromCustomLocation(context, mCusLoc, mTrail.getLocation());
-            }
-        });*/
+        final CustomLocation mCusLoc;
+        getUserLocation();
+        if (userLocation != null) {
+            mCusLoc = new CustomLocation(userLocation.getLatitude(), userLocation.getLongitude());
+            mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+                    LocationWrapper.launchDirectionsFromLocation(context, mCusLoc, mTrail.getLocation());
+                }
+            });
+        }
+
+    }
+
+    private void getUserLocation() {
+        Location passiveLoc = mLocWrapper.getCurrentLocation(this, LocationManager.PASSIVE_PROVIDER);
+        double passiveAcc = 0;
+        if (passiveLoc != null) passiveAcc = passiveLoc.getAccuracy();
+        Location gpsLoc = mLocWrapper.getCurrentLocation(this, LocationManager.GPS_PROVIDER);
+        double gpsAcc = 0;
+        if (gpsLoc != null) gpsAcc = gpsLoc.getAccuracy();
+        Location networkLoc = mLocWrapper.getCurrentLocation(this, LocationManager.NETWORK_PROVIDER);
+        double networkAcc = 0;
+        if (networkLoc != null) networkAcc = networkLoc.getAccuracy();
+
+        double bestAcc;
+        Location bestLoc;
+        if (passiveAcc > gpsAcc)  {
+            bestAcc = passiveAcc;
+            bestLoc = passiveLoc;
+        } else {
+            bestAcc = gpsAcc;
+            bestLoc = gpsLoc;
+        }
+
+        if (networkAcc > bestAcc) {
+            bestLoc = networkLoc;
+        }
+        userLocation = mLocWrapper.getCurrentLocation(this);
+        if (bestLoc != null)
+            userLocation = (userLocation.getAccuracy() > bestLoc.getAccuracy()) ? userLocation: bestLoc;
     }
 
     //will add implementation on 11/16

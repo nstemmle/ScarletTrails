@@ -42,6 +42,8 @@ public class ActivitySplashScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         setTheme(R.style.SplashTheme);
+        getWindow().setBackgroundDrawableResource(R.drawable.splash_pic);
+
         LocationWrapper mLocWrapper = LocationWrapper.getInstance();
         boolean gps_enabled = mLocWrapper.isGPSProviderEnabled(getApplicationContext());
         boolean network_enabled = mLocWrapper.isNetworkProviderEnabled(getApplicationContext());
@@ -57,7 +59,7 @@ public class ActivitySplashScreen extends Activity {
             if(isNetworkAvailable()) {
                 // check for login response
                 try {
-                    if (json.getString(KEY_SUCCESS) != null) {
+                    if (json != null && json.getString(KEY_SUCCESS) != null) {
                         String res = json.getString(KEY_SUCCESS);
                         if (Integer.parseInt(res) == 1) {
                             // user successfully logged in
@@ -97,6 +99,15 @@ public class ActivitySplashScreen extends Activity {
                                 intent.putExtra("networkEnabled", true);
                             startActivity(intent);
                         }
+                    }
+                    if (json == null) {
+                        Intent dashboard = new Intent(getApplicationContext(), ActivityHome.class);
+                        dashboard.putExtra("gpsEnabled", getIntent().getBooleanExtra("gpsEnabled", false));
+                        dashboard.putExtra("networkEnabled", getIntent().getBooleanExtra("networkEnabled", false));
+
+                        // Close all views before launching Dashboard
+                        dashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(dashboard);
                     }
                 } catch (JSONException e) {
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);

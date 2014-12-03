@@ -42,6 +42,7 @@ public class LocationWrapper {
     // 21.0f corresponds to displaying an incredibly zoomed in location
     public static final float STATE_ZOOM = 6.0f;
     public static final float COUNTY_ZOOM = 8.0f;
+    public static final float INBETWEEN_ZOOM = 10.0f;
     public static final float CITY_ZOOM = 12.0f; //Might need to be adjusted
     public static final float STREET_ZOOM = 14.0f;
     public static final float TRAIL_ZOOM = 15.0f; //Might need to be adjusted
@@ -144,7 +145,7 @@ public class LocationWrapper {
     public void setUpMapWithDefaults(GoogleMap map) {
         checkMapExists(map);
         //map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(OSWEGO_COUNTY,COUNTY_ZOOM));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(OSWEGO_COUNTY,CITY_ZOOM));
         map.setMyLocationEnabled(true);
         map.getUiSettings().setMyLocationButtonEnabled(true);
     }
@@ -161,7 +162,7 @@ public class LocationWrapper {
 
     //Launches a new system activity to get directions from startCoords to endCoords
     //Typically with Google Maps/Navigation but user has choice if they haven't selected a default
-    public void launchDirectionsFromLocation(Context context, Double latStart, Double lngStart, Double latEnd, Double lngEnd) {
+    public static void launchDirectionsFromLocation(Context context, Double latStart, Double lngStart, Double latEnd, Double lngEnd) {
         String uri = "http://maps.google.com/maps?saddr=" + latStart + "," + lngStart + "&daddr=" + latEnd + "," + lngEnd;
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -170,7 +171,7 @@ public class LocationWrapper {
 
     //Launches a new system activity to get directions from locStart to locEnd
     //Typically with Google Maps/Navigation but user has choice if they haven't selected a default
-    public void launchDirectionsFromLocation(Context context, CustomLocation customLocStart, CustomLocation customLocEnd) {
+    public static void launchDirectionsFromLocation(Context context, CustomLocation customLocStart, CustomLocation customLocEnd) {
         String uri = "http://maps.google.com/maps?saddr=" + customLocStart.getLatitude() + "," + customLocStart.getLongitude() + "&daddr=" + customLocEnd.getLatitude() + "," + customLocEnd.getLongitude();
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -179,7 +180,7 @@ public class LocationWrapper {
 
     //Launches a new system activity to get directions from locStart to locEnd
     //Typically with Google Maps/Navigation but user has choice if they haven't selected a default
-    public void launchDirectionsFromLocation(Context context, Location locStart, Location locEnd) {
+    public static void launchDirectionsFromLocation(Context context, Location locStart, Location locEnd) {
         String uri = "http://maps.google.com/maps?saddr=" + locStart.getLatitude() + "," + locStart.getLongitude() + "&daddr=" + locEnd.getLatitude() + "," + locEnd.getLongitude();
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

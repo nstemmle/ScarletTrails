@@ -11,6 +11,7 @@ public class App extends Application {
     private static boolean logged_in = false;
     private static String profile_id;
     private static Profile user_profile;
+    private static boolean gps_ignored = false;
     private static TrailCollection trails;
 
     public static final String NAV_HOME = "Home";
@@ -73,5 +74,13 @@ public class App extends Application {
 
     public static TrailCollection getTrailCollection() {
         return trails;
+    }
+
+    public static boolean getGpsIgnored() {
+        return gps_ignored;
+    }
+
+    public static void setGpsIgnored(boolean ignored) {
+        gps_ignored = ignored;
     }
 }

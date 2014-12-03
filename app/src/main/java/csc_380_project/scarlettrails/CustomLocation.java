@@ -12,11 +12,11 @@ public class CustomLocation implements Parcelable {
     //Constants for distance and unit conversions
     private static final int RADIUS_EARTH_FEET = 20902253;
 
-    private static final int CM_PER_M = 100;
-    private static final int M_PER_KM = 1000;
-    private static final double CM_PER_INCH = 2.54;
-    private static final int INCH_PER_FOOT = 12;
-    private static final int FT_PER_MILE = 5280;
+    public static final int CM_PER_M = 100;
+    public static final int M_PER_KM = 1000;
+    public static final double CM_PER_INCH = 2.54;
+    public static final int INCH_PER_FOOT = 12;
+    public static final int FT_PER_MILE = 5280;
 
     private final String locationId;
     private final String trailId;

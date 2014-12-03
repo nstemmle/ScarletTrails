@@ -1,0 +1,5 @@
+<root>
+    <item name='java.util.Map.Entry V getValue()'>
+        <annotation name='org.jetbrains.annotations.NotNull' />
+    </item>
+</root>

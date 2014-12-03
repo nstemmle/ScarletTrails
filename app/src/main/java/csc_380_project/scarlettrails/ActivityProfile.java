@@ -19,8 +19,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.Marker;
 import com.squareup.picasso.Picasso;
+import com.google.android.gms.maps.model.Marker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +31,6 @@ import java.util.HashMap;
 
 public class ActivityProfile extends Activity implements ActionBar.OnNavigationListener {
     private HashMap<String, String> trailMarkers;
-    private Marker lastMarkerClicked;
     private GoogleMap mMap;
     private LocationWrapper mLocWrapper;
     private NavAdapter mAdapter;
@@ -227,6 +226,8 @@ public class ActivityProfile extends Activity implements ActionBar.OnNavigationL
 
         //This line currently sets map to center on Oswego County
         mLocWrapper.setUpMapWithDefaults(mMap);
+        mLocWrapper.addMarkerAtLocation(mMap, 45.67, -75.38, "Testing", true);
+        mLocWrapper.centerCameraOnLocation(mMap, 45.67, -76.38, mLocWrapper.COUNTY_ZOOM);
     }
 
     private Handler handler = new Handler() {

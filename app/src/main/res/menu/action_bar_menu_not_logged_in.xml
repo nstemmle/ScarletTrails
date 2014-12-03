@@ -8,9 +8,4 @@
         android:showAsAction="always"
         android:icon="@drawable/ic_action_search"
         />
-    <item
-        android:id="@id/actionbar_settings"
-        android:title="@string/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never" />
 </menu>
