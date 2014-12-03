@@ -56,10 +56,10 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
     private LocationWrapper mLocWrapper;
     private NavAdapter mAdapter;
     private ArrayList<SpinnerNavItem> navSpinner;
-    private Trail mTrail;
+    private static Trail mTrail;
     private static String TAG = "TabTrail.java";
     private Forecast mForecast;
-    private RatingBar rb;
+    private static RatingBar rb;
 
     String fileName = "";
     final String trailId = ActivityTrailTabHostTest.mTrail.getTrailId();
@@ -139,6 +139,11 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
                 }
             }
         });
+    }
+
+    public static void updateRating() {
+        RatingTrail ratingTrail = new RatingTrail();
+        rb.setRating(ratingTrail.getTrailRating(mTrail.getTrailId()));
     }
 
     private void initializeMap() {

@@ -58,6 +58,7 @@ public class RatingDialogFragment extends DialogFragment {
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
+                TabTrail.updateRating();
             }
         });
         builder.setNegativeButton(R.string.trail_rating_dialog_negative, new DialogInterface.OnClickListener() {
