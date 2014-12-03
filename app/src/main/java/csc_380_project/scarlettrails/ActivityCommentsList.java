@@ -29,7 +29,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ActivityCommentsList extends ListActivity implements ActionBar.OnNavigationListener {
+public class ActivityCommentsList extends ListActivity { //implements ActionBar.OnNavigationListener
 
     public static String KEY_SUCCESS = "success";
     public static String KEY_ERROR_MSG = "error_msg";
@@ -45,8 +45,7 @@ public class ActivityCommentsList extends ListActivity implements ActionBar.OnNa
         super.onCreate(savedInstanceState);
 
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-        setTheme(R.style.AppTheme);
-        initializeNavigationBar();
+        setTheme(R.style.ChildTheme);
 
         Bundle extras = getIntent().getExtras();
         String searchKey = "";
@@ -179,47 +178,6 @@ public class ActivityCommentsList extends ListActivity implements ActionBar.OnNa
             }
         }
     };
-
-    private void initializeNavigationBar() {
-        ActionBar mActionBar = getActionBar();
-        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-
-        navSpinner = new ArrayList<SpinnerNavItem>();
-        //This is how you enter new navigation items. Please use the format provided on next line.
-        navSpinner.add(new SpinnerNavItem(App.NAV_COMMENTS));
-        navSpinner.add(new SpinnerNavItem(App.NAV_HOME));
-        navSpinner.add(new SpinnerNavItem(App.NAV_PROFILE));
-        mAdapter = new NavAdapter(getApplicationContext(), navSpinner);
-
-        mActionBar.setListNavigationCallbacks(mAdapter, this);
-        mActionBar.setDisplayShowTitleEnabled(false);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        ActionBar mActionBar = getActionBar();
-        assert mActionBar != null;
-        if (itemPosition == 1) { //Home selected
-            Intent home = new Intent(getApplicationContext(), ActivityHome.class);
-            startActivity(home);
-            mActionBar.setSelectedNavigationItem(0);
-            return true;
-        }
-        else if (itemPosition == 2) { //Profile selected
-            if (App.isUserLoggedIn()) {
-                Intent profile = new Intent(getApplicationContext(), ActivityProfile.class);
-                startActivity(profile);
-                mActionBar.setSelectedNavigationItem(0);
-                return true;
-            }
-            //Prompt the user to log in
-            else {
-                promptUserToLogin();
-                mActionBar.setSelectedNavigationItem(0);
-            }
-        }
-        return false;
-    }
 
     private void promptUserToLogin() {
         AlertDialog.Builder ad = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_DARK);
