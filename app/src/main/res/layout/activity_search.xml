@@ -15,7 +15,7 @@
         android:layout_width="350dp"
         android:layout_height="30dp"
         android:inputType="textPersonName"
-        android:hint="Search Trail By Name/City/ZipCode"
+        android:hint="Search Trail By Name/Park"
         android:ems="10"
         android:background="#CCFAFAFA"
         android:layout_centerHorizontal="true"
