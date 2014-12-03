@@ -35,10 +35,14 @@ public class Adapter extends ArrayAdapter<Trail> {
         // 3. Get the two text view from the trailView
         TextView trailNameView = (TextView) trailView.findViewById(R.id.trailName);
         TextView trailParkView = (TextView) trailView.findViewById(R.id.trailPark);
+        TextView trailLengthView = (TextView) trailView.findViewById(R.id.trailLength);
 
         // 4. Set the text for textView
         trailNameView.setText(trailsArrayList.get(position).getName());
-        trailParkView.setText(trailsArrayList.get(position).getPark());
+        trailParkView.setText(trailsArrayList.get(position).getPark().isEmpty() ||
+                              trailsArrayList.get(position).getPark() == null ? "" :
+                              trailsArrayList.get(position).getPark() + " - ");
+        trailLengthView.setText(String.valueOf(trailsArrayList.get(position).getLength()) +" ft");
 
         // 5. retrn trailView
         return trailView;
