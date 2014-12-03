@@ -58,10 +58,11 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
     private LocationWrapper mLocWrapper;
     private NavAdapter mAdapter;
     private ArrayList<SpinnerNavItem> navSpinner;
-    private Trail mTrail;
+    private static Trail mTrail;
     private static String TAG = "TabTrail.java";
     private Forecast mForecast;
-    private RatingBar rb;
+    private static RatingBar rb;
+    public static Context context;
 
     String fileName = "";
     final String trailId = ActivityTrailTabHostTest.mTrail.getTrailId();
@@ -113,20 +114,21 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
 
         btnCommentPage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),
-                        ActivityCommentsList.class);
-                i.putExtra("TRAIL_ID", mTrail.getTrailId());
-                startActivity(i);
+                context = getApplicationContext();
+                DialogFragment dialog = new CommentDialogFragment();
+                dialog.show(getFragmentManager(), "NoticeDialogFragment");
             }
         });
 
         btnCheckIn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+              if(App.isUserLoggedIn()) {
                 UserFunctions userFunctions = new UserFunctions();
                 JSONObject json = userFunctions.checkInUser(App.getProfileId(), mTrail.getTrailId());
                 if(json != null) {
                     Toast.makeText(TabTrail.this, "Checked In Sucessfully!", Toast.LENGTH_LONG).show();
                 }
+              }
             }
         });
 
@@ -139,6 +141,11 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
                 }
             }
         });
+    }
+
+    public static void updateRating() {
+        RatingTrail ratingTrail = new RatingTrail();
+        rb.setRating(ratingTrail.getTrailRating(mTrail.getTrailId()));
     }
 
     private void initializeMap() {
