@@ -60,6 +60,7 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
     private static String TAG = "TabTrail.java";
     private Forecast mForecast;
     private static RatingBar rb;
+    public static Context context;
 
     String fileName = "";
     final String trailId = ActivityTrailTabHostTest.mTrail.getTrailId();
@@ -111,10 +112,9 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
 
         btnCommentPage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),
-                        ActivityCommentsList.class);
-                i.putExtra("TRAIL_ID", mTrail.getTrailId());
-                startActivity(i);
+                context = getApplicationContext();
+                DialogFragment dialog = new CommentDialogFragment();
+                dialog.show(getFragmentManager(), "NoticeDialogFragment");
             }
         });
 
