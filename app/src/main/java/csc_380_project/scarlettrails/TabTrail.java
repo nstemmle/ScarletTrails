@@ -120,11 +120,13 @@ public class TabTrail extends Activity { //implements ActionBar.OnNavigationList
 
         btnCheckIn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+              if(App.isUserLoggedIn()) {
                 UserFunctions userFunctions = new UserFunctions();
                 JSONObject json = userFunctions.checkInUser(App.getProfileId(), mTrail.getTrailId());
                 if(json != null) {
                     Toast.makeText(TabTrail.this, "Checked In Sucessfully!", Toast.LENGTH_LONG).show();
                 }
+              }
             }
         });
 
