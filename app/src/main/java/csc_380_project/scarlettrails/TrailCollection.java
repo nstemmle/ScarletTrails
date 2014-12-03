@@ -1,5 +1,9 @@
 package csc_380_project.scarlettrails;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -15,6 +19,8 @@ import java.util.List;
 public class TrailCollection implements Parcelable {
     private List<Trail> trails;
 
+    private static String TAG_TRAILLIST = "trailList";
+
     TrailCollection() {
         trails = new ArrayList<Trail>();
     }
@@ -22,6 +28,42 @@ public class TrailCollection implements Parcelable {
     TrailCollection(int capacity) {
         //Default capacity is 10 but you can this constructor to assign a specific initial size
         trails = new ArrayList<Trail>(capacity);
+    }
+
+    public List<Trail> getTrailCollection(JSONObject json) {
+        //Default capacity is 10 but you can this constructor to assign a specific initial size
+
+        try {
+            JSONArray jTrails = json.getJSONArray(TAG_TRAILLIST);
+
+            // looping through All Trails
+            for (int i = 0; i < jTrails.length(); i++) {
+                JSONObject json_trail = jTrails.getJSONObject(i);
+                // Storing each json item in variable
+
+                Trail trail = new Trail(
+                        json_trail.getString(ActivityTrailsList.TRAIL_ID),
+                        json_trail.getString(ActivityTrailsList.NAME),
+                        json_trail.getInt(ActivityTrailsList.LENGTH),
+                        json_trail.getString(ActivityTrailsList.TYPE),
+                        json_trail.getString(ActivityTrailsList.PARK),
+                        json_trail.getString(ActivityTrailsList.DESCRIPTOR),
+                        json_trail.getDouble(ActivityTrailsList.RATING), null,
+                        new CustomLocation( json_trail.getString(ActivityTrailsList.LOCATION_ID),
+                                json_trail.getDouble(ActivityTrailsList.X),
+                                json_trail.getDouble(ActivityTrailsList.Y)));
+
+                trails.add(trail);
+            }
+            return trails;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return trails;
+    }
+
+    public void clear () {
+        trails.clear();
     }
 
     int getSize() {

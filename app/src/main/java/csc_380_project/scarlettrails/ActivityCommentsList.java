@@ -87,15 +87,9 @@ public class ActivityCommentsList extends ListActivity implements ActionBar.OnNa
 
                 } else {
                     // No Comments Found
-                    Intent intent = new Intent(getApplicationContext(), ActivitySearchTrail.class);
-                    intent.putExtra("KEY_ERROR_MSG", json.getString(KEY_ERROR_MSG));
-                    startActivity(intent);
                 }
             } else {
                 // No Comments Found
-                Intent intent = new Intent(getApplicationContext(), ActivitySearchTrail.class);
-                intent.putExtra("KEY_ERROR_MSG", json.getString(KEY_ERROR_MSG));
-                startActivity(intent);
             }
         } catch (JSONException e) {
             e.printStackTrace();
