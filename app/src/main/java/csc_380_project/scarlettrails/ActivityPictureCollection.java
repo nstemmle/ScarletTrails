@@ -1,11 +1,8 @@
 package csc_380_project.scarlettrails;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,7 +15,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,10 +25,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.BitSet;
 
 public class ActivityPictureCollection extends FragmentActivity {
 
@@ -178,7 +171,10 @@ public class ActivityPictureCollection extends FragmentActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.action_bar_menu, menu);
+        if (App.isUserLoggedIn())
+            getMenuInflater().inflate(R.menu.action_bar_menu, menu);
+        else
+            getMenuInflater().inflate(R.menu.action_bar_menu_not_logged_in, menu);
         return true;
     }
 

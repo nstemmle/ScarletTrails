@@ -158,30 +158,6 @@ public class LoginActivity extends Activity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.action_bar_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.actionbar_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        // Switch to be implemented here depending on which item is selected
-        return false;
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
         this.finish();

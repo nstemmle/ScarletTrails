@@ -91,7 +91,7 @@ public class ActivityEditProfile extends Activity {
         inputLName.setText(user.getLastName());
         inputEmail.setText(user.getEmail());
         inputDob.setText(user.getDateOfBirth());
-        inputInterests.setText(user.getInterests());
+        inputInterests.setText(user.getInterests().isEmpty() || user.getInterests().equals("new") ? "" : user.getInterests());
         Picasso.with(ActivityEditProfile.this)
                 .load(user.getPictureURL())
                         //.placeholder(R.raw.pic9)

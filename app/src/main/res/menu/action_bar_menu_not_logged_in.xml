@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="csc_380_project.scarlettrails.MainActivity" >
+    <item
+        android:id="@id/actionbar_search"
+        android:title="@string/action_search"
+        android:orderInCategory="1"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_action_search"
+        />
+    <item
+        android:id="@id/actionbar_settings"
+        android:title="@string/action_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+</menu>

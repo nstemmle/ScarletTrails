@@ -92,7 +92,10 @@ public class ActivityHome extends Activity implements ActionBar.OnNavigationList
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.action_bar_menu, menu);
+        if (App.isUserLoggedIn())
+            getMenuInflater().inflate(R.menu.action_bar_menu, menu);
+        else
+            getMenuInflater().inflate(R.menu.action_bar_menu_not_logged_in, menu);
         return true;
     }
 

@@ -69,8 +69,6 @@ public class ActivityPicture extends FragmentActivity {// implements ActionBar.O
 
         final int position = getIntent().getIntExtra("position", -1);
 
-        //final PictureCollection listOfP
-
         positionForSwipe = position;
 
         if (position != -1) {
@@ -274,7 +272,10 @@ public class ActivityPicture extends FragmentActivity {// implements ActionBar.O
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.action_bar_menu, menu);
+        if (App.isUserLoggedIn())
+            getMenuInflater().inflate(R.menu.action_bar_menu, menu);
+        else
+            getMenuInflater().inflate(R.menu.action_bar_menu_not_logged_in, menu);
         return true;
     }
 

@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-public class Upload extends Activity implements ActionBar.OnNavigationListener {
+public class Upload extends Activity { //implements ActionBar.OnNavigationListener {
     //keep track of camera capture intent
     final int CAMERA_CAPTURE = 1;
     //keep track of camera capture intent
@@ -60,7 +60,7 @@ public class Upload extends Activity implements ActionBar.OnNavigationListener {
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_upload);
 
-        initializeNavigationBar();
+        //initializeNavigationBar();
 
         //retrieve a reference to the UI button
         Button upload = (Button) findViewById(R.id.upload);
@@ -339,10 +339,13 @@ public class Upload extends Activity implements ActionBar.OnNavigationListener {
         }
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.action_bar_menu, menu);
+        if (App.isUserLoggedIn())
+            getMenuInflater().inflate(R.menu.action_bar_menu, menu);
+        else
+            getMenuInflater().inflate(R.menu.action_bar_menu_not_logged_in, menu);
         return true;
     }
 
@@ -430,5 +433,5 @@ public class Upload extends Activity implements ActionBar.OnNavigationListener {
             }
         }
         return false;
-    }
+    }*/
 }

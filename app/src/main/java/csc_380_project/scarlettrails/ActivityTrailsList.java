@@ -141,7 +141,10 @@ public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.action_bar_menu, menu);
+        if (App.isUserLoggedIn())
+            getMenuInflater().inflate(R.menu.action_bar_menu, menu);
+        else
+            getMenuInflater().inflate(R.menu.action_bar_menu_not_logged_in, menu);
         return true;
     }
 
@@ -204,9 +207,12 @@ public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavi
 
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+        ActionBar mActionBar = getActionBar();
+        assert mActionBar != null;
         if (itemPosition == 1) { //Home selected
             Intent home = new Intent(getApplicationContext(), ActivityHome.class);
             startActivity(home);
+            mActionBar.setSelectedNavigationItem(0);
             return true;
         }
 
@@ -214,12 +220,14 @@ public class ActivityTrailsList extends ListActivity implements ActionBar.OnNavi
             if (App.isUserLoggedIn()) {
                 Intent profile = new Intent(getApplicationContext(), ActivityProfile.class);
                 startActivity(profile);
+                mActionBar.setSelectedNavigationItem(0);
                 return true;
             }
 
             //Prompt the user to log in
             else {
                 promptUserToLogin();
+                mActionBar.setSelectedNavigationItem(0);
             }
         }
         return false;

@@ -71,7 +71,7 @@ public class ActivityProfile extends Activity implements ActionBar.OnNavigationL
                 .into(profilePicture);
 
         mLocWrapper = LocationWrapper.getInstance();
-        //initializeMap();
+        initializeMap();
 
         galleryIcon = (ImageButton)findViewById(R.id.galleryButton);
         galleryIcon.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +87,10 @@ public class ActivityProfile extends Activity implements ActionBar.OnNavigationL
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.action_bar_menu, menu);
+        if (App.isUserLoggedIn())
+            getMenuInflater().inflate(R.menu.action_bar_menu, menu);
+        else
+            getMenuInflater().inflate(R.menu.action_bar_menu_not_logged_in, menu);
         return true;
     }
 
